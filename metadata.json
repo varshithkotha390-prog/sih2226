@@ -1,0 +1,6 @@
+{
+  "name": "KabadiConnect",
+  "description": "Smart e-waste recycling platform connecting informal waste collectors with authorized formal recyclers.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
