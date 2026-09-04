@@ -1,0 +1,252 @@
+// Prisma schema file for SIH26229 - Kabadiwala Connect
+// Documentation: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------
+// Enums
+// ---------------------------------------------------------
+
+enum Role {
+  COLLECTOR
+  RECYCLER
+  ADMIN
+}
+
+enum LotStatus {
+  AVAILABLE
+  ASSIGNED
+  IN_TRANSIT
+  COMPLETED
+  CANCELLED
+}
+
+enum TransactionStatus {
+  PENDING
+  ACCEPTED
+  PICKUP_SCHEDULED
+  HANDED_OVER
+  COMPLETED
+  CANCELLED
+  REJECTED
+  IN_PROGRESS
+}
+
+enum PaymentStatus {
+  PENDING
+  ESCROWED
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum HandoverStatus {
+  PENDING
+  VERIFIED
+  COMPLETED
+  REJECTED
+}
+
+// ---------------------------------------------------------
+// 1. User Model
+// ---------------------------------------------------------
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  phone        String?  @unique
+  passwordHash String
+  role         Role     @default(COLLECTOR)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // 1-to-1: A user with role RECYCLER has an operational profile
+  recyclerProfile Recycler?
+
+  // 1-to-many: Collector relationships
+  lots         Lot[]         @relation("CollectorLots")
+  transactions Transaction[] @relation("CollectorTransactions")
+  handovers    Handover[]    @relation("CollectorHandovers")
+
+  @@index([email])
+  @@index([role])
+  @@map("users")
+}
+
+// ---------------------------------------------------------
+// 2. Material Model (Catalog of e-waste types)
+// ---------------------------------------------------------
+model Material {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  code        String?  @unique
+  description String?
+  unit        String   @default("kg")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // 1-to-many: Historical price records & lots belonging to this material
+  prices             Price[]
+  lots               Lot[]
+  verifiedHandovers  Handover[] @relation("VerifiedMaterialHandovers")
+  supportedRecyclers Recycler[]
+
+  @@index([name])
+  @@map("materials")
+}
+
+// ---------------------------------------------------------
+// 3. Price Model (Location & time-bound pricing history)
+// ---------------------------------------------------------
+model Price {
+  id         String    @id @default(uuid())
+  materialId String
+  pricePerKg Decimal   @db.Decimal(10, 2)
+  location   String
+  source     String
+  validFrom  DateTime
+  validTo    DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  // Many-to-1: Price belongs to a Material
+  material Material @relation(fields: [materialId], references: [id], onDelete: Cascade)
+
+  @@index([materialId])
+  @@index([location])
+  @@index([validFrom, validTo])
+  @@map("prices")
+}
+
+// ---------------------------------------------------------
+// 4. Recycler Model (Profile with operational specs)
+// ---------------------------------------------------------
+model Recycler {
+  id               String   @id @default(uuid())
+  userId           String   @unique
+  name             String
+  address          String
+  latitude         Float
+  longitude        Float
+  authorizedStatus Boolean  @default(false)
+  authorizationId  String?  @unique
+  pickupAvailable  Boolean  @default(false)
+  contactInfo      String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // 1-to-1 with User
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // 1-to-many: Recycler transactions and physical handovers
+  transactions       Transaction[]
+  handovers          Handover[]
+  supportedMaterials Material[]
+
+  @@index([userId])
+  @@index([latitude, longitude])
+  @@map("recyclers")
+}
+
+// ---------------------------------------------------------
+// 5. Lot Model (E-waste aggregated by collector)
+// ---------------------------------------------------------
+model Lot {
+  id                String    @id @default(uuid())
+  lotNumber         String?   @unique
+  collectorId       String
+  materialId        String
+  weight            Decimal   @db.Decimal(10, 2)
+  estimatedPrice    Decimal   @db.Decimal(10, 2)
+  status            LotStatus @default(AVAILABLE)
+  imageUrl          String?
+  collectorLocation String
+  latitude          Float?
+  longitude         Float?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relations
+  collector    User          @relation("CollectorLots", fields: [collectorId], references: [id], onDelete: Restrict)
+  material     Material      @relation(fields: [materialId], references: [id], onDelete: Restrict)
+  transactions Transaction[]
+  handovers    Handover[]
+
+  @@index([collectorId])
+  @@index([materialId])
+  @@index([status])
+  @@map("lots")
+}
+
+// ---------------------------------------------------------
+// 6. Transaction Model (Order lifecycle & payments)
+// ---------------------------------------------------------
+model Transaction {
+  id                String            @id @default(uuid())
+  lotId             String
+  collectorId       String
+  recyclerId        String
+  offeredPrice      Decimal           @db.Decimal(10, 2)
+  finalPrice        Decimal?          @db.Decimal(10, 2)
+  totalAmount       Decimal?          @db.Decimal(10, 2)
+  paymentStatus     PaymentStatus     @default(PENDING)
+  transactionStatus TransactionStatus @default(PENDING)
+  createdAt         DateTime          @default(now())
+  completedAt       DateTime?
+  updatedAt         DateTime          @updatedAt
+
+  // Relations
+  lot       Lot       @relation(fields: [lotId], references: [id], onDelete: Restrict)
+  collector User      @relation("CollectorTransactions", fields: [collectorId], references: [id], onDelete: Restrict)
+  recycler  Recycler  @relation(fields: [recyclerId], references: [id], onDelete: Restrict)
+  handover  Handover?
+
+  @@index([lotId])
+  @@index([collectorId])
+  @@index([recyclerId])
+  @@index([transactionStatus])
+  @@index([paymentStatus])
+  @@map("transactions")
+}
+
+// ---------------------------------------------------------
+// 7. Handover Model (QR verification & physical pickup)
+// ---------------------------------------------------------
+model Handover {
+  id                 String         @id @default(uuid())
+  lotId              String
+  transactionId      String         @unique
+  collectorId        String
+  recyclerId         String
+  qrIdentifier       String         @unique
+  handoverWeight     Decimal?       @db.Decimal(10, 2)
+  verifiedMaterialId String?
+  notes              String?
+  pickupTime         DateTime?
+  location           String
+  status             HandoverStatus @default(PENDING)
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+
+  // Relations
+  lot              Lot         @relation(fields: [lotId], references: [id], onDelete: Restrict)
+  transaction      Transaction @relation(fields: [transactionId], references: [id], onDelete: Restrict)
+  collector        User        @relation("CollectorHandovers", fields: [collectorId], references: [id], onDelete: Restrict)
+  recycler         Recycler    @relation(fields: [recyclerId], references: [id], onDelete: Restrict)
+  verifiedMaterial Material?   @relation("VerifiedMaterialHandovers", fields: [verifiedMaterialId], references: [id], onDelete: SetNull)
+
+  @@index([qrIdentifier])
+  @@index([lotId])
+  @@index([transactionId])
+  @@index([collectorId])
+  @@index([recyclerId])
+  @@index([status])
+  @@map("handovers")
+}
