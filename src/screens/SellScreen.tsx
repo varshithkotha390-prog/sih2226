@@ -303,7 +303,7 @@ export const SellScreen: React.FC = () => {
       : 'Default Camera');
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-24">
+    <div className="min-h-screen bg-[#F6F8F6] pb-24">
       <Header title={t('sellTitle')} showBack onBack={() => navigate('/home')} />
 
       <motion.main
@@ -381,7 +381,7 @@ export const SellScreen: React.FC = () => {
         {isCameraActive && (
           <Card
             variant="elevated"
-            className="overflow-hidden border-2 border-emerald-600 p-0 bg-slate-950 text-white rounded-3xl shadow-lg relative"
+            className="overflow-hidden border-2 border-[#0F3D2E] p-0 bg-[#121820] text-white rounded-2xl shadow-lg relative"
           >
             {/* Camera Top Bar */}
             <div className="absolute top-0 inset-x-0 z-20 flex items-center justify-between p-3.5 bg-gradient-to-b from-black/80 to-transparent">
@@ -413,23 +413,23 @@ export const SellScreen: React.FC = () => {
               />
 
               {/* Viewfinder Target Framing Brackets */}
-              <div className="absolute inset-8 pointer-events-none border-2 border-dashed border-emerald-400/40 rounded-2xl flex flex-col justify-between p-2">
+              <div className="absolute inset-8 pointer-events-none border-2 border-dashed border-[#C86D2F]/50 rounded-2xl flex flex-col justify-between p-2">
                 <div className="flex justify-between">
-                  <div className="w-4 h-4 border-t-2 border-l-2 border-emerald-400" />
-                  <div className="w-4 h-4 border-t-2 border-r-2 border-emerald-400" />
+                  <div className="w-4 h-4 border-t-2 border-l-2 border-[#C86D2F]" />
+                  <div className="w-4 h-4 border-t-2 border-r-2 border-[#C86D2F]" />
                 </div>
-                <p className="text-center text-[11px] font-bold text-emerald-200/90 bg-black/50 backdrop-blur-xs py-1 px-2.5 rounded-full mx-auto">
+                <p className="text-center text-[11px] font-bold text-slate-200 bg-black/60 backdrop-blur-xs py-1 px-3 rounded-full mx-auto border border-white/10">
                   Align e-waste material inside frame
                 </p>
                 <div className="flex justify-between">
-                  <div className="w-4 h-4 border-b-2 border-l-2 border-emerald-400" />
-                  <div className="w-4 h-4 border-b-2 border-r-2 border-emerald-400" />
+                  <div className="w-4 h-4 border-b-2 border-l-2 border-[#C86D2F]" />
+                  <div className="w-4 h-4 border-b-2 border-r-2 border-[#C86D2F]" />
                 </div>
               </div>
 
               {isStartingCamera && (
                 <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center gap-2 z-10">
-                  <Loader2 className="w-8 h-8 text-emerald-400 animate-spin" />
+                  <Loader2 className="w-8 h-8 text-[#C86D2F] animate-spin" />
                   <span className="text-xs font-bold text-slate-200">
                     Initializing camera sensor...
                   </span>
@@ -438,7 +438,7 @@ export const SellScreen: React.FC = () => {
             </div>
 
             {/* Camera Bottom Controls */}
-            <div className="p-4 bg-slate-900/95 border-t border-slate-800 flex items-center justify-between">
+            <div className="p-4 bg-[#121820] border-t border-slate-800 flex items-center justify-between">
               {/* Gallery fallback */}
               <button
                 type="button"
@@ -454,7 +454,7 @@ export const SellScreen: React.FC = () => {
                 type="button"
                 onClick={handleCapturePhoto}
                 disabled={isStartingCamera}
-                className="w-16 h-16 rounded-full bg-white text-emerald-900 flex items-center justify-center shadow-lg active:scale-95 transition-transform hover:opacity-95 cursor-pointer ring-4 ring-emerald-500/40"
+                className="w-16 h-16 rounded-full bg-[#C86D2F] text-white flex items-center justify-center shadow-lg active:scale-95 transition-transform hover:bg-[#B85D19] cursor-pointer ring-4 ring-[#C86D2F]/30"
                 aria-label="Snap Photo"
               >
                 <Camera className="w-8 h-8 stroke-[2.2]" />
@@ -487,12 +487,12 @@ export const SellScreen: React.FC = () => {
               type="button"
               onClick={() => startCamera()}
               disabled={isStartingCamera}
-              className="flex flex-col items-center justify-center gap-2.5 p-5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-3xl shadow-sm transition-all cursor-pointer select-none group min-h-[120px] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-500/30"
+              className="flex flex-col items-center justify-center gap-2.5 p-5 bg-[#C86D2F] hover:bg-[#B85D19] active:bg-[#A35014] text-white rounded-2xl shadow-md shadow-orange-950/20 active:scale-[0.98] transition-all cursor-pointer select-none group min-h-[120px] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#C86D2F]/30"
             >
-              <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center transition-transform group-hover:scale-105">
+              <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center transition-transform group-hover:scale-105">
                 <Camera className="w-6 h-6 stroke-[2.2]" />
               </div>
-              <span className="text-base font-bold tracking-wide">
+              <span className="text-base font-black tracking-wide">
                 {t('takePhoto')}
               </span>
             </button>
@@ -501,9 +501,9 @@ export const SellScreen: React.FC = () => {
             <button
               type="button"
               onClick={triggerGallery}
-              className="flex flex-col items-center justify-center gap-2.5 p-5 bg-white hover:bg-slate-50 active:bg-slate-100 text-slate-900 rounded-3xl shadow-xs border-2 border-slate-200 hover:border-slate-300 transition-all cursor-pointer select-none group min-h-[120px] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-500/30"
+              className="flex flex-col items-center justify-center gap-2.5 p-5 bg-white hover:bg-slate-50 active:bg-slate-100 text-slate-900 rounded-2xl shadow-xs border-2 border-slate-300 hover:border-slate-400 transition-all cursor-pointer select-none group min-h-[120px] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#C86D2F]/30"
             >
-              <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center transition-transform group-hover:scale-105 border border-emerald-100">
+              <div className="w-12 h-12 rounded-xl bg-slate-100 text-slate-800 flex items-center justify-center transition-transform group-hover:scale-105 border border-slate-200">
                 <ImageIcon className="w-6 h-6 stroke-[2.2]" />
               </div>
               <span className="text-base font-bold tracking-wide text-slate-800">
@@ -515,17 +515,17 @@ export const SellScreen: React.FC = () => {
 
         {/* CAPTURED / SELECTED IMAGE PREVIEW CARD */}
         {previewUrl && !isCameraActive && (
-          <Card variant="elevated" className="overflow-hidden border-2 border-emerald-500/40 p-3 bg-white space-y-2">
+          <Card variant="elevated" className="overflow-hidden border-2 border-[#0F3D2E]/40 p-3 bg-white space-y-2">
             <div className="flex items-center justify-between px-1">
-              <span className="text-xs font-black uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
-                <CheckCircle className="w-4 h-4 text-emerald-600" />
+              <span className="text-xs font-black uppercase tracking-wider text-[#0F3D2E] flex items-center gap-1.5">
+                <CheckCircle className="w-4 h-4 text-[#0F3D2E]" />
                 {t('selectedImagePreview')}
               </span>
               <div className="flex items-center gap-3">
                 <button
                   type="button"
                   onClick={() => startCamera()}
-                  className="text-xs font-bold text-emerald-700 hover:text-emerald-850 flex items-center gap-1 cursor-pointer"
+                  className="text-xs font-bold text-[#0F3D2E] hover:underline flex items-center gap-1 cursor-pointer"
                 >
                   <Camera className="w-3.5 h-3.5" />
                   <span>Retake</span>
@@ -547,8 +547,8 @@ export const SellScreen: React.FC = () => {
                 alt="Selected E-Waste"
                 className="w-full h-full object-cover"
               />
-              <div className="absolute bottom-2 left-2 bg-slate-950/70 backdrop-blur-md px-2.5 py-1 rounded-lg text-white text-xs font-bold flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+              <div className="absolute bottom-2 left-2 bg-[#121820]/80 backdrop-blur-md px-2.5 py-1 rounded-lg text-white text-xs font-bold flex items-center gap-1.5 border border-white/10">
+                <Sparkles className="w-3.5 h-3.5 text-[#C86D2F]" />
                 <span>Ready for AI Material Scan</span>
               </div>
             </div>
@@ -582,18 +582,18 @@ export const SellScreen: React.FC = () => {
                       handleSelectManualMaterial(mat.id);
                     }
                   }}
-                  className={`p-3 rounded-2xl border-2 transition-all cursor-pointer flex items-center gap-2.5 select-none focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-500/25 ${
+                  className={`p-3 rounded-2xl border-2 transition-all cursor-pointer flex items-center gap-2.5 select-none focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0F3D2E]/25 ${
                     isSelected
-                      ? 'bg-emerald-50 border-emerald-500 text-emerald-950 shadow-xs'
+                      ? 'bg-[#0F3D2E]/8 border-[#0F3D2E] text-[#0F3D2E] shadow-xs'
                       : 'bg-white border-slate-200 text-slate-800 hover:border-slate-300'
                   }`}
                 >
                   <div className="p-2 rounded-xl bg-slate-100 flex-shrink-0">
-                    {materialIcons[mat.id] || <Cpu className="w-5 h-5 text-emerald-600" />}
+                    {materialIcons[mat.id] || <Cpu className="w-5 h-5 text-[#0F3D2E]" />}
                   </div>
                   <div className="min-w-0">
                     <p className="text-xs sm:text-sm font-black truncate">{name}</p>
-                    <p className="text-xs font-bold text-slate-600">₹{mat.avgPricePerKg}/kg</p>
+                    <p className="text-xs font-mono font-bold text-slate-600">₹{mat.avgPricePerKg}/kg</p>
                   </div>
                 </div>
               );
@@ -609,7 +609,7 @@ export const SellScreen: React.FC = () => {
             size="xl"
             icon={<ArrowRight className="w-6 h-6" />}
             iconPosition="right"
-            className="shadow-lg shadow-emerald-700/20 py-4 text-base font-black tracking-wide"
+            className="py-4 text-base font-black tracking-wide"
           >
             {t('analyzeMaterial')}
           </Button>

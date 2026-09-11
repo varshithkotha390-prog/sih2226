@@ -49,7 +49,7 @@ export const PriceScreen: React.FC = () => {
   const isAnomaly = anomaly.isAnomaly || (estimatedValue / weightKg) < (avgPrice * 0.6);
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-28">
+    <div className="min-h-screen bg-[#F6F8F6] pb-28">
       <Header title={t('priceTitle')} showBack onBack={() => navigate('/weight')} />
 
       <motion.main
@@ -63,14 +63,14 @@ export const PriceScreen: React.FC = () => {
 
         {/* Anomaly Detection Warning Banner */}
         {isAnomaly && (
-          <div className="p-4 bg-amber-50 border-2 border-amber-300 rounded-2xl flex items-start gap-3 shadow-xs">
-            <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+          <div className="p-4 bg-amber-50 border-2 border-amber-400 rounded-2xl flex items-start gap-3 shadow-xs">
+            <AlertTriangle className="w-5 h-5 text-[#D97706] flex-shrink-0 mt-0.5" />
             <div>
-              <p className="text-sm font-bold text-amber-900">
+              <p className="text-sm font-bold text-amber-950">
                 ⚠️ Unusual price detected — this offer is below the fair market range for {materialName}.
               </p>
-              <p className="text-xs text-amber-800 mt-1 font-medium">
-                Fair market rate is ₹{avgPrice}/kg. Offers below ₹{Math.round(avgPrice * 0.6)}/kg (60% threshold) are flagged for collector protection.
+              <p className="text-xs text-amber-900 mt-1 font-medium">
+                Fair market rate is <span className="font-mono font-bold">₹{avgPrice}/kg</span>. Offers below <span className="font-mono font-bold">₹{Math.round(avgPrice * 0.6)}/kg</span> (60% threshold) are flagged for collector protection.
               </p>
             </div>
           </div>
@@ -91,8 +91,8 @@ export const PriceScreen: React.FC = () => {
         />
 
         {/* CPCB Certification Guarantee note */}
-        <div className="bg-slate-100/90 p-4 rounded-2xl border border-slate-200 flex items-center gap-3">
-          <ShieldCheck className="w-5 h-5 text-emerald-700 flex-shrink-0" />
+        <div className="bg-white p-4 rounded-2xl border border-slate-200/90 flex items-center gap-3 shadow-xs">
+          <ShieldCheck className="w-5 h-5 text-[#0F3D2E] flex-shrink-0" />
           <p className="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">
             Authorized rates are backed by formal CPCB recycling credits under the E-Waste Management Rules.
           </p>
@@ -106,7 +106,7 @@ export const PriceScreen: React.FC = () => {
             size="xl"
             icon={<ArrowRight className="w-6 h-6" />}
             iconPosition="right"
-            className="shadow-sm py-4 text-base font-black tracking-wide"
+            className="py-4 text-base font-black tracking-wide"
           >
             {t('viewBestOffers')}
           </Button>

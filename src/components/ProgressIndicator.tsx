@@ -41,7 +41,7 @@ export const ProgressIndicator: React.FC<ProgressIndicatorProps> = ({
 
         {/* Active progress connector line */}
         <div
-          className="absolute left-6 top-3.5 h-0.5 bg-emerald-600 transition-all duration-500 ease-out -z-0"
+          className="absolute left-6 top-3.5 h-0.5 bg-[#0F3D2E] transition-all duration-500 ease-out -z-0"
           style={{
             width: `${((activeStage - 1) / (stages.length - 1)) * 100}%`
           }}
@@ -55,11 +55,11 @@ export const ProgressIndicator: React.FC<ProgressIndicatorProps> = ({
           return (
             <div key={stage.number} className="flex flex-col items-center relative z-10">
               <div
-                className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black transition-all duration-300 ${
+                className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-mono font-black transition-all duration-300 ${
                   isCompleted
-                    ? 'bg-emerald-600 text-white shadow-xs'
+                    ? 'bg-[#0F3D2E] text-white shadow-xs'
                     : isCurrent
-                    ? 'bg-emerald-700 text-white ring-4 ring-emerald-100 shadow-sm'
+                    ? 'bg-[#0F3D2E] text-white ring-4 ring-[#0F3D2E]/20 shadow-sm'
                     : 'bg-white text-slate-400 border-2 border-slate-300'
                 }`}
               >
@@ -69,9 +69,9 @@ export const ProgressIndicator: React.FC<ProgressIndicatorProps> = ({
               <span
                 className={`text-[11px] font-bold mt-1.5 transition-colors text-center whitespace-nowrap ${
                   isCurrent
-                    ? 'text-emerald-800 font-extrabold'
+                    ? 'text-[#0F3D2E] font-black'
                     : isCompleted
-                    ? 'text-slate-700'
+                    ? 'text-slate-700 font-semibold'
                     : 'text-slate-400'
                 }`}
               >

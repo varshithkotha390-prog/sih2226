@@ -65,7 +65,7 @@ export const HandoverScreen: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-28">
+    <div className="min-h-screen bg-[#F6F8F6] pb-28">
       <Header
         title={t('handoverTitle')}
         showBack
@@ -99,35 +99,35 @@ export const HandoverScreen: React.FC = () => {
         />
 
         {/* VERIFICATION CHECKLIST */}
-        <Card variant="default" className="p-5 bg-white border border-slate-200 rounded-3xl space-y-3">
+        <Card variant="default" className="p-5 bg-white border border-slate-200/90 rounded-2xl space-y-3 shadow-xs">
           <div className="flex items-center justify-between pb-2 border-b border-slate-100">
             <h4 className="text-xs font-black uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-emerald-600" />
+              <ShieldCheck className="w-4 h-4 text-[#0F3D2E]" />
               <span>{t('verificationHeader')}</span>
             </h4>
-            <span className="text-xs font-bold text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+            <span className="text-xs font-mono font-bold text-[#0F3D2E] bg-[#0F3D2E]/10 px-2.5 py-0.5 rounded-full border border-[#0F3D2E]/20">
               4/4 Ready
             </span>
           </div>
 
           <div className="space-y-2 text-xs sm:text-sm font-semibold text-slate-800">
-            <div className="flex items-center gap-2.5 text-emerald-950 bg-emerald-50/70 p-2.5 rounded-xl border border-emerald-100">
-              <CheckCircle2 className="w-4 h-4 text-emerald-700 flex-shrink-0" />
+            <div className="flex items-center gap-2.5 text-slate-900 bg-[#0F3D2E]/5 p-2.5 rounded-xl border border-[#0F3D2E]/15">
+              <CheckCircle2 className="w-4 h-4 text-[#0F3D2E] flex-shrink-0" />
               <span>{t('stepLotCreated')}</span>
             </div>
 
-            <div className="flex items-center gap-2.5 text-emerald-950 bg-emerald-50/70 p-2.5 rounded-xl border border-emerald-100">
-              <CheckCircle2 className="w-4 h-4 text-emerald-700 flex-shrink-0" />
+            <div className="flex items-center gap-2.5 text-slate-900 bg-[#0F3D2E]/5 p-2.5 rounded-xl border border-[#0F3D2E]/15">
+              <CheckCircle2 className="w-4 h-4 text-[#0F3D2E] flex-shrink-0" />
               <span>{t('stepMaterialRecorded')}</span>
             </div>
 
-            <div className="flex items-center gap-2.5 text-emerald-950 bg-emerald-50/70 p-2.5 rounded-xl border border-emerald-100">
-              <CheckCircle2 className="w-4 h-4 text-emerald-700 flex-shrink-0" />
+            <div className="flex items-center gap-2.5 text-slate-900 bg-[#0F3D2E]/5 p-2.5 rounded-xl border border-[#0F3D2E]/15">
+              <CheckCircle2 className="w-4 h-4 text-[#0F3D2E] flex-shrink-0" />
               <span>{t('stepWeightRecorded')}</span>
             </div>
 
-            <div className="flex items-center gap-2.5 text-emerald-950 bg-emerald-50/70 p-2.5 rounded-xl border border-emerald-100">
-              <CheckCircle2 className="w-4 h-4 text-emerald-700 flex-shrink-0" />
+            <div className="flex items-center gap-2.5 text-slate-900 bg-[#0F3D2E]/5 p-2.5 rounded-xl border border-[#0F3D2E]/15">
+              <CheckCircle2 className="w-4 h-4 text-[#0F3D2E] flex-shrink-0" />
               <span>{t('stepRecyclerSelected')}</span>
             </div>
           </div>
@@ -135,8 +135,8 @@ export const HandoverScreen: React.FC = () => {
           {/* Current Status */}
           <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500">Status:</span>
-            <span className="text-xs font-black text-amber-800 flex items-center gap-1.5 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200">
-              <Clock className="w-3.5 h-3.5" />
+            <span className="text-xs font-black text-amber-950 flex items-center gap-1.5 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-300">
+              <Clock className="w-3.5 h-3.5 text-[#D97706]" />
               <span>Awaiting Recycler Confirmation</span>
             </span>
           </div>
@@ -151,7 +151,7 @@ export const HandoverScreen: React.FC = () => {
             isLoading={isConfirming}
             icon={<CheckCircle2 className="w-6 h-6 text-white" />}
             iconPosition="left"
-            className="shadow-sm py-4 text-base font-black tracking-wide"
+            className="py-4 text-base font-black tracking-wide"
           >
             {t('confirmHandoverBtn')}
           </Button>

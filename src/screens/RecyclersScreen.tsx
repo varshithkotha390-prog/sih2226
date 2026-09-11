@@ -47,7 +47,7 @@ export const RecyclersScreen: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-28">
+    <div className="min-h-screen bg-[#F6F8F6] pb-28">
       <Header title={t('recyclersTitle')} showBack onBack={() => navigate('/price')} />
 
       <motion.main
@@ -61,8 +61,8 @@ export const RecyclersScreen: React.FC = () => {
 
         {/* Section Heading */}
         <div>
-          <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-800 uppercase tracking-wide">
-            <ShieldCheck className="w-4 h-4 text-emerald-600" />
+          <div className="flex items-center gap-1.5 text-xs font-black text-[#0F3D2E] uppercase tracking-wider">
+            <ShieldCheck className="w-4 h-4 text-[#0F3D2E]" />
             <span>{t('recyclersSubtitle')}</span>
           </div>
           <p className="text-xs sm:text-sm text-slate-600 font-medium mt-1 leading-relaxed">
@@ -72,7 +72,7 @@ export const RecyclersScreen: React.FC = () => {
 
         {/* Loading / Error / Recycler Cards List */}
         {isLoading ? (
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-xs">
+          <div className="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-xs">
             <LoadingState
               message={language === 'hi' ? 'पुनर्चक्रणकर्ताओं की खोज...' : 'Finding best authorized recyclers...'}
               submessage={language === 'hi' ? 'उच्चतम दरों का मिलान किया जा रहा है' : 'Matching highest rates and nearest certified facilities'}
@@ -104,8 +104,8 @@ export const RecyclersScreen: React.FC = () => {
         )}
 
         {/* Informational reassurance */}
-        <div className="bg-slate-100/90 p-4 rounded-2xl border border-slate-200 flex items-start gap-3 text-slate-700 text-xs sm:text-sm leading-relaxed">
-          <Info className="w-5 h-5 text-slate-500 flex-shrink-0 mt-0.5" />
+        <div className="bg-white p-4 rounded-2xl border border-slate-200/90 flex items-start gap-3 text-slate-700 text-xs sm:text-sm leading-relaxed shadow-xs">
+          <Info className="w-5 h-5 text-[#0F3D2E] flex-shrink-0 mt-0.5" />
           <p>
             All recyclers listed are state-certified. Payouts are transferred immediately upon physical verification.
           </p>

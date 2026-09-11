@@ -31,7 +31,7 @@ export const TransactionsScreen: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-24">
+    <div className="min-h-screen bg-[#F6F8F6] pb-24">
       <Header
         title={t('transactionsTitle')}
         showBack
@@ -54,10 +54,10 @@ export const TransactionsScreen: React.FC = () => {
               <button
                 key={tab}
                 onClick={() => setFilter(tab)}
-                className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+                className={`px-4 py-2 rounded-2xl text-xs font-black transition-all cursor-pointer whitespace-nowrap ${
                   isSelected
-                    ? 'bg-emerald-700 text-white shadow-sm'
-                    : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
+                    ? 'bg-[#0F3D2E] text-white shadow-sm border border-[#0F3D2E]'
+                    : 'bg-white text-slate-600 border border-slate-200/90 hover:bg-slate-50'
                 }`}
               >
                 {label}

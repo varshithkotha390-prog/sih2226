@@ -22,7 +22,7 @@ export const DesktopSidebar: React.FC = () => {
     <aside className="hidden lg:flex w-64 bg-white border-r border-slate-200 flex-col h-screen sticky top-0 z-40 select-none">
       {/* Brand Header */}
       <div className="p-6 flex items-center gap-3">
-        <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-200 flex-shrink-0">
+        <div className="w-10 h-10 bg-[#0F3D2E] rounded-xl flex items-center justify-center shadow-md shadow-emerald-950/20 flex-shrink-0">
           <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
@@ -32,7 +32,7 @@ export const DesktopSidebar: React.FC = () => {
             />
           </svg>
         </div>
-        <span className="font-bold text-xl tracking-tight text-emerald-900">KabadiConnect</span>
+        <span className="font-black text-xl tracking-tight text-[#0F3D2E]">KabadiConnect</span>
       </div>
 
       {/* Navigation */}
@@ -42,9 +42,9 @@ export const DesktopSidebar: React.FC = () => {
             key={link.to}
             to={link.to}
             className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all text-sm ${
+              `flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all text-sm ${
                 isActive
-                  ? 'bg-emerald-50 text-emerald-700 font-bold border-r-4 border-emerald-600'
+                  ? 'bg-emerald-950/5 text-[#0F3D2E] font-extrabold border-r-4 border-[#0F3D2E]'
                   : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
               }`
             }
@@ -62,7 +62,7 @@ export const DesktopSidebar: React.FC = () => {
           className="flex items-center gap-3 mb-3 cursor-pointer hover:opacity-90 transition-opacity"
         >
           <div className="w-11 h-11 rounded-full bg-slate-300 border-2 border-white overflow-hidden shadow-sm flex-shrink-0">
-            <div className="w-full h-full bg-emerald-100 flex items-center justify-center text-emerald-700 font-bold text-base">
+            <div className="w-full h-full bg-emerald-950/10 flex items-center justify-center text-[#0F3D2E] font-black text-base font-mono">
               R
             </div>
           </div>
@@ -78,7 +78,7 @@ export const DesktopSidebar: React.FC = () => {
             onClick={language === 'en' ? undefined : toggleLanguage}
             className={`text-[10px] font-bold px-2.5 py-1 rounded transition-all cursor-pointer ${
               language === 'en'
-                ? 'bg-white border border-slate-200 text-emerald-600 shadow-xs'
+                ? 'bg-white border border-slate-200 text-[#0F3D2E] shadow-xs'
                 : 'bg-slate-100 text-slate-400 hover:text-slate-600'
             }`}
           >
@@ -88,7 +88,7 @@ export const DesktopSidebar: React.FC = () => {
             onClick={language === 'hi' ? undefined : toggleLanguage}
             className={`text-[10px] font-bold px-2.5 py-1 rounded transition-all cursor-pointer ${
               language === 'hi'
-                ? 'bg-white border border-slate-200 text-emerald-600 shadow-xs'
+                ? 'bg-white border border-slate-200 text-[#0F3D2E] shadow-xs'
                 : 'bg-slate-100 text-slate-400 hover:text-slate-600'
             }`}
           >

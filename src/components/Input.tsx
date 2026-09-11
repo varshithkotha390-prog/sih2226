@@ -47,7 +47,7 @@ export const Input: React.FC<InputProps> = ({
         <input
           id={inputId}
           className={`w-full bg-white text-slate-900 border-2 ${
-            error ? 'border-rose-500 focus:border-rose-600 focus:ring-rose-200' : 'border-slate-300 focus:border-emerald-600 focus:ring-emerald-500/20'
+            error ? 'border-rose-500 focus:border-rose-600 focus:ring-rose-200' : 'border-slate-300/90 focus:border-[#0F3D2E] focus:ring-[#0F3D2E]/20'
           } shadow-inner focus:outline-none focus:ring-4 transition-all ${prefixIcon ? 'pl-11' : ''} ${
             suffix ? 'pr-14' : ''
           } ${sizeClasses[inputSize]} ${className}`}

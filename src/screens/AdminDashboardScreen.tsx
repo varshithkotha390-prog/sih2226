@@ -108,7 +108,7 @@ export const AdminDashboardScreen: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-24">
+    <div className="min-h-screen bg-[#F6F8F6] pb-24">
       {/* Mobile Header */}
       <div className="lg:hidden">
         <Header
@@ -119,13 +119,13 @@ export const AdminDashboardScreen: React.FC = () => {
       </div>
 
       {/* Desktop Minimalism Sticky Sub-Header */}
-      <div className="hidden lg:flex h-16 bg-white border-b border-slate-200 px-8 items-center justify-between sticky top-0 z-20">
+      <div className="hidden lg:flex h-16 bg-white border-b border-slate-200/90 px-8 items-center justify-between sticky top-0 z-20">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-emerald-800 text-white flex items-center justify-center font-black shadow-sm">
+          <div className="w-9 h-9 rounded-xl bg-[#0F3D2E] text-white flex items-center justify-center font-black shadow-sm">
             <Layers className="w-5 h-5" />
           </div>
           <div>
-            <h1 className="text-base font-extrabold text-slate-900">
+            <h1 className="text-base font-black text-[#121820]">
               {language === 'hi' ? 'केंद्रीय व्यवस्थापक डैशबोर्ड' : 'Central Admin Dashboard'}
             </h1>
             <p className="text-[11px] font-semibold text-slate-500">
@@ -144,7 +144,7 @@ export const AdminDashboardScreen: React.FC = () => {
             onClick={handleExportManifest}
             icon={<Download className="w-3.5 h-3.5" />}
             iconPosition="left"
-            className="text-xs font-bold text-slate-700 border-slate-300"
+            className="text-xs font-bold text-slate-700 border-slate-300 hover:border-[#0F3D2E] hover:text-[#0F3D2E]"
           >
             Export CPCB Audit Log
           </Button>
@@ -157,15 +157,15 @@ export const AdminDashboardScreen: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-300 text-emerald-900 text-xs sm:text-sm font-bold flex items-center justify-between shadow-sm"
+            className="p-4 rounded-2xl bg-emerald-950/5 border-2 border-emerald-800/30 text-[#0F3D2E] text-xs sm:text-sm font-bold flex items-center justify-between shadow-sm"
           >
             <div className="flex items-center gap-2.5">
-              <CheckCircle2 className="w-5 h-5 text-emerald-700 flex-shrink-0" />
+              <CheckCircle2 className="w-5 h-5 text-[#0F3D2E] flex-shrink-0" />
               <span>CPCB Form-2 compliance manifest & lot audit logs exported successfully (JSON/CSV).</span>
             </div>
             <button
               onClick={() => setDownloadToast(false)}
-              className="text-xs text-emerald-700 font-extrabold px-1 cursor-pointer"
+              className="text-xs text-[#0F3D2E] font-extrabold px-1 cursor-pointer"
             >
               ✕
             </button>
@@ -173,14 +173,14 @@ export const AdminDashboardScreen: React.FC = () => {
         )}
 
         {/* Hero Banner: Platform Level Overview */}
-        <div className="bg-gradient-to-br from-emerald-900 via-emerald-800 to-teal-900 text-white rounded-3xl p-6 sm:p-7 shadow-md relative overflow-hidden">
+        <div className="bg-[#0F3D2E] text-white rounded-3xl p-6 sm:p-7 shadow-xl relative overflow-hidden border border-emerald-800/40">
           <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-2">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-[11px] font-black uppercase tracking-widest text-emerald-200 bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-700">
+                <span className="text-[11px] font-black uppercase tracking-widest text-emerald-200 bg-[#121820]/40 px-3 py-1 rounded-full border border-emerald-700/60">
                   SIH 2026 National Portal
                 </span>
-                <span className="text-[11px] font-bold text-emerald-100/90 flex items-center gap-1">
+                <span className="text-[11px] font-mono font-bold text-emerald-100/90 flex items-center gap-1">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-300" />
                   Reg: CPCB/E-WASTE/2026-IND-094
                 </span>
@@ -203,7 +203,7 @@ export const AdminDashboardScreen: React.FC = () => {
               <span className="text-2xl sm:text-3xl font-black text-white font-mono block mt-1">
                 {currentMetrics.totalEarnings}
               </span>
-              <span className="text-[11px] text-emerald-200/90 font-medium block mt-1">
+              <span className="text-[11px] text-emerald-200/90 font-medium block mt-1 font-mono">
                 100% direct bank / UPI settlement
               </span>
             </div>
@@ -217,10 +217,10 @@ export const AdminDashboardScreen: React.FC = () => {
               <button
                 key={f.id}
                 onClick={() => setActiveFilter(f.id)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer whitespace-nowrap ${
                   activeFilter === f.id
-                    ? 'bg-emerald-800 text-white shadow-xs'
-                    : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
+                    ? 'bg-[#0F3D2E] text-white shadow-xs border border-[#0F3D2E]'
+                    : 'bg-white text-slate-600 border border-slate-200/90 hover:bg-slate-50'
                 }`}
               >
                 {language === 'hi' ? f.labelHi : f.labelEn}
@@ -238,15 +238,15 @@ export const AdminDashboardScreen: React.FC = () => {
           {/* Card 1: Total Collectors */}
           <Card
             padding="sm"
-            className="bg-white text-center border border-slate-200 shadow-xs hover:border-slate-300 transition-all space-y-1.5"
+            className="bg-white text-center border border-slate-200/90 rounded-2xl shadow-sm hover:border-[#0F3D2E]/40 transition-all space-y-1.5"
           >
-            <div className="w-8 h-8 mx-auto rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
+            <div className="w-8 h-8 mx-auto rounded-xl bg-emerald-950/5 text-[#0F3D2E] flex items-center justify-center font-bold">
               <Users className="w-4 h-4" />
             </div>
             <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
               Total Collectors
             </span>
-            <span className="text-xl sm:text-2xl font-black text-slate-900 block font-mono">
+            <span className="text-xl sm:text-2xl font-black text-[#121820] block font-mono">
               {currentMetrics.totalCollectors}
             </span>
             <span className="text-[10px] text-slate-400 font-semibold block truncate">
@@ -257,7 +257,7 @@ export const AdminDashboardScreen: React.FC = () => {
           {/* Card 2: Total Recyclers */}
           <Card
             padding="sm"
-            className="bg-white text-center border border-slate-200 shadow-xs hover:border-slate-300 transition-all space-y-1.5"
+            className="bg-white text-center border border-slate-200/90 rounded-2xl shadow-sm hover:border-[#0F3D2E]/40 transition-all space-y-1.5"
           >
             <div className="w-8 h-8 mx-auto rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center font-bold">
               <Building2 className="w-4 h-4" />
@@ -265,10 +265,10 @@ export const AdminDashboardScreen: React.FC = () => {
             <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
               Total Recyclers
             </span>
-            <span className="text-xl sm:text-2xl font-black text-slate-900 block font-mono">
+            <span className="text-xl sm:text-2xl font-black text-[#121820] block font-mono">
               {currentMetrics.totalRecyclers}
             </span>
-            <span className="text-[10px] text-blue-600 font-semibold block truncate">
+            <span className="text-[10px] text-blue-700 font-semibold block truncate">
               {currentMetrics.recyclersDetail}
             </span>
           </Card>
@@ -276,7 +276,7 @@ export const AdminDashboardScreen: React.FC = () => {
           {/* Card 3: E-Waste Collected (Tons) */}
           <Card
             padding="sm"
-            className="bg-white text-center border border-slate-200 shadow-xs hover:border-slate-300 transition-all space-y-1.5"
+            className="bg-white text-center border border-slate-200/90 rounded-2xl shadow-sm hover:border-[#0F3D2E]/40 transition-all space-y-1.5"
           >
             <div className="w-8 h-8 mx-auto rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center font-bold">
               <Scale className="w-4 h-4" />
@@ -284,10 +284,10 @@ export const AdminDashboardScreen: React.FC = () => {
             <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
               E-Waste Collected
             </span>
-            <span className="text-xl sm:text-2xl font-black text-slate-900 block font-mono">
+            <span className="text-xl sm:text-2xl font-black text-[#121820] block font-mono">
               {currentMetrics.ewasteTons}
             </span>
-            <span className="text-[10px] text-purple-600 font-semibold block truncate">
+            <span className="text-[10px] text-purple-700 font-semibold block truncate">
               {currentMetrics.ewasteDetail}
             </span>
           </Card>
@@ -295,18 +295,18 @@ export const AdminDashboardScreen: React.FC = () => {
           {/* Card 4: Completed Lots */}
           <Card
             padding="sm"
-            className="bg-white text-center border border-slate-200 shadow-xs hover:border-slate-300 transition-all space-y-1.5"
+            className="bg-white text-center border border-slate-200/90 rounded-2xl shadow-sm hover:border-[#0F3D2E]/40 transition-all space-y-1.5"
           >
-            <div className="w-8 h-8 mx-auto rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center font-bold">
+            <div className="w-8 h-8 mx-auto rounded-xl bg-emerald-950/5 text-[#0F3D2E] flex items-center justify-center font-bold">
               <CheckCircle2 className="w-4 h-4" />
             </div>
             <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
               Completed Lots
             </span>
-            <span className="text-xl sm:text-2xl font-black text-emerald-800 block font-mono">
+            <span className="text-xl sm:text-2xl font-black text-[#0F3D2E] block font-mono">
               {currentMetrics.completedLots}
             </span>
-            <span className="text-[10px] text-emerald-600 font-semibold block truncate">
+            <span className="text-[10px] text-emerald-700 font-semibold block truncate">
               {currentMetrics.lotsDetail}
             </span>
           </Card>
@@ -314,18 +314,18 @@ export const AdminDashboardScreen: React.FC = () => {
           {/* Card 5: Total Collector Earnings */}
           <Card
             padding="sm"
-            className="bg-white text-center border border-slate-200 shadow-xs hover:border-slate-300 transition-all space-y-1.5 col-span-2 sm:col-span-1"
+            className="bg-white text-center border border-slate-200/90 rounded-2xl shadow-sm hover:border-[#C86D2F]/40 transition-all space-y-1.5 col-span-2 sm:col-span-1"
           >
-            <div className="w-8 h-8 mx-auto rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center font-bold">
+            <div className="w-8 h-8 mx-auto rounded-xl bg-orange-50 text-[#C86D2F] flex items-center justify-center font-bold">
               <TrendingUp className="w-4 h-4" />
             </div>
             <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
               Total Earnings
             </span>
-            <span className="text-xl sm:text-2xl font-black text-amber-700 block font-mono">
+            <span className="text-xl sm:text-2xl font-black text-[#C86D2F] block font-mono">
               {currentMetrics.totalEarnings}
             </span>
-            <span className="text-[10px] text-amber-700 font-semibold block truncate">
+            <span className="text-[10px] text-[#C86D2F] font-semibold block truncate">
               {currentMetrics.earningsDetail}
             </span>
           </Card>
@@ -334,75 +334,75 @@ export const AdminDashboardScreen: React.FC = () => {
         {/* Secondary Row: Material Stream Distribution & Environmental Impact */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
           {/* E-Waste Diversion by Material (8 cols) */}
-          <Card variant="elevated" className="lg:col-span-8 p-5 bg-white border border-slate-200 space-y-4">
+          <Card variant="elevated" className="lg:col-span-8 p-5 bg-white border border-slate-200/90 rounded-2xl space-y-4 shadow-sm">
             <div className="flex items-center justify-between pb-2 border-b border-slate-100">
               <div className="flex items-center gap-2">
-                <Layers className="w-4 h-4 text-emerald-700" />
-                <h3 className="text-sm font-black uppercase tracking-wider text-slate-800">
+                <Layers className="w-4 h-4 text-[#0F3D2E]" />
+                <h3 className="text-sm font-black uppercase tracking-wider text-[#121820]">
                   E-Waste Diversion by Material Stream
                 </h3>
               </div>
-              <span className="text-xs font-bold text-emerald-700">CPCB Category A/B</span>
+              <span className="text-xs font-mono font-bold text-[#0F3D2E] bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200/60">CPCB Category A/B</span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {/* 1. PCB Stream */}
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
+              <div className="p-3.5 rounded-2xl bg-slate-50/80 border border-slate-200/70 space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-800">Circuit Boards (PCB)</span>
-                  <span className="text-xs font-black text-emerald-700">8.4 Tons (45%)</span>
+                  <span className="text-xs font-black text-slate-800">Circuit Boards (PCB)</span>
+                  <span className="text-xs font-mono font-black text-[#0F3D2E]">8.4 Tons (45%)</span>
                 </div>
                 <div className="w-full h-2 rounded-full bg-slate-200 overflow-hidden">
-                  <div className="h-full bg-emerald-600 rounded-full" style={{ width: '45%' }} />
+                  <div className="h-full bg-[#0F3D2E] rounded-full" style={{ width: '45%' }} />
                 </div>
-                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold">
+                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold font-mono">
                   <span>Rate: ₹125 - ₹140/kg</span>
-                  <span className="font-bold text-slate-800">₹11.2 Lakhs disbursed</span>
+                  <span className="font-bold text-slate-900">₹11.2 Lakhs</span>
                 </div>
               </div>
 
               {/* 2. Copper Stream */}
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
+              <div className="p-3.5 rounded-2xl bg-slate-50/80 border border-slate-200/70 space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-800">Copper Cable & Wiring</span>
-                  <span className="text-xs font-black text-blue-700">4.8 Tons (26%)</span>
+                  <span className="text-xs font-black text-slate-800">Copper Cable & Wiring</span>
+                  <span className="text-xs font-mono font-black text-[#C86D2F]">4.8 Tons (26%)</span>
                 </div>
                 <div className="w-full h-2 rounded-full bg-slate-200 overflow-hidden">
-                  <div className="h-full bg-blue-600 rounded-full" style={{ width: '26%' }} />
+                  <div className="h-full bg-[#C86D2F] rounded-full" style={{ width: '26%' }} />
                 </div>
-                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold">
+                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold font-mono">
                   <span>Rate: ₹500 - ₹540/kg</span>
-                  <span className="font-bold text-slate-800">₹7.4 Lakhs disbursed</span>
+                  <span className="font-bold text-slate-900">₹7.4 Lakhs</span>
                 </div>
               </div>
 
               {/* 3. Battery Stream */}
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
+              <div className="p-3.5 rounded-2xl bg-slate-50/80 border border-slate-200/70 space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-800">Lithium Batteries</span>
-                  <span className="text-xs font-black text-purple-700">3.2 Tons (17%)</span>
+                  <span className="text-xs font-black text-slate-800">Lithium Batteries</span>
+                  <span className="text-xs font-mono font-black text-purple-700">3.2 Tons (17%)</span>
                 </div>
                 <div className="w-full h-2 rounded-full bg-slate-200 overflow-hidden">
                   <div className="h-full bg-purple-600 rounded-full" style={{ width: '17%' }} />
                 </div>
-                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold">
+                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold font-mono">
                   <span>Hazardous Class IX</span>
-                  <span className="font-bold text-slate-800">₹3.8 Lakhs disbursed</span>
+                  <span className="font-bold text-slate-900">₹3.8 Lakhs</span>
                 </div>
               </div>
 
               {/* 4. Display Stream */}
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
+              <div className="p-3.5 rounded-2xl bg-slate-50/80 border border-slate-200/70 space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-800">LCD Display Units</span>
-                  <span className="text-xs font-black text-amber-700">2.2 Tons (12%)</span>
+                  <span className="text-xs font-black text-slate-800">LCD Display Units</span>
+                  <span className="text-xs font-mono font-black text-[#D97706]">2.2 Tons (12%)</span>
                 </div>
                 <div className="w-full h-2 rounded-full bg-slate-200 overflow-hidden">
-                  <div className="h-full bg-amber-600 rounded-full" style={{ width: '12%' }} />
+                  <div className="h-full bg-[#D97706] rounded-full" style={{ width: '12%' }} />
                 </div>
-                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold">
+                <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold font-mono">
                   <span>Mercury Neutralized</span>
-                  <span className="font-bold text-slate-800">₹2.45 Lakhs disbursed</span>
+                  <span className="font-bold text-slate-900">₹2.45 Lakhs</span>
                 </div>
               </div>
             </div>
@@ -410,31 +410,31 @@ export const AdminDashboardScreen: React.FC = () => {
 
           {/* Environmental Net Impact (4 cols) */}
           <Card
-            variant="highlight"
-            className="lg:col-span-4 p-5 bg-gradient-to-br from-emerald-50 via-teal-50 to-emerald-100/60 border-2 border-emerald-400 space-y-3 flex flex-col justify-between"
+            variant="default"
+            className="lg:col-span-4 p-5 bg-emerald-950/5 border-2 border-[#0F3D2E]/30 rounded-2xl space-y-3 flex flex-col justify-between shadow-sm"
           >
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <Leaf className="w-5 h-5 text-emerald-600" />
-                <h3 className="text-sm font-black text-emerald-950 uppercase tracking-wide">
+                <Leaf className="w-5 h-5 text-[#0F3D2E]" />
+                <h3 className="text-sm font-black text-[#0F3D2E] uppercase tracking-wide">
                   Environmental Impact
                 </h3>
               </div>
-              <p className="text-xs text-emerald-900 font-medium">
+              <p className="text-xs text-[#0F3D2E]/90 font-medium">
                 Certified savings calculated via CPCB formal e-waste conversion algorithm:
               </p>
 
-              <div className="space-y-3 mt-4 text-xs font-bold text-emerald-950">
-                <div className="p-2.5 bg-white/80 rounded-xl border border-emerald-200">
-                  <span className="text-slate-500 text-[10px] uppercase block">Carbon Offset</span>
-                  <span className="text-lg font-black text-emerald-800">41.2 Tons CO₂</span>
-                  <span className="text-[10px] text-slate-400 block">Equivalent to 1,840 trees planted</span>
+              <div className="space-y-3 mt-4 text-xs font-bold text-[#0F3D2E]">
+                <div className="p-3 bg-white rounded-xl border border-emerald-200/60 shadow-xs">
+                  <span className="text-slate-500 text-[10px] uppercase font-bold block">Carbon Offset</span>
+                  <span className="text-lg font-black text-[#0F3D2E] font-mono">41.2 Tons CO₂</span>
+                  <span className="text-[10px] text-slate-500 block">Equivalent to 1,840 trees planted</span>
                 </div>
 
-                <div className="p-2.5 bg-white/80 rounded-xl border border-emerald-200">
-                  <span className="text-slate-500 text-[10px] uppercase block">Heavy Metals Isolated</span>
-                  <span className="text-lg font-black text-emerald-800">1,480 kg Toxic Metals</span>
-                  <span className="text-[10px] text-slate-400 block">Lead, Cadmium & Mercury contained</span>
+                <div className="p-3 bg-white rounded-xl border border-emerald-200/60 shadow-xs">
+                  <span className="text-slate-500 text-[10px] uppercase font-bold block">Heavy Metals Isolated</span>
+                  <span className="text-lg font-black text-[#0F3D2E] font-mono">1,480 kg Toxic Metals</span>
+                  <span className="text-[10px] text-slate-500 block">Lead, Cadmium & Mercury contained</span>
                 </div>
               </div>
             </div>
@@ -446,7 +446,7 @@ export const AdminDashboardScreen: React.FC = () => {
                 onClick={() => navigate('/safety')}
                 icon={<ArrowRight className="w-4 h-4" />}
                 iconPosition="right"
-                className="w-full text-xs font-bold border-emerald-300 text-emerald-900 bg-white/70 hover:bg-white"
+                className="w-full text-xs font-bold border-emerald-800/30 text-[#0F3D2E] bg-white hover:bg-[#0F3D2E] hover:text-white transition-colors"
               >
                 View Safety & Compliance Protocols
               </Button>
@@ -457,8 +457,8 @@ export const AdminDashboardScreen: React.FC = () => {
         {/* Regional Cluster Breakdown & Recent Compliance Log */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
           {/* Regional Clusters */}
-          <Card className="lg:col-span-6 p-5 bg-white border border-slate-200 space-y-3">
-            <h3 className="text-sm font-black uppercase tracking-wider text-slate-800 pb-2 border-b border-slate-100 flex items-center justify-between">
+          <Card className="lg:col-span-6 p-5 bg-white border border-slate-200/90 rounded-2xl space-y-3 shadow-sm">
+            <h3 className="text-sm font-black uppercase tracking-wider text-[#121820] pb-2 border-b border-slate-100 flex items-center justify-between">
               <span>Authorized Regional Processing Hubs</span>
               <span className="text-xs text-slate-400 font-normal">Telangana Cluster</span>
             </h3>
@@ -469,27 +469,27 @@ export const AdminDashboardScreen: React.FC = () => {
                 { name: 'Cyberabad Industrial Hub (Jeedimetla & Balanagar)', tons: '6.2 Tons', recyclers: '14 Facilities', active: true },
                 { name: 'Secunderabad & Medchal Gateway', tons: '4.8 Tons', recyclers: '12 Facilities', active: true }
               ].map((hub, idx) => (
-                <div key={idx} className="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between">
+                <div key={idx} className="p-3 bg-slate-50/80 rounded-xl border border-slate-200/60 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 font-bold text-xs">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-950/5 text-[#0F3D2E] flex items-center justify-center flex-shrink-0 font-bold text-xs">
                       <MapPin className="w-4 h-4" />
                     </div>
                     <div>
-                      <p className="text-xs font-bold text-slate-800">{hub.name}</p>
+                      <p className="text-xs font-black text-slate-800">{hub.name}</p>
                       <p className="text-[11px] text-slate-500">{hub.recyclers} • 100% CPCB licensed</p>
                     </div>
                   </div>
-                  <span className="text-xs font-black text-slate-900 font-mono">{hub.tons}</span>
+                  <span className="text-xs font-black text-[#121820] font-mono">{hub.tons}</span>
                 </div>
               ))}
             </div>
           </Card>
 
           {/* Recent CPCB Compliance Verification Logs */}
-          <Card className="lg:col-span-6 p-5 bg-white border border-slate-200 space-y-3">
-            <h3 className="text-sm font-black uppercase tracking-wider text-slate-800 pb-2 border-b border-slate-100 flex items-center justify-between">
+          <Card className="lg:col-span-6 p-5 bg-white border border-slate-200/90 rounded-2xl space-y-3 shadow-sm">
+            <h3 className="text-sm font-black uppercase tracking-wider text-[#121820] pb-2 border-b border-slate-100 flex items-center justify-between">
               <span>Live Platform Audit Logs</span>
-              <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">
+              <span className="text-[10px] font-mono font-bold text-[#0F3D2E] bg-emerald-950/5 px-2 py-0.5 rounded-full border border-emerald-800/20">
                 Encrypted
               </span>
             </h3>
@@ -500,12 +500,12 @@ export const AdminDashboardScreen: React.FC = () => {
                 { log: 'TS-PCB Annual License Renewal Verified', facility: 'EcoRecover Hyd', status: 'Active', time: '1 hour ago' },
                 { log: 'Instant UPI Payout Disbursed (Lot KC-00127)', facility: 'National Payment Gateway', status: 'Settled', time: '3 hours ago' }
               ].map((item, idx) => (
-                <div key={idx} className="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between">
+                <div key={idx} className="p-3 bg-slate-50/80 rounded-xl border border-slate-200/60 flex items-center justify-between">
                   <div>
                     <p className="font-bold text-slate-800">{item.log}</p>
-                    <p className="text-[11px] text-slate-500 mt-0.5">{item.facility} • {item.time}</p>
+                    <p className="text-[11px] text-slate-500 mt-0.5 font-mono">{item.facility} • {item.time}</p>
                   </div>
-                  <span className="px-2 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 flex-shrink-0">
+                  <span className="px-2 py-1 rounded-full text-[10px] font-mono font-bold bg-emerald-950/10 text-[#0F3D2E] border border-emerald-800/20 flex-shrink-0">
                     {item.status}
                   </span>
                 </div>
@@ -515,9 +515,9 @@ export const AdminDashboardScreen: React.FC = () => {
         </div>
 
         {/* Quick Portal Switcher Actions */}
-        <div className="p-4 bg-white rounded-2xl border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+        <div className="p-4 bg-white rounded-2xl border border-slate-200/90 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs shadow-sm">
           <div className="flex items-center gap-2 text-slate-600 font-medium">
-            <ShieldCheck className="w-4 h-4 text-emerald-600" />
+            <ShieldCheck className="w-4 h-4 text-[#0F3D2E]" />
             <span>Switch portals to test collector or recycler perspectives in real time:</span>
           </div>
           <div className="flex items-center gap-2">
@@ -525,7 +525,7 @@ export const AdminDashboardScreen: React.FC = () => {
               variant="outline"
               size="sm"
               onClick={() => navigate('/home')}
-              className="text-xs font-bold"
+              className="text-xs font-bold hover:border-[#0F3D2E] hover:text-[#0F3D2E]"
             >
               Collector Home
             </Button>
@@ -533,7 +533,7 @@ export const AdminDashboardScreen: React.FC = () => {
               variant="outline"
               size="sm"
               onClick={() => navigate('/recycler-dashboard')}
-              className="text-xs font-bold"
+              className="text-xs font-bold hover:border-[#0F3D2E] hover:text-[#0F3D2E]"
             >
               Recycler Dashboard
             </Button>

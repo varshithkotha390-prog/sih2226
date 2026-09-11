@@ -33,17 +33,17 @@ export const RecyclerCard: React.FC<RecyclerCardProps> = ({
           onSelect(recycler);
         }
       }}
-      className="cursor-pointer group select-none transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-500/30 rounded-3xl"
+      className="cursor-pointer group select-none transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0F3D2E]/25 rounded-2xl"
     >
       <Card
         variant={isRecommended ? 'highlight' : 'default'}
-        className={`relative overflow-hidden transition-all duration-200 group-hover:border-emerald-500 group-hover:shadow-md ${
-          isRecommended ? 'border-2 border-emerald-500 shadow-xs' : ''
+        className={`relative overflow-hidden transition-all duration-200 rounded-2xl group-hover:shadow-md ${
+          isRecommended ? 'border-2 border-[#0F3D2E] shadow-sm bg-white' : 'border border-slate-200/90 bg-white hover:border-slate-300'
         }`}
       >
         {isRecommended && (
-          <div className="absolute top-0 right-0 bg-emerald-600 text-white text-xs font-black uppercase tracking-wider py-1 px-3 rounded-bl-xl shadow-xs flex items-center gap-1">
-            <Award className="w-3.5 h-3.5" />
+          <div className="absolute top-0 right-0 bg-[#0F3D2E] text-white text-xs font-black uppercase tracking-wider py-1 px-3 rounded-bl-xl shadow-xs flex items-center gap-1">
+            <Award className="w-3.5 h-3.5 text-amber-400" />
             <span>{t('bestChoice')}</span>
           </div>
         )}
@@ -51,7 +51,7 @@ export const RecyclerCard: React.FC<RecyclerCardProps> = ({
         <div className="flex items-start justify-between gap-3 mb-2.5">
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-lg font-black text-slate-900 group-hover:text-emerald-700 transition-colors">
+              <h3 className="text-lg font-black text-slate-900 group-hover:text-[#0F3D2E] transition-colors">
                 {recycler.name}
               </h3>
               <span className="text-xs font-bold text-amber-500 flex items-center">
@@ -75,13 +75,13 @@ export const RecyclerCard: React.FC<RecyclerCardProps> = ({
         {/* Badges row: Authorized + Pickup */}
         <div className="flex flex-wrap items-center gap-1.5 mb-3.5">
           {recycler.isAuthorized && (
-            <span className="inline-flex items-center gap-1 text-xs font-bold bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-lg border border-emerald-300">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
+            <span className="inline-flex items-center gap-1 text-xs font-bold bg-[#0F3D2E]/10 text-[#0F3D2E] px-2.5 py-1 rounded-lg border border-[#0F3D2E]/25">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#0F3D2E]" />
               <span>✓ {t('authorized')}</span>
             </span>
           )}
           {recycler.hasPickup ? (
-            <span className="inline-flex items-center gap-1 text-xs font-bold bg-blue-100 text-blue-800 px-2.5 py-1 rounded-lg border border-blue-300">
+            <span className="inline-flex items-center gap-1 text-xs font-bold bg-blue-50 text-blue-800 px-2.5 py-1 rounded-lg border border-blue-200">
               <Truck className="w-3.5 h-3.5 text-blue-700" />
               <span>✓ {t('pickupAvailable')}</span>
             </span>
@@ -93,12 +93,12 @@ export const RecyclerCard: React.FC<RecyclerCardProps> = ({
         </div>
 
         {/* Pricing Block */}
-        <div className="bg-slate-50 p-3 rounded-2xl flex items-center justify-between border border-slate-200/90 group-hover:bg-emerald-50/50 transition-colors">
+        <div className="bg-slate-50 p-3 rounded-xl flex items-center justify-between border border-slate-200/90 group-hover:bg-[#0F3D2E]/5 transition-colors">
           <div>
             <span className="text-xs font-bold text-slate-500 uppercase block">
               {t('recyclerOfferRate')}
             </span>
-            <span className="text-base font-extrabold text-slate-800">
+            <span className="text-base font-mono font-black text-slate-900">
               ₹{recycler.offerPerKg}/kg
             </span>
           </div>
@@ -107,7 +107,7 @@ export const RecyclerCard: React.FC<RecyclerCardProps> = ({
             <span className="text-xs font-bold text-slate-500 uppercase block">
               {t('estimatedPayout')}
             </span>
-            <span className="text-xl font-black text-emerald-700">
+            <span className="text-xl font-mono font-black text-[#0F3D2E]">
               {formatINR(estimatedPayout)}
             </span>
           </div>
@@ -115,10 +115,10 @@ export const RecyclerCard: React.FC<RecyclerCardProps> = ({
 
         {/* Primary Action Button */}
         <div className="mt-3.5">
-          <div className={`w-full min-h-[44px] py-2.5 px-4 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-xs ${
+          <div className={`w-full min-h-[44px] py-2.5 px-4 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all shadow-xs ${
             isRecommended
-              ? 'bg-emerald-600 text-white shadow-emerald-100 group-hover:bg-emerald-700'
-              : 'bg-slate-100 text-slate-800 border border-slate-300 group-hover:bg-emerald-50 group-hover:text-emerald-800 group-hover:border-emerald-300'
+              ? 'bg-[#C86D2F] hover:bg-[#B85D19] text-white shadow-md shadow-orange-950/20'
+              : 'bg-slate-100 text-slate-800 border border-slate-300 group-hover:bg-slate-200'
           }`}>
             <span>{t('selectRecyclerBtn')}</span>
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />

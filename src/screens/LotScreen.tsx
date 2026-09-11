@@ -145,7 +145,7 @@ export const LotScreen: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-28">
+    <div className="min-h-screen bg-[#F6F8F6] pb-28">
       <Header
         title={viewMode === 'recycler' ? 'Recycler Lot Verification' : t('lotTitle')}
         showBack
@@ -165,7 +165,7 @@ export const LotScreen: React.FC = () => {
             onClick={() => setViewMode('recycler')}
             className={`flex-1 py-2 rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
               viewMode === 'recycler'
-                ? 'bg-emerald-800 text-white shadow-xs'
+                ? 'bg-[#0F3D2E] text-white shadow-xs'
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
@@ -177,7 +177,7 @@ export const LotScreen: React.FC = () => {
             onClick={() => setViewMode('collector')}
             className={`flex-1 py-2 rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
               viewMode === 'collector'
-                ? 'bg-emerald-800 text-white shadow-xs'
+                ? 'bg-[#0F3D2E] text-white shadow-xs'
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
@@ -193,15 +193,15 @@ export const LotScreen: React.FC = () => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-200 text-emerald-900 text-sm font-bold flex items-center justify-between shadow-md"
+              className="p-4 rounded-2xl bg-[#0F3D2E]/10 border-2 border-[#0F3D2E]/30 text-[#0F3D2E] text-sm font-bold flex items-center justify-between shadow-md"
             >
               <div className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-5 h-5 text-emerald-700 flex-shrink-0" />
+                <CheckCircle2 className="w-5 h-5 text-[#0F3D2E] flex-shrink-0" />
                 <span>{toastMessage.text}</span>
               </div>
               <button
                 onClick={() => setToastMessage(null)}
-                className="text-xs text-emerald-700 hover:text-emerald-950 font-extrabold cursor-pointer px-1"
+                className="text-xs text-[#0F3D2E] hover:text-[#0B2F23] font-extrabold cursor-pointer px-1"
               >
                 ✕
               </button>
@@ -212,10 +212,10 @@ export const LotScreen: React.FC = () => {
         {/* Collector View Step Indicator */}
         {viewMode === 'collector' && <ProgressIndicator currentStage={4} />}
 
-        {/* Lot Header Hero Badge */}
-        <div className="bg-emerald-800 text-white p-5 rounded-3xl shadow-sm space-y-2 relative overflow-hidden">
+        {/* Lot Header Hero Badge - Command Center */}
+        <div className="bg-[#0F3D2E] text-white p-5 rounded-2xl shadow-md space-y-2 relative overflow-hidden border border-emerald-800/60">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-black uppercase tracking-wider text-emerald-200 flex items-center gap-1.5">
+            <span className="text-xs font-black uppercase tracking-wider text-emerald-300 flex items-center gap-1.5">
               <FileText className="w-4 h-4" />
               <span>
                 {viewMode === 'recycler' ? 'Recycler Intake Manifest' : 'SIH Digital Manifest'}
@@ -231,7 +231,7 @@ export const LotScreen: React.FC = () => {
             </h2>
           </div>
 
-          <div className="flex items-center justify-between text-xs text-emerald-100/90 font-medium">
+          <div className="flex items-center justify-between text-xs text-emerald-100/90 font-mono font-medium">
             <span>Timestamped: {lot.createdAt}</span>
             <span>{lot.location || 'Hyderabad'}</span>
           </div>
@@ -241,7 +241,7 @@ export const LotScreen: React.FC = () => {
         {viewMode === 'recycler' ? (
           <div className="space-y-4">
             {/* Lot Details Summary Card */}
-            <Card variant="elevated" className="border-2 border-slate-200 p-5 bg-white space-y-4">
+            <Card variant="elevated" className="border border-slate-200/90 p-5 bg-white space-y-4 rounded-2xl shadow-xs">
               <div className="flex items-center justify-between pb-2 border-b border-slate-100">
                 <h3 className="text-sm font-black uppercase tracking-wider text-slate-500">
                   Lot Specifications
@@ -260,7 +260,7 @@ export const LotScreen: React.FC = () => {
                 </div>
                 <div className="text-right">
                   <span className="text-xs font-bold text-slate-500 block">Submitted Weight</span>
-                  <span className="text-lg font-black text-slate-900">{lot.weightKg} kg</span>
+                  <span className="text-lg font-mono font-black text-slate-900">{lot.weightKg} kg</span>
                   <span className="text-xs text-slate-400 font-medium block">Collector logged</span>
                 </div>
               </div>
@@ -282,7 +282,7 @@ export const LotScreen: React.FC = () => {
                   </span>
                   <a
                     href={`tel:${lot.collectorPhone}`}
-                    className="font-bold text-emerald-700 hover:text-emerald-800 underline flex items-center gap-1"
+                    className="font-mono font-bold text-[#0F3D2E] hover:underline flex items-center gap-1"
                   >
                     <span>{lot.collectorPhone}</span>
                   </a>
@@ -301,11 +301,11 @@ export const LotScreen: React.FC = () => {
               <div className="space-y-1.5 pt-1">
                 <div className="flex items-center justify-between text-sm">
                   <span className="font-semibold text-slate-600">Unit Offer Rate:</span>
-                  <span className="font-bold text-slate-800">₹{lot.recyclerOfferPerKg}/kg</span>
+                  <span className="font-mono font-bold text-slate-800">₹{lot.recyclerOfferPerKg}/kg</span>
                 </div>
                 <div className="flex items-center justify-between text-base">
-                  <span className="font-bold text-emerald-950">Offered Payout:</span>
-                  <span className="font-black text-emerald-700 text-xl">
+                  <span className="font-bold text-slate-900">Offered Payout:</span>
+                  <span className="font-mono font-black text-[#0F3D2E] text-2xl">
                     {formatINR(lot.recyclerPayout)}
                   </span>
                 </div>
@@ -314,16 +314,16 @@ export const LotScreen: React.FC = () => {
 
             {/* STEP 1: If not yet accepted, show [Accept Lot] */}
             {!isAccepted && !isCompleted && (
-              <Card variant="default" className="border-2 border-amber-200 bg-amber-50/60 p-5 space-y-4">
+              <Card variant="default" className="border-2 border-amber-300 bg-amber-50/70 p-5 rounded-2xl space-y-4 shadow-xs">
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 font-black">
+                  <div className="w-10 h-10 rounded-xl bg-amber-100 text-[#D97706] flex items-center justify-center flex-shrink-0 font-mono font-black">
                     1
                   </div>
                   <div>
                     <h4 className="text-base font-extrabold text-amber-950">
                       Incoming Lot Intake Required
                     </h4>
-                    <p className="text-xs font-semibold text-amber-800 mt-0.5">
+                    <p className="text-xs font-semibold text-amber-900 mt-0.5">
                       Accept this lot to initiate physical weigh-in and calibrated scale tare verification.
                     </p>
                   </div>
@@ -336,7 +336,7 @@ export const LotScreen: React.FC = () => {
                   isLoading={isAccepting}
                   icon={<CheckCircle2 className="w-6 h-6" />}
                   iconPosition="left"
-                  className="w-full shadow-sm py-4 text-base font-black tracking-wide bg-emerald-700 hover:bg-emerald-800"
+                  className="w-full py-4 text-base font-black tracking-wide"
                 >
                   Accept Lot
                 </Button>
@@ -345,10 +345,10 @@ export const LotScreen: React.FC = () => {
 
             {/* STEP 2: Once accepted & not completed, show [Verify Weight] Form & [Confirm Handover] */}
             {isAccepted && !isCompleted && (
-              <Card variant="elevated" className="border-2 border-emerald-300 bg-white p-5 space-y-5 shadow-sm">
+              <Card variant="elevated" className="border border-slate-200/90 bg-white p-5 space-y-5 rounded-2xl shadow-xs">
                 <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
+                    <div className="w-8 h-8 rounded-xl bg-[#0F3D2E]/10 text-[#0F3D2E] flex items-center justify-center font-bold">
                       <Scale className="w-4 h-4" />
                     </div>
                     <div>
@@ -360,7 +360,7 @@ export const LotScreen: React.FC = () => {
                       </p>
                     </div>
                   </div>
-                  <Badge variant="blue" size="sm">
+                  <Badge variant="emerald" size="sm">
                     Accepted ✓
                   </Badge>
                 </div>
@@ -381,29 +381,29 @@ export const LotScreen: React.FC = () => {
                 </div>
 
                 {/* Real-time Recalculated Payout Card */}
-                <div className="p-4 rounded-2xl bg-emerald-50/80 border border-emerald-200 space-y-2">
-                  <div className="flex items-center justify-between text-xs font-bold text-emerald-900">
+                <div className="p-4 rounded-2xl bg-[#0F3D2E]/5 border border-[#0F3D2E]/20 space-y-2">
+                  <div className="flex items-center justify-between text-xs font-bold text-slate-700">
                     <span>Recycler Rate:</span>
-                    <span>₹{lot.recyclerOfferPerKg} / kg</span>
+                    <span className="font-mono">₹{lot.recyclerOfferPerKg} / kg</span>
                   </div>
 
                   <div className="flex items-center justify-between text-xs font-bold text-slate-600">
                     <span>Verified Scale Weight:</span>
-                    <span>{parsedWeight} kg</span>
+                    <span className="font-mono">{parsedWeight} kg</span>
                   </div>
 
-                  <div className="pt-2 border-t border-emerald-200/80 flex items-center justify-between">
-                    <span className="text-sm font-black text-emerald-950">
+                  <div className="pt-2 border-t border-[#0F3D2E]/20 flex items-center justify-between">
+                    <span className="text-sm font-black text-slate-900">
                       Updated Handover Payout:
                     </span>
-                    <span className="text-2xl font-black text-emerald-800 font-mono">
+                    <span className="text-2xl font-mono font-black text-[#0F3D2E]">
                       {formatINR(recalculatedPayout)}
                     </span>
                   </div>
 
                   {/* Discrepancy indicator */}
                   {weightDiff !== 0 && (
-                    <div className="text-[11px] font-bold text-amber-800 bg-amber-100/70 px-2.5 py-1 rounded-lg">
+                    <div className="text-[11px] font-mono font-bold text-amber-900 bg-amber-100/80 px-2.5 py-1 rounded-lg border border-amber-200">
                       Tare adjustment: {weightDiff > 0 ? `+${weightDiff}` : weightDiff} kg (
                       {payoutDiff >= 0 ? `+₹${payoutDiff}` : `-₹${Math.abs(payoutDiff)}`})
                     </div>
@@ -418,7 +418,7 @@ export const LotScreen: React.FC = () => {
                   isLoading={isConfirming}
                   icon={<CheckCircle2 className="w-6 h-6" />}
                   iconPosition="left"
-                  className="w-full shadow-sm py-4 text-base font-black tracking-wide"
+                  className="w-full py-4 text-base font-black tracking-wide"
                 >
                   Confirm Handover
                 </Button>
@@ -435,47 +435,47 @@ export const LotScreen: React.FC = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 className="space-y-4"
               >
-                {/* Success Card */}
-                <Card variant="highlight" className="p-6 bg-gradient-to-br from-emerald-50 to-teal-50 border-2 border-emerald-400 rounded-3xl space-y-4">
+                {/* Success Card - Command Center */}
+                <Card variant="highlight" className="p-6 bg-[#0F3D2E] text-white rounded-2xl space-y-4 shadow-lg shadow-emerald-950/20 border border-emerald-800/60">
                   <div className="text-center space-y-2">
-                    <div className="w-16 h-16 mx-auto rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center border-2 border-emerald-300">
+                    <div className="w-16 h-16 mx-auto rounded-full bg-white/10 text-emerald-300 flex items-center justify-center border border-white/20">
                       <CheckCircle2 className="w-10 h-10 stroke-[2.5]" />
                     </div>
-                    <h3 className="text-2xl font-black text-emerald-950 tracking-tight">
+                    <h3 className="text-2xl font-black text-white tracking-tight">
                       ✓ Handover Completed
                     </h3>
-                    <p className="text-xs font-bold text-emerald-800">
+                    <p className="text-xs font-bold text-emerald-200">
                       CPCB e-Waste Manifest Verified & Payment Disbursed
                     </p>
                   </div>
 
                   {/* Key Settlement Metrics */}
-                  <div className="bg-white p-4 rounded-2xl border border-emerald-200 space-y-2.5 text-xs sm:text-sm">
+                  <div className="bg-white/10 backdrop-blur-xs p-4 rounded-xl border border-white/20 space-y-2.5 text-xs sm:text-sm text-white">
                     <div className="flex items-center justify-between">
-                      <span className="font-semibold text-slate-500">Final Verified Weight:</span>
-                      <span className="font-black text-slate-900">{lot.weightKg} kg</span>
+                      <span className="font-semibold text-emerald-100">Final Verified Weight:</span>
+                      <span className="font-mono font-black text-white">{lot.weightKg} kg</span>
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <span className="font-semibold text-slate-500">Settled Payout Amount:</span>
-                      <span className="font-black text-emerald-700 text-base">
+                      <span className="font-semibold text-emerald-100">Settled Payout Amount:</span>
+                      <span className="font-mono font-black text-white text-base sm:text-lg">
                         {formatINR(lot.recyclerPayout)}
                       </span>
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <span className="font-semibold text-slate-500">Disbursed To Collector:</span>
-                      <span className="font-bold text-slate-900">{lot.collectorName}</span>
+                      <span className="font-semibold text-emerald-100">Disbursed To Collector:</span>
+                      <span className="font-bold text-white">{lot.collectorName}</span>
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <span className="font-semibold text-slate-500">Settled Timestamp:</span>
-                      <span className="font-mono text-slate-700">{lot.completedAt || 'Today'}</span>
+                      <span className="font-semibold text-emerald-100">Settled Timestamp:</span>
+                      <span className="font-mono text-emerald-200">{lot.completedAt || 'Today'}</span>
                     </div>
                   </div>
 
-                  <div className="p-3 bg-emerald-100/60 rounded-xl text-xs font-bold text-emerald-900 flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-emerald-700 flex-shrink-0" />
+                  <div className="p-3 bg-white/10 rounded-xl text-xs font-bold text-emerald-100 flex items-center gap-2 border border-white/10">
+                    <ShieldCheck className="w-4 h-4 text-emerald-300 flex-shrink-0" />
                     <span>Shared store updated: Collector's Home, Earnings, & History reflect this instantly.</span>
                   </div>
                 </Card>
@@ -511,7 +511,7 @@ export const LotScreen: React.FC = () => {
           /* COLLECTOR WORKFLOW VIEW */
           <div className="space-y-4">
             {/* Detailed Breakdown Card */}
-            <Card variant="elevated" className="border-2 border-slate-200 p-5 bg-white space-y-4">
+            <Card variant="elevated" className="border border-slate-200/90 p-5 bg-white space-y-4 rounded-2xl shadow-xs">
               <h3 className="text-sm font-black uppercase tracking-wider text-slate-500 pb-2 border-b border-slate-100">
                 {t('lotDetails')}
               </h3>
@@ -527,8 +527,8 @@ export const LotScreen: React.FC = () => {
                 </div>
                 <div className="text-right">
                   <span className="text-xs font-bold text-slate-500 block">Logged Weight</span>
-                  <span className="text-lg font-black text-slate-900">{lot.weightKg} kg</span>
-                  <span className="text-xs text-emerald-700 font-bold">Verified digital tare</span>
+                  <span className="text-lg font-mono font-black text-slate-900">{lot.weightKg} kg</span>
+                  <span className="text-xs text-[#0F3D2E] font-bold">Verified digital tare</span>
                 </div>
               </div>
 
@@ -536,18 +536,18 @@ export const LotScreen: React.FC = () => {
               <div className="space-y-2 pb-3 border-b border-slate-100">
                 <div className="flex items-center justify-between text-sm sm:text-base">
                   <span className="font-semibold text-slate-600">{t('marketEstimateLabel')}</span>
-                  <span className="font-bold text-slate-800">{formatINR(lot.marketEstimate)}</span>
+                  <span className="font-mono font-bold text-slate-800">{formatINR(lot.marketEstimate)}</span>
                 </div>
 
                 <div className="flex items-center justify-between text-sm sm:text-base">
-                  <span className="font-bold text-emerald-900">{t('recyclerOfferLabel')}</span>
-                  <span className="font-black text-emerald-700 text-lg">
+                  <span className="font-bold text-slate-900">{t('recyclerOfferLabel')}</span>
+                  <span className="font-mono font-black text-[#0F3D2E] text-xl">
                     {formatINR(lot.recyclerPayout)}
                   </span>
                 </div>
 
                 {lot.bonusAmount > 0 && (
-                  <div className="bg-emerald-50 px-3.5 py-2 rounded-xl flex items-center justify-between text-xs sm:text-sm font-bold text-emerald-800 border border-emerald-200">
+                  <div className="bg-[#0F3D2E]/10 px-3.5 py-2 rounded-xl flex items-center justify-between text-xs sm:text-sm font-mono font-bold text-[#0F3D2E] border border-[#0F3D2E]/20">
                     <span>Authorized Fair Bonus:</span>
                     <span>+₹{lot.bonusAmount}</span>
                   </div>
@@ -559,13 +559,13 @@ export const LotScreen: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <span className="font-semibold text-slate-500">{t('collectorLabel')}</span>
                   <span className="font-bold text-slate-900">
-                    {lot.collectorName} ({lot.collectorPhone})
+                    {lot.collectorName} (<span className="font-mono">{lot.collectorPhone}</span>)
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between">
                   <span className="font-semibold text-slate-500">{t('recyclerLabel')}</span>
-                  <span className="font-bold text-slate-900">{lot.recyclerName}</span>
+                  <span className="font-bold text-[#0F3D2E]">{lot.recyclerName}</span>
                 </div>
 
                 <div className="flex items-center justify-between">
@@ -575,7 +575,7 @@ export const LotScreen: React.FC = () => {
 
                 <div className="flex items-center justify-between pt-1">
                   <span className="font-semibold text-slate-500">{t('statusLabel')}</span>
-                  <span className="font-black text-amber-700">
+                  <span className="font-black text-amber-800">
                     {lot.status === 'completed' ? 'Completed' : t('awaitingHandover')}
                   </span>
                 </div>
@@ -591,7 +591,7 @@ export const LotScreen: React.FC = () => {
                   size="xl"
                   icon={<QrCode className="w-6 h-6" />}
                   iconPosition="left"
-                  className="w-full shadow-sm py-4 text-base font-black tracking-wide"
+                  className="w-full py-4 text-base font-black tracking-wide"
                 >
                   {t('createLotBtn')}
                 </Button>
@@ -607,7 +607,7 @@ export const LotScreen: React.FC = () => {
                   size="xl"
                   icon={<Receipt className="w-6 h-6" />}
                   iconPosition="left"
-                  className="w-full shadow-sm py-4 text-base font-black tracking-wide"
+                  className="w-full py-4 text-base font-black tracking-wide"
                 >
                   View Completed Transaction
                 </Button>

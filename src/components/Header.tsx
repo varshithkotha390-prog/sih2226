@@ -44,17 +44,17 @@ export const Header: React.FC<HeaderProps> = ({
               <ArrowLeft className="w-5 h-5 stroke-[2.5]" />
             </button>
           ) : (
-            <div className="w-9 h-9 bg-emerald-600 rounded-xl flex items-center justify-center shadow-md shadow-emerald-200 flex-shrink-0">
+            <div className="w-9 h-9 bg-[#0F3D2E] rounded-xl flex items-center justify-center shadow-md shadow-emerald-950/20 flex-shrink-0">
               <ShieldCheck className="w-5 h-5 text-white stroke-[2.5]" />
             </div>
           )}
 
           <div className="min-w-0">
-            <h1 className="text-base sm:text-lg font-bold text-slate-800 tracking-tight truncate">
+            <h1 className="text-base sm:text-lg font-black text-[#121820] tracking-tight truncate">
               {title || t('appName')}
             </h1>
             {subtitle && (
-              <p className="text-xs font-semibold text-emerald-700 tracking-wide truncate">
+              <p className="text-xs font-bold text-[#0F3D2E] tracking-wide truncate">
                 {subtitle}
               </p>
             )}
@@ -70,7 +70,7 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={language === 'en' ? undefined : toggleLanguage}
                 className={`text-[11px] font-bold px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
                   language === 'en'
-                    ? 'bg-white border border-slate-200 text-emerald-700 shadow-xs'
+                    ? 'bg-white border border-slate-200 text-[#0F3D2E] shadow-xs'
                     : 'text-slate-400 hover:text-slate-700'
                 }`}
               >
@@ -80,7 +80,7 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={language === 'hi' ? undefined : toggleLanguage}
                 className={`text-[11px] font-bold px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
                   language === 'hi'
-                    ? 'bg-white border border-slate-200 text-emerald-700 shadow-xs'
+                    ? 'bg-white border border-slate-200 text-[#0F3D2E] shadow-xs'
                     : 'text-slate-400 hover:text-slate-700'
                 }`}
               >

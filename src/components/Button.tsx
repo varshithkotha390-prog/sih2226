@@ -31,15 +31,15 @@ export const Button: React.FC<ButtonProps> = ({
 
   const variantClasses = {
     primary:
-      'bg-emerald-600 hover:bg-emerald-700 text-white active:bg-emerald-800 shadow-sm shadow-emerald-900/10 active:scale-[0.99] transition-all font-bold',
+      'bg-[#C86D2F] hover:bg-[#B85D19] text-white active:bg-[#A35014] shadow-md shadow-orange-950/20 active:scale-[0.98] transition-all font-black tracking-wide',
     secondary:
-      'bg-slate-900 hover:bg-slate-950 text-white active:bg-slate-800 shadow-sm active:scale-[0.99] transition-all font-bold',
+      'bg-[#0F3D2E] hover:bg-[#0B2F23] text-white active:bg-[#08221A] shadow-md shadow-emerald-950/20 active:scale-[0.98] transition-all font-bold tracking-wide',
     accent:
-      'bg-amber-500 hover:bg-amber-600 text-slate-950 active:bg-amber-700 shadow-sm active:scale-[0.99] transition-all font-bold',
+      'bg-[#121820] hover:bg-black text-white active:bg-slate-900 shadow-sm active:scale-[0.98] transition-all font-bold',
     outline:
-      'bg-white hover:bg-slate-50 text-slate-800 border-2 border-slate-300 hover:border-slate-400 active:bg-slate-100 transition-all font-bold shadow-xs',
+      'bg-white hover:bg-slate-50 text-slate-800 border-2 border-slate-300 hover:border-slate-400 active:bg-slate-100 transition-all font-bold shadow-xs active:scale-[0.99]',
     danger:
-      'bg-rose-600 hover:bg-rose-700 text-white active:bg-rose-800 shadow-sm active:scale-[0.99] transition-all font-bold',
+      'bg-rose-600 hover:bg-rose-700 text-white active:bg-rose-800 shadow-sm active:scale-[0.98] transition-all font-bold',
     ghost:
       'bg-transparent hover:bg-slate-100 text-slate-700 active:bg-slate-200 border-none shadow-none font-bold'
   };
@@ -49,7 +49,7 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
-      className={`inline-flex items-center justify-center gap-2.5 select-none text-center cursor-pointer transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-500/25 ${sizeClasses[size]} ${variantClasses[variant]} ${widthClass} ${disabledClass} ${className}`}
+      className={`inline-flex items-center justify-center gap-2.5 select-none text-center cursor-pointer transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#C86D2F]/25 ${sizeClasses[size]} ${variantClasses[variant]} ${widthClass} ${disabledClass} ${className}`}
       disabled={disabled || isLoading}
       {...props}
     >

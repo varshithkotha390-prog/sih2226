@@ -61,7 +61,7 @@ export const SuccessScreen: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-12 flex flex-col justify-between">
+    <div className="min-h-screen bg-[#F6F8F6] pb-12 flex flex-col justify-between">
       <Header title={t('appName')} showLanguageToggle={true} />
 
       <motion.main
@@ -72,7 +72,7 @@ export const SuccessScreen: React.FC = () => {
       >
         {/* Success Icon & Header */}
         <div className="text-center space-y-2">
-          <div className="w-20 h-20 mx-auto rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center border-2 border-emerald-200">
+          <div className="w-20 h-20 mx-auto rounded-full bg-[#0F3D2E]/10 text-[#0F3D2E] flex items-center justify-center border-2 border-[#0F3D2E]/20">
             <CheckCircle className="w-12 h-12 stroke-[2.5]" />
           </div>
 
@@ -85,22 +85,22 @@ export const SuccessScreen: React.FC = () => {
           </p>
         </div>
 
-        {/* Payout Hero Card */}
-        <div className="bg-emerald-800 text-white p-6 rounded-3xl text-center shadow-sm space-y-2">
+        {/* Payout Hero Card - Command Center */}
+        <div className="bg-[#0F3D2E] text-white p-6 rounded-2xl text-center shadow-lg shadow-emerald-950/20 space-y-2 border border-emerald-800/60">
           <span className="text-xs font-black uppercase tracking-wider text-emerald-200 block">
             Total Payout Disbursed
           </span>
-          <h1 className="text-5xl font-black tracking-tight my-1">
+          <h1 className="text-5xl font-mono font-black tracking-tight my-1 text-white">
             {formatINR(payoutAmount)}
           </h1>
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-900/60 text-xs font-bold text-emerald-100 border border-emerald-700">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 text-xs font-bold text-emerald-100 border border-white/20 backdrop-blur-xs">
             <ShieldCheck className="w-4 h-4 text-emerald-300" />
             <span>Instant Bank / UPI Transfer Settled</span>
           </div>
         </div>
 
         {/* Lot Breakdown Details Card */}
-        <Card variant="default" className="p-5 bg-white border-2 border-slate-200 rounded-3xl space-y-3">
+        <Card variant="default" className="p-5 bg-white border border-slate-200/90 rounded-2xl space-y-3 shadow-xs">
           <div className="flex items-center justify-between pb-2 border-b border-slate-100">
             <span className="text-xs font-bold text-slate-500 uppercase">Lot Number</span>
             <span className="text-sm font-mono font-black text-slate-900">{lotId}</span>
@@ -113,14 +113,14 @@ export const SuccessScreen: React.FC = () => {
             </div>
             <div className="text-right">
               <span className="text-xs font-semibold text-slate-500 block">Verified Weight</span>
-              <span className="text-base font-black text-slate-900">{weightKg} kg</span>
+              <span className="text-base font-mono font-black text-slate-900">{weightKg} kg</span>
             </div>
           </div>
 
           <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500">Authorized Recycler:</span>
-            <span className="text-sm font-black text-emerald-800 flex items-center gap-1.5">
-              <Building2 className="w-4 h-4 text-emerald-600" />
+            <span className="text-sm font-black text-[#0F3D2E] flex items-center gap-1.5">
+              <Building2 className="w-4 h-4 text-[#0F3D2E]" />
               {recyclerName}
             </span>
           </div>
@@ -134,7 +134,7 @@ export const SuccessScreen: React.FC = () => {
             size="xl"
             icon={<Receipt className="w-6 h-6" />}
             iconPosition="left"
-            className="shadow-sm py-4 text-base font-black tracking-wide"
+            className="py-4 text-base font-black tracking-wide"
           >
             {t('viewTransactionBtn')}
           </Button>

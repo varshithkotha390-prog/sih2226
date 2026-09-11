@@ -74,7 +74,7 @@ export const RecyclerDashboardScreen: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-24">
+    <div className="min-h-screen bg-[#F6F8F6] pb-24">
       <Header
         title="Recycler Dashboard"
         showBack
@@ -82,71 +82,71 @@ export const RecyclerDashboardScreen: React.FC = () => {
       />
 
       <main className="max-w-xl lg:max-w-3xl mx-auto px-4 py-4 space-y-4">
-        {/* Recycler Facility Hero Banner (Matches EarningsScreen visual style) */}
-        <div className="bg-gradient-to-br from-emerald-800 via-emerald-700 to-teal-800 text-white rounded-3xl p-6 shadow-md relative overflow-hidden">
+        {/* Recycler Facility Hero Banner - Command Center */}
+        <div className="bg-[#0F3D2E] text-white rounded-2xl p-6 shadow-md border border-emerald-800/60 relative overflow-hidden">
           <div className="flex items-start justify-between">
             <div>
-              <span className="text-xs font-black uppercase tracking-wider text-emerald-200 block mb-1">
+              <span className="text-xs font-black uppercase tracking-wider text-emerald-300 block mb-1">
                 Authorized Formal Recycler
               </span>
               <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white mb-2">
                 GreenCycle Facility
               </h1>
               <div className="flex flex-wrap items-center gap-2 text-xs">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 font-bold backdrop-blur-md">
-                  <ShieldCheck className="w-4 h-4 text-emerald-200" />
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 font-mono font-bold backdrop-blur-xs border border-white/20">
+                  <ShieldCheck className="w-4 h-4 text-emerald-300" />
                   <span>TSPCB/E-WASTE/HYD/2023-881</span>
                 </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 font-medium">
-                  <MapPin className="w-3.5 h-3.5 text-emerald-200" />
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 font-medium border border-white/10">
+                  <MapPin className="w-3.5 h-3.5 text-emerald-300" />
                   <span>IDA Cherlapally, Hyderabad</span>
                 </span>
               </div>
             </div>
-            <div className="hidden sm:flex w-12 h-12 rounded-2xl bg-white/15 backdrop-blur-md items-center justify-center border border-white/20">
-              <Building2 className="w-6 h-6 text-emerald-100" />
+            <div className="hidden sm:flex w-12 h-12 rounded-xl bg-white/10 backdrop-blur-xs items-center justify-center border border-white/20">
+              <Building2 className="w-6 h-6 text-emerald-200" />
             </div>
           </div>
         </div>
 
-        {/* 4 Summary Cards Grid (Matches EarningsScreen card styling) */}
+        {/* 4 Summary Cards Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
           {/* 1. Incoming Lots */}
-          <Card padding="sm" className="bg-white text-center border border-slate-200">
+          <Card padding="sm" className="bg-white text-center border border-slate-200/90 rounded-2xl shadow-xs">
             <span className="text-[11px] font-bold text-slate-500 uppercase block">
               Incoming Lots
             </span>
-            <span className="text-base sm:text-lg font-black text-slate-900 block mt-1">
+            <span className="text-xl sm:text-2xl font-mono font-black text-slate-900 block mt-1">
               {incomingLots.length}
             </span>
           </Card>
 
           {/* 2. Pending */}
-          <Card padding="sm" className="bg-white text-center border border-slate-200">
+          <Card padding="sm" className="bg-white text-center border border-slate-200/90 rounded-2xl shadow-xs">
             <span className="text-[11px] font-bold text-slate-500 uppercase block">
               Pending
             </span>
-            <span className="text-base sm:text-lg font-black text-amber-600 block mt-1">
+            <span className="text-xl sm:text-2xl font-mono font-black text-[#D97706] block mt-1">
               {pendingLots.length}
             </span>
           </Card>
 
           {/* 3. Completed */}
-          <Card padding="sm" className="bg-white text-center border border-slate-200">
+          <Card padding="sm" className="bg-white text-center border border-slate-200/90 rounded-2xl shadow-xs">
             <span className="text-[11px] font-bold text-slate-500 uppercase block">
               Completed
             </span>
-            <span className="text-base sm:text-lg font-black text-emerald-700 block mt-1">
+            <span className="text-xl sm:text-2xl font-mono font-black text-[#0F3D2E] block mt-1">
               {completedLots.length}
             </span>
           </Card>
 
           {/* 4. Total Weight (Tons) */}
-          <Card padding="sm" className="bg-white text-center border border-slate-200">
+          <Card padding="sm" className="bg-white text-center border border-slate-200/90 rounded-2xl shadow-xs">
             <span className="text-[11px] font-bold text-slate-500 uppercase block">
               Total Weight (Tons)
             </span>
-            <span className="text-base sm:text-lg font-black text-slate-900 block mt-1">
+            <span className="text-xl sm:text-2xl font-mono font-black text-slate-900 block mt-1">
               {totalWeightTons} T
             </span>
           </Card>
@@ -154,8 +154,8 @@ export const RecyclerDashboardScreen: React.FC = () => {
 
         {/* Acceptance Feedback Banner */}
         {acceptedToast && (
-          <div className="p-4 bg-emerald-50 border-2 border-emerald-400 rounded-2xl flex items-center gap-3 text-emerald-900 text-xs sm:text-sm font-bold shadow-xs">
-            <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0" />
+          <div className="p-4 bg-[#0F3D2E]/10 border-2 border-[#0F3D2E]/30 rounded-2xl flex items-center gap-3 text-[#0F3D2E] text-xs sm:text-sm font-bold shadow-xs">
+            <CheckCircle2 className="w-5 h-5 text-[#0F3D2E] flex-shrink-0" />
             <span>{acceptedToast}</span>
           </div>
         )}
@@ -175,8 +175,8 @@ export const RecyclerDashboardScreen: React.FC = () => {
                   onClick={() => setFilter(tab)}
                   className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
                     filter === tab
-                      ? 'bg-emerald-700 text-white shadow-xs'
-                      : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
+                      ? 'bg-[#0F3D2E] text-white shadow-xs'
+                      : 'bg-white text-slate-600 border border-slate-300 hover:bg-slate-100'
                   }`}
                 >
                   {tab}
@@ -197,7 +197,7 @@ export const RecyclerDashboardScreen: React.FC = () => {
                   <Card
                     key={lot.id}
                     padding="sm"
-                    className="bg-white border border-slate-200 shadow-xs hover:border-slate-300 transition-all"
+                    className="bg-white border border-slate-200/90 rounded-2xl shadow-xs hover:border-slate-300 transition-all"
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                       {/* Left: Lot Details */}
@@ -212,10 +212,10 @@ export const RecyclerDashboardScreen: React.FC = () => {
                           <span
                             className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${
                               isCompleted
-                                ? 'bg-emerald-100 text-emerald-800'
+                                ? 'bg-[#0F3D2E]/10 text-[#0F3D2E]'
                                 : isAccepted
-                                ? 'bg-blue-100 text-blue-800'
-                                : 'bg-amber-100 text-amber-800'
+                                ? 'bg-blue-50 text-blue-800'
+                                : 'bg-amber-50 text-amber-900'
                             }`}
                           >
                             {isCompleted ? 'Completed' : isAccepted ? 'Accepted' : 'Incoming'}
@@ -229,10 +229,10 @@ export const RecyclerDashboardScreen: React.FC = () => {
                           <span>•</span>
                           <span>
                             Offered Price:{' '}
-                            <b className="text-emerald-700 font-extrabold">
+                            <b className="text-[#0F3D2E] font-mono font-extrabold">
                               {formatINR(lot.recyclerPayout)}
                             </b>{' '}
-                            <span className="text-[11px] text-slate-400">
+                            <span className="text-[11px] font-mono text-slate-400">
                               (₹{lot.recyclerOfferPerKg}/kg)
                             </span>
                           </span>
@@ -262,9 +262,9 @@ export const RecyclerDashboardScreen: React.FC = () => {
                             variant="outline"
                             size="sm"
                             onClick={() => navigate(`/lot/${lot.id}?from=recycler`)}
-                            icon={<Scale className="w-3.5 h-3.5 text-emerald-700" />}
+                            icon={<Scale className="w-3.5 h-3.5 text-[#0F3D2E]" />}
                             iconPosition="left"
-                            className="px-3 py-1.5 text-xs font-bold border-emerald-300 text-emerald-800 hover:bg-emerald-50"
+                            className="px-3 py-1.5 text-xs font-bold border-[#0F3D2E]/40 text-[#0F3D2E] hover:bg-[#0F3D2E]/5"
                           >
                             Verify Weight
                           </Button>
@@ -277,7 +277,7 @@ export const RecyclerDashboardScreen: React.FC = () => {
                             onClick={() => handleAccept(lot.id)}
                             icon={<CheckCircle2 className="w-3.5 h-3.5" />}
                             iconPosition="left"
-                            className="px-3 py-1.5 text-xs font-bold bg-emerald-700 hover:bg-emerald-800 text-white shadow-xs"
+                            className="px-3 py-1.5 text-xs font-black text-white shadow-sm"
                           >
                             Accept
                           </Button>
