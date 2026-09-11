@@ -1,32 +1,52 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { ArrowRight, Sparkles, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Sparkles, ShieldCheck, AlertTriangle } from 'lucide-react';
 import { Header } from '../components/Header';
 import { Button } from '../components/Button';
 import { ProgressIndicator } from '../components/ProgressIndicator';
 import { PriceCard } from '../components/PriceCard';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useSellFlow } from '../context/SellFlowContext';
+import { mockMaterials } from '../services/mockData';
+import { checkPriceAnomaly } from '../services/recyclingService';
 
 export const PriceScreen: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { t } = useLanguage();
   const { state } = useSellFlow();
 
   const weightKg = state.weightKg || 15;
-  const materialName = state.materialName || 'PCB';
+  const materialKey = state.materialId || state.materialName || 'PCB';
 
-  // Benchmark values
-  const minPrice = 110;
-  const maxPrice = 145;
-  const avgPrice = 125;
-  const estimatedValue = Math.round(weightKg * avgPrice); // ₹1,875 for 15kg
+  // Benchmark values dynamically matched from mockData / today's verified rates
+  const material =
+    mockMaterials.find(
+      (m) =>
+        m.id === state.materialId ||
+        m.name.toLowerCase().includes(materialKey.toLowerCase()) ||
+        materialKey.toLowerCase().includes(m.name.split(' ')[0].toLowerCase())
+    ) || mockMaterials[0];
 
-  // GreenCycle authorized offer
-  const bestOfferRate = 140;
-  const bestOfferPayout = Math.round(weightKg * bestOfferRate); // ₹2,100 for 15kg
-  const bestOfferBonus = Math.max(0, bestOfferPayout - estimatedValue); // +₹225
+  const materialName = material.name.split(' (')[0];
+  const minPrice = material.minPrice;
+  const maxPrice = material.maxPrice;
+  const avgPrice = material.avgPricePerKg;
+  const estimatedValue = Math.round(weightKg * avgPrice);
+
+  // Recycler offer rate (supports query param ?offer=... for test overrides or state)
+  const queryOffer = searchParams.get('offer') || searchParams.get('rate');
+  const bestOfferRate = queryOffer
+    ? Number(queryOffer)
+    : (state.selectedRecycler?.offerPerKg ?? (material.id === 'mat_pcb' ? 140 : Math.round(avgPrice * 1.1)));
+
+  const bestOfferPayout = Math.round(weightKg * bestOfferRate);
+  const bestOfferBonus = Math.max(0, bestOfferPayout - estimatedValue);
+
+  // Anomaly check: flag if recycler offer or estimated price is below 60% of normal rate
+  const anomaly = checkPriceAnomaly(material.id, bestOfferRate);
+  const isAnomaly = anomaly.isAnomaly || (estimatedValue / weightKg) < (avgPrice * 0.6);
 
   return (
     <div className="min-h-screen bg-slate-50 pb-28">
@@ -41,6 +61,21 @@ export const PriceScreen: React.FC = () => {
         {/* Step indicator: Stage 2 - Estimate */}
         <ProgressIndicator currentStage={2} />
 
+        {/* Anomaly Detection Warning Banner */}
+        {isAnomaly && (
+          <div className="p-4 bg-amber-50 border-2 border-amber-300 rounded-2xl flex items-start gap-3 shadow-xs">
+            <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="text-sm font-bold text-amber-900">
+                ⚠️ Unusual price detected — this offer is below the fair market range for {materialName}.
+              </p>
+              <p className="text-xs text-amber-800 mt-1 font-medium">
+                Fair market rate is ₹{avgPrice}/kg. Offers below ₹{Math.round(avgPrice * 0.6)}/kg (60% threshold) are flagged for collector protection.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Pricing Breakdown & Better Offer Card */}
         <PriceCard
           materialName={materialName}
@@ -52,7 +87,7 @@ export const PriceScreen: React.FC = () => {
           bestOfferRate={bestOfferRate}
           bestOfferPayout={bestOfferPayout}
           bestOfferBonus={bestOfferBonus}
-          recommendedRecyclerName="GreenCycle"
+          recommendedRecyclerName={state.selectedRecycler?.name || 'GreenCycle'}
         />
 
         {/* CPCB Certification Guarantee note */}

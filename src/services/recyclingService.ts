@@ -21,7 +21,18 @@ function getStoredLots(): Record<string, DigitalLot> {
   const stored = localStorage.getItem(LOTS_STORAGE_KEY);
   if (stored) {
     try {
-      return JSON.parse(stored);
+      const parsed = JSON.parse(stored);
+      let updated = false;
+      for (const [key, lot] of Object.entries(initialLots)) {
+        if (!parsed[key]) {
+          parsed[key] = lot;
+          updated = true;
+        }
+      }
+      if (updated) {
+        localStorage.setItem(LOTS_STORAGE_KEY, JSON.stringify(parsed));
+      }
+      return parsed;
     } catch {
       return { ...initialLots };
     }
@@ -38,7 +49,14 @@ function getStoredTransactions(): Transaction[] {
   const stored = localStorage.getItem(TRANSACTIONS_STORAGE_KEY);
   if (stored) {
     try {
-      return JSON.parse(stored);
+      const parsed: Transaction[] = JSON.parse(stored);
+      const lots = getStoredLots();
+      return parsed.filter((tx) => {
+        if (tx.lotId === 'KC-00127' && lots['KC-00127']?.status !== 'completed') {
+          return false;
+        }
+        return true;
+      });
     } catch {
       return [...initialTransactions];
     }
@@ -190,45 +208,108 @@ export async function getLot(id: string): Promise<DigitalLot | null> {
   });
 }
 
-// 8. confirmHandover(lotId)
-export async function confirmHandover(lotId: string): Promise<DigitalLot> {
+// 7b. getAllLots()
+export async function getAllLots(): Promise<DigitalLot[]> {
+  return new Promise((resolve) => {
+    const lots = getStoredLots();
+    const list = Object.values(lots);
+    setTimeout(() => resolve(list), 100);
+  });
+}
+
+// 7c. acceptLot(id)
+export async function acceptLot(id: string): Promise<DigitalLot | null> {
+  return new Promise((resolve) => {
+    const lots = getStoredLots();
+    const lot = lots[id];
+    if (lot) {
+      lot.verificationSteps.recyclerApproved = true;
+      lots[id] = lot;
+      saveStoredLots(lots);
+      resolve({ ...lot });
+    } else {
+      resolve(null);
+    }
+  });
+}
+
+// 8. confirmHandover(lotId, verifiedWeight)
+export async function confirmHandover(
+  lotId: string,
+  verifiedWeight?: number
+): Promise<DigitalLot> {
   return new Promise((resolve) => {
     const lots = getStoredLots();
     const lot = lots[lotId] || lots['KC-00127'];
+    if (!lot) {
+      throw new Error(`Lot ${lotId} not found`);
+    }
+
+    if (verifiedWeight !== undefined && !isNaN(verifiedWeight) && verifiedWeight > 0) {
+      lot.weightKg = Number(verifiedWeight.toFixed(2));
+      lot.recyclerPayout = Math.round(lot.weightKg * lot.recyclerOfferPerKg);
+      lot.marketEstimate = Math.round(lot.weightKg * lot.marketRatePerKg);
+      lot.bonusAmount = Math.max(0, lot.recyclerPayout - lot.marketEstimate);
+      lot.verificationSteps.weightRecorded = true;
+    }
 
     lot.status = 'completed';
-    lot.completedAt = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ', Today';
+    lot.completedAt =
+      new Date().toLocaleDateString('en-IN', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      }) +
+      ' ' +
+      new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     lot.verificationSteps.recyclerApproved = true;
+    lot.qrPayload = `KABADICONNECT:LOT:${lot.id}:COMPLETED:AMT:${lot.recyclerPayout}:WT:${lot.weightKg}KG`;
     lots[lot.id] = lot;
     saveStoredLots(lots);
 
-    // Add to completed transactions if not already present
+    // Add to completed transactions if not already present, or update existing
     const txs = getStoredTransactions();
-    const alreadyExists = txs.some((t) => t.lotId === lot.id);
-    if (!alreadyExists) {
-      const newTx: Transaction = {
-        id: `tx_${Date.now()}`,
-        lotId: lot.id,
-        material: lot.materialName,
-        materialHi: lot.materialName === 'PCB' ? 'पीसीबी (सर्किट बोर्ड)' : lot.materialName,
-        weightKg: lot.weightKg,
-        amount: lot.recyclerPayout,
-        recyclerName: lot.recyclerName,
-        date: new Date().toISOString().split('T')[0],
-        status: 'Completed'
-      };
-      txs.unshift(newTx);
-      saveStoredTransactions(txs);
-    }
+    const existingIdx = txs.findIndex((t) => t.lotId === lot.id);
+    const updatedTx: Transaction = {
+      id: existingIdx >= 0 ? txs[existingIdx].id : `tx_${Date.now()}`,
+      lotId: lot.id,
+      material: lot.materialName,
+      materialHi:
+        lot.materialName === 'PCB'
+          ? 'पीसीबी (सर्किट बोर्ड)'
+          : lot.materialName === 'Copper Cable'
+          ? 'कॉपर केबल'
+          : lot.materialName.includes('Battery')
+          ? 'बैटरी'
+          : lot.materialName.includes('LCD')
+          ? 'एलसीडी स्क्रीन'
+          : lot.materialName,
+      weightKg: lot.weightKg,
+      amount: lot.recyclerPayout,
+      recyclerName: lot.recyclerName,
+      date: new Date().toISOString().split('T')[0],
+      status: 'Completed'
+    };
 
-    setTimeout(() => resolve(lot), 300);
+    if (existingIdx >= 0) {
+      txs[existingIdx] = updatedTx;
+    } else {
+      txs.unshift(updatedTx);
+    }
+    saveStoredTransactions(txs);
+
+    setTimeout(() => resolve({ ...lot }), 250);
   });
 }
 
 // 9. getTransactions()
 export async function getTransactions(): Promise<Transaction[]> {
   return new Promise((resolve) => {
-    setTimeout(() => resolve(getStoredTransactions()), 100);
+    const txs = getStoredTransactions();
+    const sorted = [...txs].sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+    setTimeout(() => resolve(sorted), 100);
   });
 }
 
@@ -236,17 +317,44 @@ export async function getTransactions(): Promise<Transaction[]> {
 export async function getEarnings(): Promise<EarningsSummary> {
   return new Promise((resolve) => {
     const txs = getStoredTransactions();
-    const lots = getStoredLots();
-    const hasActiveCompleted = lots['KC-00127']?.status === 'completed';
+    const completedTxs = txs.filter((t) => t.status.toLowerCase() === 'completed');
 
-    // Base mock specs:
-    // If KC-00127 is completed, total is 8450 + 2100 = 10,550
-    // Otherwise 8,450 base
-    const baseEarnings = 8450;
-    const totalEarnings = hasActiveCompleted ? baseEarnings + 2100 : baseEarnings;
-    const thisMonth = hasActiveCompleted ? 6250 + 2100 : 6250;
-    const completedTransactions = hasActiveCompleted ? 13 : 12;
-    const totalWasteKg = hasActiveCompleted ? 68.5 + 15 : 68.5;
+    // Mathematically computed from completed transactions
+    const totalEarnings = completedTxs.reduce((sum, t) => sum + t.amount, 0);
+    const completedTransactions = completedTxs.length;
+    const totalWasteKg = Number(
+      completedTxs.reduce((sum, t) => sum + t.weightKg, 0).toFixed(1)
+    );
+
+    // Calculate "This Month" based on completed transactions in the current calendar month
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth();
+
+    const currentMonthTxs = completedTxs.filter((t) => {
+      const d = new Date(t.date);
+      return d.getFullYear() === currentYear && d.getMonth() === currentMonth;
+    });
+
+    const thisMonth =
+      currentMonthTxs.length > 0
+        ? currentMonthTxs.reduce((sum, t) => sum + t.amount, 0)
+        : completedTxs.length > 0
+        ? completedTxs
+            .filter((t) => {
+              const latestDate = new Date(completedTxs[0].date);
+              const d = new Date(t.date);
+              return (
+                d.getFullYear() === latestDate.getFullYear() &&
+                d.getMonth() === latestDate.getMonth()
+              );
+            })
+            .reduce((sum, t) => sum + t.amount, 0)
+        : 0;
+
+    const sortedTxs = [...txs].sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
 
     setTimeout(() => {
       resolve({
@@ -254,7 +362,7 @@ export async function getEarnings(): Promise<EarningsSummary> {
         thisMonth,
         completedTransactions,
         totalWasteKg,
-        recentTransactions: txs
+        recentTransactions: sortedTxs
       });
     }, 100);
   });
@@ -266,4 +374,43 @@ export function resetDemoState() {
   localStorage.removeItem(TRANSACTIONS_STORAGE_KEY);
   localStorage.setItem(LOTS_STORAGE_KEY, JSON.stringify(initialLots));
   localStorage.setItem(TRANSACTIONS_STORAGE_KEY, JSON.stringify(initialTransactions));
+}
+
+export interface PriceAnomalyResult {
+  isAnomaly: boolean;
+  normalRate: number;
+  thresholdRate: number;
+  offerOrEstimatedRate: number;
+  materialName: string;
+}
+
+/**
+ * Anomaly Detection: Checks if a recycler's offer or estimated price is below 60%
+ * of the standard normal rate for that material type.
+ */
+export function checkPriceAnomaly(
+  materialIdOrName: string,
+  offerOrEstimatedRate: number
+): PriceAnomalyResult {
+  const normalized = (materialIdOrName || 'mat_pcb').toLowerCase();
+  const material =
+    mockMaterials.find(
+      (m) =>
+        m.id.toLowerCase() === normalized ||
+        m.name.toLowerCase().includes(normalized) ||
+        normalized.includes(m.name.split(' ')[0].toLowerCase())
+    ) || mockMaterials[0];
+
+  const normalRate = material.avgPricePerKg;
+  const thresholdRate = normalRate * 0.6; // 60% threshold
+  const isAnomaly = offerOrEstimatedRate < thresholdRate;
+  const materialName = material.name.split(' (')[0];
+
+  return {
+    isAnomaly,
+    normalRate,
+    thresholdRate,
+    offerOrEstimatedRate,
+    materialName
+  };
 }

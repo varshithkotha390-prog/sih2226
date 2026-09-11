@@ -115,7 +115,7 @@ export const PriceCard: React.FC<PriceCardProps> = ({
                 {formatINR(bestOfferPayout)}
               </span>
             </div>
-            {bestOfferBonus && (
+            {Boolean(bestOfferBonus && bestOfferBonus > 0) && (
               <div className="text-right bg-white px-3 py-1.5 rounded-xl border border-emerald-300 shadow-xs">
                 <span className="text-xs font-black text-emerald-700 flex items-center gap-1 justify-end">
                   <TrendingUp className="w-3.5 h-3.5" />

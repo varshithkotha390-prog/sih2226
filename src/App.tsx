@@ -21,6 +21,8 @@ import { TransactionsScreen } from './screens/TransactionsScreen';
 import { EarningsScreen } from './screens/EarningsScreen';
 import { SafetyScreen } from './screens/SafetyScreen';
 import { ProfileScreen } from './screens/ProfileScreen';
+import { RecyclerDashboardScreen } from './screens/RecyclerDashboardScreen';
+import { AdminDashboardScreen } from './screens/AdminDashboardScreen';
 
 export default function App() {
   return (
@@ -53,6 +55,8 @@ export default function App() {
                 <Route path="/earnings" element={<EarningsScreen />} />
                 <Route path="/safety" element={<SafetyScreen />} />
                 <Route path="/profile" element={<ProfileScreen />} />
+                <Route path="/recycler-dashboard" element={<RecyclerDashboardScreen />} />
+                <Route path="/admin-dashboard" element={<AdminDashboardScreen />} />
 
                 {/* Catch-all fallback to home */}
                 <Route path="*" element={<Navigate to="/home" replace />} />

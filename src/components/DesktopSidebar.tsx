@@ -13,7 +13,9 @@ export const DesktopSidebar: React.FC = () => {
     { to: '/sell', icon: '♻️', labelEn: 'Sell / कचरा बेचें', labelHi: 'कचरा बेचें / Sell' },
     { to: '/earnings', icon: '💰', labelEn: 'Earnings / कमाई', labelHi: 'कमाई / Earnings' },
     { to: '/safety', icon: '🛡️', labelEn: 'Safety / सुरक्षा', labelHi: 'सुरक्षा / Safety' },
-    { to: '/transactions', icon: '📋', labelEn: 'History / लेन-देन', labelHi: 'लेन-देन / History' }
+    { to: '/transactions', icon: '📋', labelEn: 'History / लेन-देन', labelHi: 'लेन-देन / History' },
+    { to: '/recycler-dashboard', icon: '🏭', labelEn: 'Recycler / रीसाइक्लर', labelHi: 'रीसाइक्लर / Recycler' },
+    { to: '/admin-dashboard', icon: '📊', labelEn: 'Admin / व्यवस्थापक', labelHi: 'व्यवस्थापक / Admin' }
   ];
 
   return (

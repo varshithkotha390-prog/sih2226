@@ -34,10 +34,10 @@ export const EarningsScreen: React.FC = () => {
     });
   }, []);
 
-  const totalEarnings = earnings ? earnings.totalEarnings : 8450;
-  const thisMonth = earnings ? earnings.thisMonth : 6250;
-  const completedTransactions = earnings ? earnings.completedTransactions : 12;
-  const totalWasteKg = earnings ? earnings.totalWasteKg : 68.5;
+  const totalEarnings = earnings?.totalEarnings ?? 0;
+  const thisMonth = earnings?.thisMonth ?? 0;
+  const completedTransactions = earnings?.completedTransactions ?? 0;
+  const totalWasteKg = earnings?.totalWasteKg ?? 0;
 
   return (
     <div className="min-h-screen bg-slate-50 pb-24">
@@ -130,41 +130,27 @@ export const EarningsScreen: React.FC = () => {
           </div>
 
           <div className="space-y-2.5">
-            {/* KC-00127 */}
-            <Card padding="sm" className="bg-white flex items-center justify-between border border-slate-200">
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-xs font-bold text-slate-500">KC-00127</span>
-                  <span className="text-sm font-extrabold text-slate-900">PCB (15 kg)</span>
+            {(earnings?.recentTransactions?.filter(
+              (tx) => tx.status.toLowerCase() === 'completed'
+            ).slice(0, 3) || []).map((tx) => (
+              <Card
+                key={tx.id}
+                padding="sm"
+                className="bg-white flex items-center justify-between border border-slate-200 cursor-pointer hover:bg-slate-50 transition-colors"
+                onClick={() => navigate(`/lot/${tx.lotId}`)}
+              >
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-xs font-bold text-slate-500">{tx.lotId}</span>
+                    <span className="text-sm font-extrabold text-slate-900">
+                      {tx.material} ({tx.weightKg} kg)
+                    </span>
+                  </div>
+                  <span className="text-xs text-slate-400">{tx.recyclerName} • {tx.status}</span>
                 </div>
-                <span className="text-xs text-slate-400">GreenCycle • Formal Lot</span>
-              </div>
-              <span className="text-base font-black text-emerald-700">+₹2,100</span>
-            </Card>
-
-            {/* KC-00126 */}
-            <Card padding="sm" className="bg-white flex items-center justify-between border border-slate-200">
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-xs font-bold text-slate-500">KC-00126</span>
-                  <span className="text-sm font-extrabold text-slate-900">PCB (14 kg)</span>
-                </div>
-                <span className="text-xs text-slate-400">GreenCycle • Completed</span>
-              </div>
-              <span className="text-base font-black text-emerald-700">+₹1,950</span>
-            </Card>
-
-            {/* KC-00125 */}
-            <Card padding="sm" className="bg-white flex items-center justify-between border border-slate-200">
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-xs font-bold text-slate-500">KC-00125</span>
-                  <span className="text-sm font-extrabold text-slate-900">Copper Cable (8 kg)</span>
-                </div>
-                <span className="text-xs text-slate-400">EcoRecover • Completed</span>
-              </div>
-              <span className="text-base font-black text-emerald-700">+₹4,000</span>
-            </Card>
+                <span className="text-base font-black text-emerald-700">+{formatINR(tx.amount)}</span>
+              </Card>
+            ))}
           </div>
         </div>
 

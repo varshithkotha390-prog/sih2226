@@ -9,7 +9,8 @@ import {
   LogOut,
   Award,
   ChevronRight,
-  ExternalLink
+  ExternalLink,
+  Building2
 } from 'lucide-react';
 import { Header } from '../components/Header';
 import { Card } from '../components/Card';
@@ -104,6 +105,30 @@ export const ProfileScreen: React.FC = () => {
           <p className="text-xs text-slate-500">
             Currently active: {language === 'en' ? 'English (Standard)' : 'हिन्दी (देवनागरी)'}
           </p>
+        </Card>
+
+        {/* Portals & Dashboards Card */}
+        <Card variant="default" className="p-4 bg-white space-y-2.5">
+          <div className="flex items-center gap-2 pb-2 border-b border-slate-100">
+            <Building2 className="w-5 h-5 text-emerald-600" />
+            <span className="text-sm font-bold text-slate-900">Platform Portals</span>
+          </div>
+          <div className="grid grid-cols-2 gap-2 pt-1">
+            <button
+              onClick={() => navigate('/recycler-dashboard')}
+              className="p-3 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-left transition-all cursor-pointer"
+            >
+              <span className="text-xs font-bold text-slate-800 block">🏭 Recycler Dashboard</span>
+              <span className="text-[10px] text-slate-500 block mt-0.5">Incoming & verified lots</span>
+            </button>
+            <button
+              onClick={() => navigate('/admin-dashboard')}
+              className="p-3 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-left transition-all cursor-pointer"
+            >
+              <span className="text-xs font-bold text-slate-800 block">📊 Admin Dashboard</span>
+              <span className="text-[10px] text-slate-500 block mt-0.5">CPCB metrics & totals</span>
+            </button>
+          </div>
         </Card>
 
         {/* SIH Hackathon Meta */}

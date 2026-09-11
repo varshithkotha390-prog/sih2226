@@ -34,7 +34,7 @@ export const HomeScreen: React.FC = () => {
     getMaterials().then(setMaterials);
   }, []);
 
-  const totalEarnings = earnings ? earnings.totalEarnings : 8450;
+  const totalEarnings = earnings?.totalEarnings ?? 0;
 
   return (
     <div className="min-h-screen bg-slate-50 pb-24">
@@ -109,7 +109,7 @@ export const HomeScreen: React.FC = () => {
                     <div>
                       <p className="text-xs font-bold text-slate-400">LOT ID: KC-00127</p>
                       <p className="text-lg font-bold text-slate-800 group-hover:text-emerald-800 transition-colors">
-                        Circuit Boards (15 kg)
+                        PCB (15 kg)
                       </p>
                       <p className="text-emerald-600 font-black text-2xl mt-0.5">₹2,100</p>
                     </div>
@@ -198,39 +198,48 @@ export const HomeScreen: React.FC = () => {
               </div>
 
               <div className="space-y-3">
-                {/* Activity 1 */}
-                <div
-                  onClick={() => navigate('/lot/KC-00126')}
-                  className="flex items-center justify-between p-4 bg-slate-50 hover:bg-slate-100/80 rounded-2xl border border-slate-100 transition-colors cursor-pointer"
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center font-bold">
-                      ✓
+                {(earnings?.recentTransactions && earnings.recentTransactions.length > 0
+                  ? earnings.recentTransactions.slice(0, 3)
+                  : [
+                      {
+                        id: 'tx_001',
+                        lotId: 'KC-00126',
+                        material: 'PCB',
+                        date: '2026-03-02',
+                        amount: 1950,
+                        status: 'Completed'
+                      },
+                      {
+                        id: 'tx_002',
+                        lotId: 'KC-00125',
+                        material: 'Copper Cable',
+                        date: '2026-02-27',
+                        amount: 4000,
+                        status: 'Completed'
+                      }
+                    ]
+                ).map((tx) => (
+                  <div
+                    key={tx.id}
+                    onClick={() => navigate(`/lot/${tx.lotId}`)}
+                    className="flex items-center justify-between p-4 bg-slate-50 hover:bg-slate-100/80 rounded-2xl border border-slate-100 transition-colors cursor-pointer"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center font-bold">
+                        ✓
+                      </div>
+                      <div>
+                        <p className="text-sm font-bold text-slate-800">
+                          {tx.lotId} | {tx.material}
+                        </p>
+                        <p className="text-xs text-slate-500">
+                          {tx.status} • {tx.date}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-sm font-bold text-slate-800">KC-00126 | PCB</p>
-                      <p className="text-xs text-slate-500">Completed • 24 Oct 2025</p>
-                    </div>
+                    <span className="font-bold text-slate-800 text-base">+{formatINR(tx.amount)}</span>
                   </div>
-                  <span className="font-bold text-slate-800 text-base">+₹1,950</span>
-                </div>
-
-                {/* Activity 2 */}
-                <div
-                  onClick={() => navigate('/lot/KC-00125')}
-                  className="flex items-center justify-between p-4 bg-slate-50 hover:bg-slate-100/80 rounded-2xl border border-slate-100 transition-colors cursor-pointer"
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold">
-                      ⚡
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-slate-800">KC-00125 | Copper Cable</p>
-                      <p className="text-xs text-slate-500">Completed • 22 Oct 2025</p>
-                    </div>
-                  </div>
-                  <span className="font-bold text-slate-800 text-base">+₹4,000</span>
-                </div>
+                ))}
               </div>
             </div>
           </div>

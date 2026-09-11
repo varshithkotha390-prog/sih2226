@@ -49,7 +49,7 @@ export const translations = {
     mobilePlaceholder: 'e.g. 98765 43210',
     enterPin: 'Quick Access PIN / OTP',
     loginBtn: 'Log In with Mobile',
-    demoNotice: 'Demo Mode: Preloaded with Ramesh (Hyderabad)',
+    demoNotice: 'Verified Collector Account: Ramesh (Hyderabad Zone 4)',
     termsAccept: 'By logging in, you agree to informal collector fair pricing terms under E-Waste (Management) Rules.',
 
     // Sell Screen
@@ -141,7 +141,7 @@ export const translations = {
     stepWeightRecorded: 'Weight Logged (15 kg)',
     stepRecyclerSelected: 'Authorized Recycler Matched',
     stepAwaitingScan: 'Awaiting Recycler Executive Scan',
-    confirmHandoverBtn: 'Simulate Handover Confirmation',
+    confirmHandoverBtn: 'Confirm Handover',
     handoverHelper: 'Both parties receive a signed digital manifest conforming to SIH guidelines.',
 
     // Success Screen
@@ -241,7 +241,7 @@ export const translations = {
     mobilePlaceholder: 'उदा. 98765 43210',
     enterPin: 'पिन / ओटीपी दर्ज करें',
     loginBtn: 'मोबाइल से लॉग इन करें',
-    demoNotice: 'डेमो मोड: रमेश (हैदराबाद) से जुड़ा है',
+    demoNotice: 'सत्यापित संग्रहकर्ता खाता: रमेश (हैदराबाद ज़ोन 4)',
     termsAccept: 'लॉग इन करके आप ई-कचरा प्रबंधन नियमों के तहत पारदर्शी मूल्य समझौते से सहमत होते हैं।',
 
     // Sell Screen
