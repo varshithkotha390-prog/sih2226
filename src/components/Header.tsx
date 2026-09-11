@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Globe2, ShieldCheck } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
+import { ThemeToggle } from './ThemeToggle';
 
 export interface HeaderProps {
   title?: string;
@@ -61,8 +62,11 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center gap-3 flex-shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           {rightAction}
+
+          {/* Laptop & Mobile Quick Theme Mode Switcher */}
+          <ThemeToggle variant="compact" />
 
           {showLanguageToggle && (
             <div className="flex items-center gap-1 bg-slate-50 p-1 rounded-xl border border-slate-200">

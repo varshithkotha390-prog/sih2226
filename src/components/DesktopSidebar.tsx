@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { RefreshCw, ShieldCheck } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { mockUserProfile } from '../services/mockData';
+import { ThemeToggle } from './ThemeToggle';
 
 export const DesktopSidebar: React.FC = () => {
   const { t, language, toggleLanguage } = useLanguage();
@@ -55,28 +56,31 @@ export const DesktopSidebar: React.FC = () => {
         ))}
       </nav>
 
-      {/* Collector Profile & Language Switcher footer */}
-      <div className="p-6 border-t border-slate-100 bg-slate-50">
+      {/* Collector Profile, Laptop Display Mode & Language Switcher footer */}
+      <div className="p-4 sm:p-5 border-t border-slate-100 bg-slate-50 space-y-3.5">
         <div
           onClick={() => navigate('/profile')}
-          className="flex items-center gap-3 mb-3 cursor-pointer hover:opacity-90 transition-opacity"
+          className="flex items-center gap-3 cursor-pointer hover:opacity-90 transition-opacity"
         >
-          <div className="w-11 h-11 rounded-full bg-slate-300 border-2 border-white overflow-hidden shadow-sm flex-shrink-0">
-            <div className="w-full h-full bg-emerald-950/10 flex items-center justify-center text-[#0F3D2E] font-black text-base font-mono">
+          <div className="w-10 h-10 rounded-full bg-slate-300 border-2 border-white overflow-hidden shadow-sm flex-shrink-0">
+            <div className="w-full h-full bg-emerald-950/10 flex items-center justify-center text-[#0F3D2E] font-black text-sm font-mono">
               R
             </div>
           </div>
           <div className="min-w-0">
-            <p className="text-sm font-bold text-slate-800 truncate">Namaste, Ramesh 👋</p>
-            <p className="text-xs text-slate-500 truncate">Hyderabad, TS</p>
+            <p className="text-xs font-bold text-slate-800 truncate">Namaste, Ramesh 👋</p>
+            <p className="text-[11px] text-slate-500 truncate">Hyderabad, TS</p>
           </div>
         </div>
 
+        {/* Laptop Display Mode: Light | Normal | Dark */}
+        <ThemeToggle variant="expanded" />
+
         {/* Clean Minimalism Language Selector */}
-        <div className="flex gap-2 mt-3 pt-3 border-t border-slate-200/60">
+        <div className="flex gap-2 pt-2 border-t border-slate-200/60">
           <button
             onClick={language === 'en' ? undefined : toggleLanguage}
-            className={`text-[10px] font-bold px-2.5 py-1 rounded transition-all cursor-pointer ${
+            className={`flex-1 text-[10px] font-bold px-2 py-1 rounded transition-all cursor-pointer text-center ${
               language === 'en'
                 ? 'bg-white border border-slate-200 text-[#0F3D2E] shadow-xs'
                 : 'bg-slate-100 text-slate-400 hover:text-slate-600'
@@ -86,7 +90,7 @@ export const DesktopSidebar: React.FC = () => {
           </button>
           <button
             onClick={language === 'hi' ? undefined : toggleLanguage}
-            className={`text-[10px] font-bold px-2.5 py-1 rounded transition-all cursor-pointer ${
+            className={`flex-1 text-[10px] font-bold px-2 py-1 rounded transition-all cursor-pointer text-center ${
               language === 'hi'
                 ? 'bg-white border border-slate-200 text-[#0F3D2E] shadow-xs'
                 : 'bg-slate-100 text-slate-400 hover:text-slate-600'

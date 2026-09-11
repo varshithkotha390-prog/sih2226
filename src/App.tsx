@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { ThemeProvider } from './context/ThemeContext';
 import { LanguageProvider } from './i18n/LanguageContext';
 import { SellFlowProvider } from './context/SellFlowContext';
 import { BottomNavigation } from './components/BottomNavigation';
@@ -26,9 +27,10 @@ import { AdminDashboardScreen } from './screens/AdminDashboardScreen';
 
 export default function App() {
   return (
-    <LanguageProvider>
-      <SellFlowProvider>
-        <Router>
+    <ThemeProvider>
+      <LanguageProvider>
+        <SellFlowProvider>
+          <Router>
           <div className="min-h-screen bg-slate-50 text-slate-900 font-sans flex flex-col lg:flex-row selection:bg-emerald-500 selection:text-white">
             {/* Clean Minimalism Desktop Sidebar */}
             <DesktopSidebar />
@@ -67,8 +69,9 @@ export default function App() {
             <BottomNavigation />
           </div>
         </div>
-      </Router>
+        </Router>
       </SellFlowProvider>
     </LanguageProvider>
+  </ThemeProvider>
   );
 }

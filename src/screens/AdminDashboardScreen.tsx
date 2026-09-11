@@ -22,6 +22,7 @@ import { Header } from '../components/Header';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { Badge } from '../components/Badge';
+import { ThemeToggle } from '../components/ThemeToggle';
 import { useLanguage } from '../i18n/LanguageContext';
 import { formatINR } from '../utils/formatters';
 
@@ -134,7 +135,8 @@ export const AdminDashboardScreen: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <ThemeToggle variant="compact" />
           <Badge variant="emerald" size="sm" icon={<ShieldCheck className="w-3.5 h-3.5" />}>
             CPCB Central Node Active
           </Badge>

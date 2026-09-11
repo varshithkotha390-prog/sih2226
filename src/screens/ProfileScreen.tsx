@@ -16,6 +16,7 @@ import { Header } from '../components/Header';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { Badge } from '../components/Badge';
+import { ThemeToggle } from '../components/ThemeToggle';
 import { useLanguage } from '../i18n/LanguageContext';
 import { mockUserProfile } from '../services/mockData';
 
@@ -104,6 +105,14 @@ export const ProfileScreen: React.FC = () => {
           </div>
           <p className="text-xs text-slate-500">
             Currently active: {language === 'en' ? 'English (Standard)' : 'हिन्दी (देवनागरी)'}
+          </p>
+        </Card>
+
+        {/* Display Mode / Theme Card */}
+        <Card variant="default" className="p-4 bg-white border border-slate-200/90 rounded-2xl space-y-3 shadow-sm">
+          <ThemeToggle variant="expanded" />
+          <p className="text-xs text-slate-500">
+            Switch between Light (daylight/outdoor), Normal (SIH brand mineral), and Dark (low-light technical charcoal) modes.
           </p>
         </Card>
 

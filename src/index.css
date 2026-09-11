@@ -1,1 +1,185 @@
 @import "tailwindcss";
+
+/* ----------------------------------------------------
+   KABADICONNECT THEME SYSTEM (Normal, Light, Dark)
+   ---------------------------------------------------- */
+
+/* 1. NORMAL MODE (Default SIH Mineral Theme) */
+:root,
+[data-theme="normal"] {
+  --theme-canvas: #F6F8F6;
+  --theme-surface: #FFFFFF;
+  --theme-surface-subtle: #F1F5F9;
+  --theme-border: #E2E8F0;
+  --theme-text-primary: #121820;
+  --theme-text-secondary: #475569;
+  --theme-text-muted: #64748B;
+  color-scheme: light;
+}
+
+/* 2. LIGHT MODE (High-Key Bright Day Mode for Laptop & Outdoor) */
+[data-theme="light"] {
+  --theme-canvas: #FFFFFF;
+  --theme-surface: #FFFFFF;
+  --theme-surface-subtle: #F8FAFC;
+  --theme-border: #CBD5E1;
+  --theme-text-primary: #0A0F1D;
+  --theme-text-secondary: #334155;
+  --theme-text-muted: #64748B;
+  color-scheme: light;
+}
+
+[data-theme="light"] .bg-\[\#F6F8F6\],
+[data-theme="light"] .bg-slate-50 {
+  background-color: #FFFFFF !important;
+}
+
+[data-theme="light"] .bg-white {
+  background-color: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+}
+
+[data-theme="light"] .text-\[\#121820\],
+[data-theme="light"] .text-slate-900 {
+  color: #0A0F1D !important;
+}
+
+/* 3. DARK MODE (OLED Technical Charcoal Night Mode for Laptop) */
+[data-theme="dark"] {
+  --theme-canvas: #0B1015;
+  --theme-surface: #141C24;
+  --theme-surface-subtle: #1C2734;
+  --theme-border: #263546;
+  --theme-text-primary: #F8FAFC;
+  --theme-text-secondary: #CBD5E1;
+  --theme-text-muted: #94A3B8;
+  color-scheme: dark;
+}
+
+[data-theme="dark"] body,
+[data-theme="dark"] #root,
+[data-theme="dark"] .min-h-screen,
+[data-theme="dark"] .bg-\[\#F6F8F6\],
+[data-theme="dark"] .bg-slate-50 {
+  background-color: #0B1015 !important;
+  color: #F8FAFC !important;
+}
+
+/* Dark Surfaces & Cards */
+[data-theme="dark"] .bg-white {
+  background-color: #141C24 !important;
+  color: #F8FAFC !important;
+}
+
+[data-theme="dark"] .bg-white\/95 {
+  background-color: rgba(20, 28, 36, 0.96) !important;
+}
+
+[data-theme="dark"] .bg-white\/80 {
+  background-color: rgba(20, 28, 36, 0.85) !important;
+}
+
+[data-theme="dark"] .bg-slate-50,
+[data-theme="dark"] .bg-slate-50\/80,
+[data-theme="dark"] .bg-slate-100,
+[data-theme="dark"] .bg-slate-100\/80,
+[data-theme="dark"] .bg-slate-100\/70 {
+  background-color: #1A2430 !important;
+}
+
+[data-theme="dark"] .hover\:bg-slate-50:hover,
+[data-theme="dark"] .hover\:bg-slate-100:hover,
+[data-theme="dark"] .hover\:bg-slate-100\/90:hover {
+  background-color: #223040 !important;
+}
+
+/* Dark Borders */
+[data-theme="dark"] .border-slate-200,
+[data-theme="dark"] .border-slate-200\/90,
+[data-theme="dark"] .border-slate-200\/80,
+[data-theme="dark"] .border-slate-200\/70,
+[data-theme="dark"] .border-slate-200\/60,
+[data-theme="dark"] .border-slate-100,
+[data-theme="dark"] .border-slate-300,
+[data-theme="dark"] .border-slate-300\/90 {
+  border-color: #263546 !important;
+}
+
+/* Dark Typography */
+[data-theme="dark"] .text-\[\#121820\],
+[data-theme="dark"] .text-slate-900,
+[data-theme="dark"] .text-slate-800 {
+  color: #F8FAFC !important;
+}
+
+[data-theme="dark"] .text-slate-700,
+[data-theme="dark"] .text-slate-600 {
+  color: #CBD5E1 !important;
+}
+
+[data-theme="dark"] .text-slate-500 {
+  color: #94A3B8 !important;
+}
+
+[data-theme="dark"] .text-slate-400 {
+  color: #64748B !important;
+}
+
+/* Dark Inputs */
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background-color: #101720 !important;
+  color: #F8FAFC !important;
+  border-color: #2F3E50 !important;
+}
+
+/* Dark Headers & Navigation */
+[data-theme="dark"] header,
+[data-theme="dark"] aside,
+[data-theme="dark"] nav {
+  background-color: #121820 !important;
+  border-color: #263546 !important;
+}
+
+/* Dark Emerald / Circuit Pine Tones */
+[data-theme="dark"] .bg-emerald-950\/5,
+[data-theme="dark"] .bg-emerald-50 {
+  background-color: rgba(15, 61, 46, 0.3) !important;
+  border-color: rgba(52, 211, 153, 0.25) !important;
+}
+
+[data-theme="dark"] .text-\[\#0F3D2E\] {
+  color: #4ADE80 !important;
+}
+
+[data-theme="dark"] .text-emerald-700,
+[data-theme="dark"] .text-emerald-800 {
+  color: #4ADE80 !important;
+}
+
+[data-theme="dark"] .border-emerald-200\/60,
+[data-theme="dark"] .border-emerald-200 {
+  border-color: rgba(74, 222, 128, 0.3) !important;
+}
+
+/* Dark Toggle Active State */
+[data-theme="dark"] .theme-toggle-active {
+  background-color: #0F3D2E !important;
+  color: #4ADE80 !important;
+}
+
+[data-theme="light"] .theme-toggle-active {
+  background-color: #0F3D2E !important;
+  color: #FFFFFF !important;
+}
+
+[data-theme="normal"] .theme-toggle-active {
+  background-color: #0F3D2E !important;
+  color: #FFFFFF !important;
+}
+
+/* Subtle Card Hover Effects */
+.theme-surface-subtle {
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
