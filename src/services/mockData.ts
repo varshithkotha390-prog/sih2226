@@ -172,6 +172,35 @@ export const initialTransactions: Transaction[] = [
 ];
 
 export const initialLots: Record<string, DigitalLot> = {
+  'KC-00125': {
+    id: 'KC-00125',
+    collectorName: 'Ramesh',
+    collectorPhone: '+91 98490 12345',
+    location: 'Hyderabad',
+    materialId: 'mat_cable',
+    materialName: 'Copper Cable',
+    materialCategory: 'Non-Ferrous Wire',
+    weightKg: 8,
+    marketRatePerKg: 500,
+    marketEstimate: 4000,
+    recyclerId: 'rec_ecorecover',
+    recyclerName: 'EcoRecover',
+    recyclerOfferPerKg: 500,
+    recyclerPayout: 4000,
+    bonusAmount: 0,
+    status: 'completed',
+    createdAt: '2026-02-27 10:00 AM',
+    completedAt: '2026-02-27 11:30 AM',
+    qrPayload: 'KABADICONNECT:LOT:KC-00125:COMPLETED',
+    verificationSteps: {
+      lotCreated: true,
+      materialRecorded: true,
+      weightRecorded: true,
+      recyclerSelected: true,
+      collectorVerified: true,
+      recyclerApproved: true
+    }
+  },
   'KC-00127': {
     id: 'KC-00127',
     collectorName: 'Ramesh',
