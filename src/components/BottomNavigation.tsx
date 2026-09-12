@@ -7,8 +7,8 @@ export const BottomNavigation: React.FC = () => {
   const { t } = useLanguage();
   const location = useLocation();
 
-  // Hide bottom navigation on full-screen focused flows like active detection or success to keep clean focus
-  const hideOnPaths = ['/login', '/detect'];
+  // Hide bottom navigation on auth screens and full-screen focused flows
+  const hideOnPaths = ['/login', '/signup', '/detect'];
   if (hideOnPaths.includes(location.pathname)) {
     return null;
   }

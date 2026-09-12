@@ -1,23 +1,40 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { RefreshCw, ShieldCheck } from 'lucide-react';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { LogOut } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
-import { mockUserProfile } from '../services/mockData';
+import { useAuth } from '../context/AuthContext';
 import { ThemeToggle } from './ThemeToggle';
+import { LanguageSelector } from './LanguageSelector';
 
 export const DesktopSidebar: React.FC = () => {
-  const { t, language, toggleLanguage } = useLanguage();
+  const { t } = useLanguage();
+  const { user, signOut, role } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const hideOnPaths = ['/login', '/signup'];
+  if (hideOnPaths.includes(location.pathname)) {
+    return null;
+  }
 
   const navLinks = [
-    { to: '/home', icon: '🏠', labelEn: 'Home / मुख्य पृष्ठ', labelHi: 'मुख्य पृष्ठ / Home' },
-    { to: '/sell', icon: '♻️', labelEn: 'Sell / कचरा बेचें', labelHi: 'कचरा बेचें / Sell' },
-    { to: '/earnings', icon: '💰', labelEn: 'Earnings / कमाई', labelHi: 'कमाई / Earnings' },
-    { to: '/safety', icon: '🛡️', labelEn: 'Safety / सुरक्षा', labelHi: 'सुरक्षा / Safety' },
-    { to: '/transactions', icon: '📋', labelEn: 'History / लेन-देन', labelHi: 'लेन-देन / History' },
-    { to: '/recycler-dashboard', icon: '🏭', labelEn: 'Recycler / रीसाइक्लर', labelHi: 'रीसाइक्लर / Recycler' },
-    { to: '/admin-dashboard', icon: '📊', labelEn: 'Admin / व्यवस्थापक', labelHi: 'व्यवस्थापक / Admin' }
+    { to: '/home', icon: '🏠', label: t('home') },
+    { to: '/sell', icon: '♻️', label: t('sell') },
+    { to: '/earnings', icon: '💰', label: t('earnings') },
+    { to: '/safety', icon: '🛡️', label: t('safety') },
+    { to: '/transactions', icon: '📋', label: t('history') },
+    { to: '/recycler-dashboard', icon: '🏭', label: t('recycler') },
+    { to: '/admin-dashboard', icon: '📊', label: t('admin') }
   ];
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate('/login');
+  };
+
+  const displayName = user?.name || 'Collector';
+  const displayLocation = user?.location || 'Hyderabad, TS';
+  const initial = displayName.charAt(0).toUpperCase();
 
   return (
     <aside className="hidden lg:flex w-64 bg-white border-r border-slate-200 flex-col h-screen sticky top-0 z-40 select-none">
@@ -33,11 +50,18 @@ export const DesktopSidebar: React.FC = () => {
             />
           </svg>
         </div>
-        <span className="font-black text-xl tracking-tight text-[#0F3D2E]">KabadiConnect</span>
+        <div>
+          <span className="font-black text-xl tracking-tight text-[#0F3D2E] block leading-none">
+            {t('appName')}
+          </span>
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1 block">
+            {role === 'admin' ? t('admin') : role === 'recycler' ? t('recycler') : t('user')}
+          </span>
+        </div>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-4 py-2 space-y-2 overflow-y-auto">
+      <nav className="flex-1 px-4 py-2 space-y-1.5 overflow-y-auto">
         {navLinks.map((link) => (
           <NavLink
             key={link.to}
@@ -51,53 +75,47 @@ export const DesktopSidebar: React.FC = () => {
             }
           >
             <span className="text-base">{link.icon}</span>
-            <span className="truncate">{language === 'hi' ? link.labelHi : link.labelEn}</span>
+            <span className="truncate">{link.label}</span>
           </NavLink>
         ))}
       </nav>
 
-      {/* Collector Profile, Laptop Display Mode & Language Switcher footer */}
+      {/* Collector Profile, Theme Mode & 6-Language Selector Footer */}
       <div className="p-4 sm:p-5 border-t border-slate-100 bg-slate-50 space-y-3.5">
-        <div
-          onClick={() => navigate('/profile')}
-          className="flex items-center gap-3 cursor-pointer hover:opacity-90 transition-opacity"
-        >
-          <div className="w-10 h-10 rounded-full bg-slate-300 border-2 border-white overflow-hidden shadow-sm flex-shrink-0">
-            <div className="w-full h-full bg-emerald-950/10 flex items-center justify-center text-[#0F3D2E] font-black text-sm font-mono">
-              R
+        <div className="flex items-center justify-between gap-2">
+          <div
+            onClick={() => navigate('/profile')}
+            className="flex items-center gap-2.5 min-w-0 cursor-pointer hover:opacity-90 transition-opacity flex-1"
+          >
+            <div className="w-9 h-9 rounded-full bg-slate-300 border-2 border-white overflow-hidden shadow-xs flex-shrink-0">
+              <div className="w-full h-full bg-emerald-950/10 flex items-center justify-center text-[#0F3D2E] font-black text-sm font-mono">
+                {initial}
+              </div>
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-bold text-slate-800 truncate">{displayName}</p>
+              <p className="text-[10px] text-slate-500 truncate">{displayLocation}</p>
             </div>
           </div>
-          <div className="min-w-0">
-            <p className="text-xs font-bold text-slate-800 truncate">Namaste, Ramesh 👋</p>
-            <p className="text-[11px] text-slate-500 truncate">Hyderabad, TS</p>
-          </div>
+
+          <button
+            type="button"
+            onClick={handleLogout}
+            title={t('logoutBtn')}
+            aria-label={t('logoutBtn')}
+            className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
+          >
+            <LogOut className="w-4 h-4" />
+          </button>
         </div>
 
         {/* Laptop Display Mode: Light | Normal | Dark */}
         <ThemeToggle variant="expanded" />
 
-        {/* Clean Minimalism Language Selector */}
-        <div className="flex gap-2 pt-2 border-t border-slate-200/60">
-          <button
-            onClick={language === 'en' ? undefined : toggleLanguage}
-            className={`flex-1 text-[10px] font-bold px-2 py-1 rounded transition-all cursor-pointer text-center ${
-              language === 'en'
-                ? 'bg-white border border-slate-200 text-[#0F3D2E] shadow-xs'
-                : 'bg-slate-100 text-slate-400 hover:text-slate-600'
-            }`}
-          >
-            English
-          </button>
-          <button
-            onClick={language === 'hi' ? undefined : toggleLanguage}
-            className={`flex-1 text-[10px] font-bold px-2 py-1 rounded transition-all cursor-pointer text-center ${
-              language === 'hi'
-                ? 'bg-white border border-slate-200 text-[#0F3D2E] shadow-xs'
-                : 'bg-slate-100 text-slate-400 hover:text-slate-600'
-            }`}
-          >
-            हिन्दी
-          </button>
+        {/* Full 6-Language Popover Selector (opens upward above footer) */}
+        <div className="pt-2 border-t border-slate-200/60 flex items-center justify-between">
+          <span className="text-xs font-bold text-slate-500">{t('language')}:</span>
+          <LanguageSelector variant="compact" direction="up" />
         </div>
       </div>
     </aside>

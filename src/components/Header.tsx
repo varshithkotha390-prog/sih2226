@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Globe2, ShieldCheck } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { ThemeToggle } from './ThemeToggle';
+import { LanguageSelector } from './LanguageSelector';
 
 export interface HeaderProps {
   title?: string;
@@ -68,30 +69,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Laptop & Mobile Quick Theme Mode Switcher */}
           <ThemeToggle variant="compact" />
 
-          {showLanguageToggle && (
-            <div className="flex items-center gap-1 bg-slate-50 p-1 rounded-xl border border-slate-200">
-              <button
-                onClick={language === 'en' ? undefined : toggleLanguage}
-                className={`text-[11px] font-bold px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
-                  language === 'en'
-                    ? 'bg-white border border-slate-200 text-[#0F3D2E] shadow-xs'
-                    : 'text-slate-400 hover:text-slate-700'
-                }`}
-              >
-                English
-              </button>
-              <button
-                onClick={language === 'hi' ? undefined : toggleLanguage}
-                className={`text-[11px] font-bold px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
-                  language === 'hi'
-                    ? 'bg-white border border-slate-200 text-[#0F3D2E] shadow-xs'
-                    : 'text-slate-400 hover:text-slate-700'
-                }`}
-              >
-                हिन्दी
-              </button>
-            </div>
-          )}
+          {showLanguageToggle && <LanguageSelector variant="compact" />}
         </div>
       </div>
     </header>

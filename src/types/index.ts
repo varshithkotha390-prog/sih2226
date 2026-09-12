@@ -1,4 +1,19 @@
-export type Language = 'en' | 'hi';
+export type Language = 'en' | 'hi' | 'te' | 'ta' | 'kn' | 'ml';
+
+export type UserRole = 'user' | 'recycler' | 'admin';
+
+export interface AuthUser {
+  id: string;
+  email?: string;
+  phone?: string;
+  name: string;
+  role: UserRole;
+  location?: string;
+  badge?: string;
+  preferred_language?: Language;
+  avatarUrl?: string;
+  memberSince?: string;
+}
 
 export interface UserProfile {
   id: string;

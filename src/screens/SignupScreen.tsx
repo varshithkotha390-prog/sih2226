@@ -1,18 +1,18 @@
 import React from 'react';
 import { AuthLayout } from '../components/auth/AuthLayout';
-import { PhoneLoginForm } from '../components/auth/PhoneLoginForm';
+import { SignupForm } from '../components/auth/SignupForm';
 import { useLanguage } from '../i18n/LanguageContext';
 
-export const LoginScreen: React.FC = () => {
+export const SignupScreen: React.FC = () => {
   const { t } = useLanguage();
 
   return (
     <AuthLayout
-      title={t('loginTitle')}
-      subtitle={t('loginSubtitle')}
+      title={t('createAccountTitle')}
+      subtitle={t('createAccountSubtitle')}
       showDemoSwitcher={false}
     >
-      <PhoneLoginForm />
+      <SignupForm />
     </AuthLayout>
   );
 };
