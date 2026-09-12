@@ -22,6 +22,7 @@ import { useLanguage } from '../i18n/LanguageContext';
 import { formatINR } from '../utils/formatters';
 import { getEarnings, getMaterials } from '../services/recyclingService';
 import { EarningsSummary, MaterialItem } from '../types';
+import { getMaterialName } from '../services/mockData';
 
 export const HomeScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -36,12 +37,20 @@ export const HomeScreen: React.FC = () => {
 
   const totalEarnings = earnings?.totalEarnings ?? 0;
 
+  const dashboardTitle =
+    language === 'hi' ? 'डैशबोर्ड' :
+    language === 'te' ? 'డాష్‌బోర్డ్' :
+    language === 'ta' ? 'டாஷ்போர்டு' :
+    language === 'kn' ? 'ಡ್ಯಾಶ್‌ಬೋರ್ಡ್' :
+    language === 'ml' ? 'ഡാഷ്‌ബോർഡ്' :
+    'Dashboard';
+
   return (
     <div className="min-h-screen bg-slate-50 pb-24">
       {/* Mobile Top Header */}
       <div className="lg:hidden">
         <Header
-          title={language === 'hi' ? 'डैशबोर्ड / Dashboard' : 'Dashboard / डैशबोर्ड'}
+          title={dashboardTitle}
           subtitle={t('locationSubtitle')}
           rightAction={
             <button
@@ -59,7 +68,7 @@ export const HomeScreen: React.FC = () => {
       <div className="hidden lg:flex h-16 bg-white border-b border-slate-200 px-8 items-center justify-between sticky top-0 z-20">
         <div className="flex items-center gap-3">
           <h1 className="text-base font-extrabold text-[#121820] tracking-tight">
-            {language === 'hi' ? 'डैशबोर्ड / Dashboard' : 'Dashboard / डैशबोर्ड'}
+            {dashboardTitle}
           </h1>
           <span className="text-[11px] font-bold text-slate-500 bg-slate-100 px-2.5 py-0.5 rounded-full border border-slate-200">
             {t('locationSubtitle')}
@@ -102,7 +111,11 @@ export const HomeScreen: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
                   <span className="text-[11px] font-black uppercase tracking-widest text-emerald-200">
-                    {language === 'hi' ? 'सक्रिय हस्तांतरण' : 'Active Manifest'} • SIH-CPCB/2026
+                    {language === 'hi' ? 'सक्रिय हस्तांतरण' :
+                     language === 'te' ? 'క్రియాశీల హ్యాండోవర్' :
+                     language === 'ta' ? 'செயலில் உள்ள ஒப்படைப்பு' :
+                     language === 'kn' ? 'ಸಕ್ರಿಯ ಹಸ್ತಾಂತರ' :
+                     language === 'ml' ? 'സജീവ കൈമാറ്റം' : 'Active Manifest'} • SIH-CPCB/2026
                   </span>
                 </div>
                 <span className="bg-[#C86D2F] text-white text-xs px-3.5 py-1 rounded-full font-black uppercase tracking-wider shadow-sm flex items-center gap-1.5">
@@ -120,7 +133,7 @@ export const HomeScreen: React.FC = () => {
                       LOT IDENTIFIER: KC-00127
                     </span>
                     <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight mt-0.5">
-                      PCB (Printed Circuit Boards)
+                      {getMaterialName('mat_pcb', language)}
                     </h3>
                     <div className="flex items-center gap-2 mt-1">
                       <span className="text-xs font-bold text-emerald-200/90 bg-emerald-900/70 px-2.5 py-0.5 rounded-lg border border-emerald-700/60 font-mono">
@@ -132,7 +145,11 @@ export const HomeScreen: React.FC = () => {
                   {/* Huge Payout Figure */}
                   <div className="bg-emerald-950/60 border border-emerald-700/60 p-4 rounded-2xl">
                     <span className="text-[11px] font-black uppercase tracking-wider text-emerald-300 block">
-                      Guaranteed Recycler Settlement
+                      {language === 'hi' ? 'गारंटीकृत भुगतान' :
+                       language === 'te' ? 'హామీతో కూడిన చెల్లింపు' :
+                       language === 'ta' ? 'உத்தரவாதமான தீர்வு' :
+                       language === 'kn' ? 'ಖಾತರಿಯ ಇತ್ಯರ್ಥ' :
+                       language === 'ml' ? 'ഗ്യാരണ്ടീഡ് തീർപ്പാക്കൽ' : 'Guaranteed Recycler Settlement'}
                     </span>
                     <div className="text-4xl sm:text-5xl font-black font-mono tracking-tight text-white my-1">
                       ₹2,100
@@ -144,7 +161,13 @@ export const HomeScreen: React.FC = () => {
 
                   <div className="flex items-center gap-2.5 text-xs text-emerald-100/90 font-medium">
                     <Building2 className="w-4 h-4 text-emerald-300 flex-shrink-0" />
-                    <span>Recycler Partner: <b className="text-white">GreenCycle Cherlapally</b> (4.2 km)</span>
+                    <span>
+                      {language === 'hi' ? 'रीसाइक्लर भागीदार:' :
+                       language === 'te' ? 'రీసైక్లర్ భాగస్వామి:' :
+                       language === 'ta' ? 'மறுசுழற்சி பங்குதாரர்:' :
+                       language === 'kn' ? 'ಮರುಬಳಕೆದಾರ ಪಾಲುದಾರ:' :
+                       language === 'ml' ? 'റീസൈക്ലർ പങ്കാളി:' : 'Recycler Partner:'} <b className="text-white">GreenCycle Cherlapally</b> (4.2 km)
+                    </span>
                   </div>
 
                   {/* Primary CTA Button: Trace Copper */}
@@ -198,7 +221,11 @@ export const HomeScreen: React.FC = () => {
               <div className="flex justify-between items-center mb-4 pb-2 border-b border-slate-100">
                 <div>
                   <h2 className="font-black text-base sm:text-lg text-[#121820]">
-                    {language === 'hi' ? 'हाल ही के कार्य / Recent Activities' : 'Recent Activities / हाल ही के कार्य'}
+                    {language === 'hi' ? 'हाल ही के कार्य' :
+                     language === 'te' ? 'ఇటీవలి లావాదేవీలు' :
+                     language === 'ta' ? 'சமீபத்திய நடவடிக்கைகள்' :
+                     language === 'kn' ? 'ಇತ್ತೀಚಿನ ಚಟುವಟಿಕೆಗಳು' :
+                     language === 'ml' ? 'സമീപകാല പ്രവർത്തനങ്ങൾ' : 'Recent Activities'}
                   </h2>
                   <p className="text-xs text-slate-500 font-medium">Verified CPCB settlement trail</p>
                 </div>
@@ -244,7 +271,7 @@ export const HomeScreen: React.FC = () => {
                       <div>
                         <div className="flex items-center gap-2">
                           <span className="font-mono text-xs font-bold text-slate-500">{tx.lotId}</span>
-                          <span className="text-sm font-black text-[#121820]">{tx.material}</span>
+                          <span className="text-sm font-black text-[#121820]">{getMaterialName(tx.material, language)}</span>
                         </div>
                         <p className="text-[11px] text-slate-500 font-medium mt-0.5">
                           {tx.status} • {tx.date}
@@ -280,10 +307,10 @@ export const HomeScreen: React.FC = () => {
 
                 <div className="space-y-3">
                   {[
-                    { name: 'PCB (Circuit Boards)', rate: '125', tag: 'High Yield' },
-                    { name: 'Copper Wire & Cable', rate: '520', tag: 'Pure Non-Ferrous' },
-                    { name: 'Lithium Battery', rate: '95', tag: 'Hazard Class IX' },
-                    { name: 'LCD Display Unit', rate: '70', tag: 'Mercury Contained' }
+                    { id: 'mat_pcb', fallbackName: 'PCB (Circuit Boards)', rate: '125', tag: 'High Yield' },
+                    { id: 'mat_cable', fallbackName: 'Copper Wire & Cable', rate: '520', tag: 'Pure Non-Ferrous' },
+                    { id: 'mat_battery', fallbackName: 'Lithium Battery', rate: '95', tag: 'Hazard Class IX' },
+                    { id: 'mat_lcd', fallbackName: 'LCD Display Unit', rate: '70', tag: 'Mercury Contained' }
                   ].map((item, idx) => (
                     <div
                       key={idx}
@@ -291,7 +318,7 @@ export const HomeScreen: React.FC = () => {
                       className="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800/80 border border-slate-800 transition-colors cursor-pointer"
                     >
                       <div>
-                        <span className="text-xs font-bold text-slate-200 block">{item.name}</span>
+                        <span className="text-xs font-bold text-slate-200 block">{getMaterialName(item.id, language)}</span>
                         <span className="text-[10px] font-semibold text-slate-400">{item.tag}</span>
                       </div>
                       <div className="text-right">
@@ -315,7 +342,7 @@ export const HomeScreen: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-xs font-black uppercase tracking-wider text-amber-950">
-                      Safety & Toxic Protocols
+                      {t('safetyTitle')}
                     </h3>
                     <p className="text-[10px] text-amber-800 font-semibold">Mandatory CPCB guidelines</p>
                   </div>
@@ -336,9 +363,9 @@ export const HomeScreen: React.FC = () => {
                 >
                   <span className="text-base">🔋</span>
                   <div className="text-xs">
-                    <p className="font-extrabold text-amber-950">Battery Shock & Fire</p>
+                    <p className="font-extrabold text-amber-950">{t('batterySafetyTitle')}</p>
                     <p className="text-amber-800/90 text-[11px] mt-0.5">
-                      Never puncture or burn lithium units. Use insulated gloves.
+                      {t('batterySafetyDesc')}
                     </p>
                   </div>
                 </div>
@@ -349,9 +376,9 @@ export const HomeScreen: React.FC = () => {
                 >
                   <span className="text-base">🚫</span>
                   <div className="text-xs">
-                    <p className="font-extrabold text-amber-950">No Open Cable Burning</p>
+                    <p className="font-extrabold text-amber-950">{t('cableSafetyTitle')}</p>
                     <p className="text-amber-800/90 text-[11px] mt-0.5">
-                      Burning plastic coatings releases dioxins. Sell wire whole.
+                      {t('cableSafetyDesc')}
                     </p>
                   </div>
                 </div>
@@ -362,9 +389,9 @@ export const HomeScreen: React.FC = () => {
                 >
                   <span className="text-base">🛡️</span>
                   <div className="text-xs">
-                    <p className="font-extrabold text-emerald-950">CPCB Authorized Recyclers</p>
+                    <p className="font-extrabold text-emerald-950">{t('recyclingTitle')}</p>
                     <p className="text-emerald-800/90 text-[11px] mt-0.5">
-                      Full digital bank payout with zero health or legal risk.
+                      {t('recyclingDesc')}
                     </p>
                   </div>
                 </div>

@@ -1,4 +1,6 @@
-export type Language = 'en' | 'hi';
+export type Language = 'en' | 'hi' | 'te' | 'ta' | 'kn' | 'ml';
+
+export type UserRole = 'collector' | 'recycler' | 'admin';
 
 export interface UserProfile {
   id: string;
@@ -9,14 +11,26 @@ export interface UserProfile {
   badge: string;
   avatarUrl?: string;
   memberSince: string;
+  email?: string;
+  preferredLanguage?: Language;
+  collectorId?: string;
+  recyclerId?: string;
 }
 
 export interface MaterialItem {
   id: string;
   name: string;
   nameHi: string;
+  nameTe?: string;
+  nameTa?: string;
+  nameKn?: string;
+  nameMl?: string;
   category: string;
   categoryHi: string;
+  categoryTe?: string;
+  categoryTa?: string;
+  categoryKn?: string;
+  categoryMl?: string;
   avgPricePerKg: number;
   minPrice: number;
   maxPrice: number;
@@ -25,6 +39,10 @@ export interface MaterialItem {
   iconName: string;
   safetyTip: string;
   safetyTipHi: string;
+  safetyTipTe?: string;
+  safetyTipTa?: string;
+  safetyTipKn?: string;
+  safetyTipMl?: string;
 }
 
 export interface Recycler {

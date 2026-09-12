@@ -144,23 +144,105 @@
 
 /* Dark Emerald / Circuit Pine Tones */
 [data-theme="dark"] .bg-emerald-950\/5,
-[data-theme="dark"] .bg-emerald-50 {
-  background-color: rgba(15, 61, 46, 0.3) !important;
-  border-color: rgba(52, 211, 153, 0.25) !important;
+[data-theme="dark"] .bg-emerald-50,
+[data-theme="dark"] .bg-emerald-50\/70,
+[data-theme="dark"] .bg-emerald-100 {
+  background-color: rgba(16, 185, 129, 0.15) !important;
+  border-color: rgba(52, 211, 153, 0.3) !important;
 }
 
-[data-theme="dark"] .text-\[\#0F3D2E\] {
-  color: #4ADE80 !important;
-}
-
+[data-theme="dark"] .text-\[\#0F3D2E\],
 [data-theme="dark"] .text-emerald-700,
-[data-theme="dark"] .text-emerald-800 {
-  color: #4ADE80 !important;
+[data-theme="dark"] .text-emerald-800,
+[data-theme="dark"] .text-emerald-900,
+[data-theme="dark"] .text-emerald-950 {
+  color: #6EE7B7 !important;
 }
 
 [data-theme="dark"] .border-emerald-200\/60,
-[data-theme="dark"] .border-emerald-200 {
-  border-color: rgba(74, 222, 128, 0.3) !important;
+[data-theme="dark"] .border-emerald-200,
+[data-theme="dark"] .border-emerald-300 {
+  border-color: rgba(74, 222, 128, 0.35) !important;
+}
+
+/* Dark Rose & Red (Alerts, Errors, Battery Safety, RLS Rejections) */
+[data-theme="dark"] .bg-rose-50,
+[data-theme="dark"] .bg-rose-100,
+[data-theme="dark"] .bg-red-50,
+[data-theme="dark"] .bg-red-50\/90,
+[data-theme="dark"] .bg-red-100 {
+  background-color: rgba(244, 63, 94, 0.15) !important;
+  border-color: rgba(251, 113, 133, 0.3) !important;
+}
+
+[data-theme="dark"] .text-rose-700,
+[data-theme="dark"] .text-rose-800,
+[data-theme="dark"] .text-rose-900,
+[data-theme="dark"] .text-rose-950,
+[data-theme="dark"] .text-red-700,
+[data-theme="dark"] .text-red-800,
+[data-theme="dark"] .text-red-900,
+[data-theme="dark"] .text-red-950 {
+  color: #FDA4AF !important;
+}
+
+[data-theme="dark"] .border-rose-200,
+[data-theme="dark"] .border-rose-300,
+[data-theme="dark"] .border-red-200,
+[data-theme="dark"] .border-red-200\/80,
+[data-theme="dark"] .border-red-300 {
+  border-color: rgba(244, 63, 94, 0.35) !important;
+}
+
+/* Dark Amber & Orange (Warnings, Handover Pending, Cable Safety) */
+[data-theme="dark"] .bg-amber-50,
+[data-theme="dark"] .bg-amber-100,
+[data-theme="dark"] .bg-amber-100\/80,
+[data-theme="dark"] .bg-orange-50 {
+  background-color: rgba(245, 158, 11, 0.15) !important;
+  border-color: rgba(251, 191, 36, 0.3) !important;
+}
+
+[data-theme="dark"] .text-amber-700,
+[data-theme="dark"] .text-amber-800,
+[data-theme="dark"] .text-amber-900,
+[data-theme="dark"] .text-amber-950,
+[data-theme="dark"] .text-\[\#D97706\] {
+  color: #FDE68A !important;
+}
+
+[data-theme="dark"] .border-amber-200,
+[data-theme="dark"] .border-amber-300,
+[data-theme="dark"] .border-amber-300\/70 {
+  border-color: rgba(245, 158, 11, 0.35) !important;
+}
+
+/* Dark Blue & Cyan (Tech Info, Electronic Components) */
+[data-theme="dark"] .bg-blue-50,
+[data-theme="dark"] .bg-blue-50\/90,
+[data-theme="dark"] .bg-blue-100,
+[data-theme="dark"] .bg-sky-50 {
+  background-color: rgba(59, 130, 246, 0.15) !important;
+  border-color: rgba(96, 165, 250, 0.3) !important;
+}
+
+[data-theme="dark"] .text-blue-700,
+[data-theme="dark"] .text-blue-800,
+[data-theme="dark"] .text-blue-900,
+[data-theme="dark"] .text-blue-950 {
+  color: #BAE6FD !important;
+}
+
+[data-theme="dark"] .border-blue-200,
+[data-theme="dark"] .border-blue-200\/80,
+[data-theme="dark"] .border-blue-300 {
+  border-color: rgba(59, 130, 246, 0.35) !important;
+}
+
+/* Dark Pre / Code Blocks */
+[data-theme="dark"] pre {
+  background-color: rgba(0, 0, 0, 0.45) !important;
+  color: #E2E8F0 !important;
 }
 
 /* Dark Toggle Active State */

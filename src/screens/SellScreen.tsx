@@ -23,7 +23,7 @@ import { Button } from '../components/Button';
 import { ProgressIndicator } from '../components/ProgressIndicator';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useSellFlow } from '../context/SellFlowContext';
-import { mockMaterials } from '../services/mockData';
+import { mockMaterials, getMaterialName } from '../services/mockData';
 
 export const SellScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -568,7 +568,7 @@ export const SellScreen: React.FC = () => {
           <div className="grid grid-cols-2 gap-2.5">
             {mockMaterials.map((mat) => {
               const isSelected = selectedMaterialId === mat.id;
-              const name = language === 'hi' ? mat.nameHi : mat.name;
+              const name = getMaterialName(mat, language);
 
               return (
                 <div

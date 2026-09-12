@@ -1,25 +1,41 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Home, PlusCircle, History, TrendingUp, ShieldAlert, User } from 'lucide-react';
+import { Home, PlusCircle, History, TrendingUp, ShieldAlert, Building2, Shield, User } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
+import { useAuth } from '../context/AuthContext';
 
 export const BottomNavigation: React.FC = () => {
   const { t } = useLanguage();
   const location = useLocation();
+  const { isAuthenticated, role } = useAuth();
 
-  // Hide bottom navigation on full-screen focused flows like active detection or success to keep clean focus
+  // Hide bottom navigation on unauthenticated, login, or full-screen focused flows
   const hideOnPaths = ['/login', '/detect'];
-  if (hideOnPaths.includes(location.pathname)) {
+  if (hideOnPaths.includes(location.pathname) || !isAuthenticated) {
     return null;
   }
 
-  const navItems = [
-    { to: '/home', icon: Home, label: t('home') },
-    { to: '/sell', icon: PlusCircle, label: t('sell'), highlight: true },
-    { to: '/transactions', icon: History, label: t('history') },
-    { to: '/earnings', icon: TrendingUp, label: t('earnings') },
-    { to: '/safety', icon: ShieldAlert, label: t('safety') }
-  ];
+  // Role-customized navigation tabs
+  const navItems = role === 'recycler'
+    ? [
+        { to: '/recycler-dashboard', icon: Building2, label: 'Recycler' },
+        { to: '/transactions', icon: History, label: t('history') },
+        { to: '/profile', icon: User, label: t('profile') }
+      ]
+    : role === 'admin'
+    ? [
+        { to: '/admin-dashboard', icon: Shield, label: 'Admin' },
+        { to: '/recycler-dashboard', icon: Building2, label: 'Recycler' },
+        { to: '/transactions', icon: History, label: t('history') },
+        { to: '/profile', icon: User, label: t('profile') }
+      ]
+    : [
+        { to: '/home', icon: Home, label: t('home') },
+        { to: '/sell', icon: PlusCircle, label: t('sell'), highlight: true },
+        { to: '/transactions', icon: History, label: t('history') },
+        { to: '/earnings', icon: TrendingUp, label: t('earnings') },
+        { to: '/safety', icon: ShieldAlert, label: t('safety') }
+      ];
 
   return (
     <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-lg border-t border-slate-200/90 px-2 py-1.5 sm:py-2">

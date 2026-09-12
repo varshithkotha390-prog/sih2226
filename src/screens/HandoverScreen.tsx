@@ -48,8 +48,22 @@ export const HandoverScreen: React.FC = () => {
         <Header title={t('handoverTitle')} showBack onBack={() => navigate(-1)} />
         <div className="max-w-xl mx-auto px-4 sm:px-6 py-10">
           <LoadingState
-            message={language === 'hi' ? 'हस्तांतरण QR कोड तैयार किया जा रहा है...' : 'Generating cryptographic QR manifest...'}
-            submessage={language === 'hi' ? 'पुनर्चक्रणकर्ता सत्यापन के लिए तैयार' : 'Ready for authorized recycler scanner'}
+            message={
+              language === 'hi' ? 'हस्तांतरण QR कोड तैयार किया जा रहा है...' :
+              language === 'te' ? 'హ్యాండోవర్ QR కోడ్ సిద్ధం చేయబడుతోంది...' :
+              language === 'ta' ? 'ஒப்படைப்பு QR குறியீடு உருவாக்கப்படுகிறது...' :
+              language === 'kn' ? 'ಹಸ್ತಾಂತರ QR ಕೋಡ್ ಸಿದ್ಧಪಡಿಸಲಾಗುತ್ತಿದೆ...' :
+              language === 'ml' ? 'കൈമാറ്റ ക്യുആർ കോഡ് തയ്യാറാക്കുന്നു...' :
+              'Generating cryptographic QR manifest...'
+            }
+            submessage={
+              language === 'hi' ? 'पुनर्चक्रणकर्ता सत्यापन के लिए तैयार' :
+              language === 'te' ? 'రీసైక్లర్ ధృవీకరణకు సిద్ధంగా ఉంది' :
+              language === 'ta' ? 'மறுசுழற்சியாளர் சரிபார்ப்புக்கு தயார்' :
+              language === 'kn' ? 'ಮರುಬಳಕೆದಾರ ಪರಿಶೀಲನೆಗೆ ಸಿದ್ಧವಾಗಿದೆ' :
+              language === 'ml' ? 'റീസൈക്ലർ സ്ഥിരീകരണത്തിന് തയ്യാറാണ്' :
+              'Ready for authorized recycler scanner'
+            }
           />
         </div>
       </div>

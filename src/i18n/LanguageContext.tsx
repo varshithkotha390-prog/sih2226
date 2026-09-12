@@ -13,8 +13,9 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguageState] = useState<Language>(() => {
-    const saved = localStorage.getItem('kabadiconnect_lang');
-    return (saved === 'hi' || saved === 'en') ? saved : 'en';
+    const saved = localStorage.getItem('kabadiconnect_lang') as Language;
+    const validLanguages: Language[] = ['en', 'hi', 'te', 'ta', 'kn', 'ml'];
+    return (saved && validLanguages.includes(saved)) ? saved : 'en';
   });
 
   const setLanguage = (lang: Language) => {
@@ -23,7 +24,10 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   const toggleLanguage = () => {
-    setLanguage(language === 'en' ? 'hi' : 'en');
+    const order: Language[] = ['en', 'hi', 'te', 'ta', 'kn', 'ml'];
+    const currentIndex = order.indexOf(language);
+    const nextLang = order[(currentIndex + 1) % order.length];
+    setLanguage(nextLang);
   };
 
   const t = (key: TranslationKey, params?: Record<string, string | number>): string => {

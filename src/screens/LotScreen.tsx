@@ -32,6 +32,7 @@ import { useSellFlow } from '../context/SellFlowContext';
 import { getLot, acceptLot, confirmHandover } from '../services/recyclingService';
 import { formatINR } from '../utils/formatters';
 import { DigitalLot } from '../types';
+import { getMaterialName, getMaterialCategory } from '../services/mockData';
 
 export const LotScreen: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -79,8 +80,22 @@ export const LotScreen: React.FC = () => {
         />
         <div className="max-w-xl mx-auto px-4 sm:px-6 py-10">
           <LoadingState
-            message={language === 'hi' ? 'लॉट विवरण लोड हो रहा है...' : 'Loading lot verification details...'}
-            submessage={language === 'hi' ? 'सीपीसीबी अनुपालन और वजन रिकॉर्ड सुरक्षित किया जा रहा है' : 'Fetching CPCB compliance manifest'}
+            message={
+              language === 'hi' ? 'लॉट विवरण लोड हो रहा है...' :
+              language === 'te' ? 'లాట్ వివరాలు లోడ్ అవుతున్నాయి...' :
+              language === 'ta' ? 'லாட் விவரங்கள் ஏற்றப்படுகின்றன...' :
+              language === 'kn' ? 'ಲಾಟ್ ವಿವರಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ...' :
+              language === 'ml' ? 'ലോട്ട് വിവരങ്ങൾ ലോഡ് ചെയ്യുന്നു...' :
+              'Loading lot verification details...'
+            }
+            submessage={
+              language === 'hi' ? 'सीपीसीबी अनुपालन और वजन रिकॉर्ड सुरक्षित किया जा रहा है' :
+              language === 'te' ? 'CPCB సమ్మతి మరియు బరువు రికార్డులను పొందుతోంది' :
+              language === 'ta' ? 'சிபிசிபி இணக்கம் மற்றும் எடை பதிவுகள் பெறப்படுகின்றன' :
+              language === 'kn' ? 'CPCB ಅನುಸರಣೆ ಮತ್ತು ತೂಕದ ದಾಖಲೆಗಳನ್ನು ಪಡೆಯಲಾಗುತ್ತಿದೆ' :
+              language === 'ml' ? 'CPCB പാലിക്കലും ഭാര രേഖകളും ലഭ്യമാക്കുന്നു' :
+              'Fetching CPCB compliance manifest'
+            }
           />
         </div>
       </div>
@@ -253,9 +268,9 @@ export const LotScreen: React.FC = () => {
               <div className="grid grid-cols-2 gap-3 pb-3 border-b border-slate-100">
                 <div>
                   <span className="text-xs font-bold text-slate-500 block">Material</span>
-                  <span className="text-lg font-black text-slate-900">{lot.materialName}</span>
+                  <span className="text-lg font-black text-slate-900">{getMaterialName(lot.materialName || lot.materialId, language)}</span>
                   <span className="text-xs font-semibold text-slate-500 block">
-                    {lot.materialCategory}
+                    {getMaterialCategory(lot.materialCategory, language)}
                   </span>
                 </div>
                 <div className="text-right">
@@ -520,9 +535,9 @@ export const LotScreen: React.FC = () => {
               <div className="grid grid-cols-2 gap-3 pb-3 border-b border-slate-100">
                 <div>
                   <span className="text-xs font-bold text-slate-500 block">Material</span>
-                  <span className="text-lg font-black text-slate-900">{lot.materialName}</span>
+                  <span className="text-lg font-black text-slate-900">{getMaterialName(lot.materialName || lot.materialId, language)}</span>
                   <span className="text-xs font-semibold text-slate-500 block">
-                    {lot.materialCategory}
+                    {getMaterialCategory(lot.materialCategory, language)}
                   </span>
                 </div>
                 <div className="text-right">

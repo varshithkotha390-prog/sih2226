@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS collectors (
 CREATE TABLE IF NOT EXISTS recyclers (
     id TEXT PRIMARY KEY,
     name TEXT NOT NULL,
+    
     license_id TEXT NOT NULL,
     location TEXT NOT NULL,
     offer_rates JSONB NOT NULL DEFAULT '{}'::jsonb,
@@ -346,3 +347,291 @@ ON CONFLICT (id) DO UPDATE SET
   material_hi = EXCLUDED.material_hi,
   weight_kg = EXCLUDED.weight_kg,
   recycler_name = EXCLUDED.recycler_name;
+
+-- ==============================================================================
+-- 4. User Profiles & Role-Based Authentication (Phone + OTP)
+-- ==============================================================================
+
+-- Create Profiles table linked to Supabase Auth
+CREATE TABLE IF NOT EXISTS public.profiles (
+    id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    name TEXT NOT NULL DEFAULT '',
+    email TEXT,
+    phone TEXT UNIQUE,
+    role TEXT NOT NULL DEFAULT 'collector' CHECK (role IN ('collector', 'recycler', 'admin')),
+    preferred_language TEXT NOT NULL DEFAULT 'en' CHECK (preferred_language IN ('en', 'hi', 'te', 'ta', 'kn', 'ml')),
+    collector_id TEXT REFERENCES public.collectors(id) ON DELETE SET NULL,
+    recycler_id TEXT REFERENCES public.recyclers(id) ON DELETE SET NULL,
+    created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
+    updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- Profiles indexes
+CREATE INDEX IF NOT EXISTS idx_profiles_phone ON public.profiles(phone);
+CREATE INDEX IF NOT EXISTS idx_profiles_role ON public.profiles(role);
+
+-- Enable RLS on profiles
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+
+-- Helper function to fetch current auth user role without circular RLS recursion
+CREATE OR REPLACE FUNCTION public.get_auth_role()
+RETURNS TEXT STABLE SECURITY DEFINER AS $$
+  SELECT role FROM public.profiles WHERE id = auth.uid();
+$$ LANGUAGE sql;
+
+-- Profiles RLS Policies
+DROP POLICY IF EXISTS "Public can view profiles" ON public.profiles;
+CREATE POLICY "Public can view profiles" ON public.profiles FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Users can update own profile" ON public.profiles;
+CREATE POLICY "Users can update own profile" ON public.profiles FOR UPDATE
+  TO authenticated
+  USING (id = auth.uid())
+  WITH CHECK (
+    id = auth.uid() 
+    AND (role IS NOT DISTINCT FROM (SELECT role FROM public.profiles WHERE id = auth.uid()))
+  );
+
+DROP POLICY IF EXISTS "Users can insert own profile" ON public.profiles;
+CREATE POLICY "Users can insert own profile" ON public.profiles FOR INSERT
+  TO authenticated
+  WITH CHECK (id = auth.uid());
+
+-- Trigger function to automatically create profile on phone OTP signup
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER AS $$
+DECLARE
+    user_role TEXT;
+    user_name TEXT;
+    user_lang TEXT;
+    matched_collector TEXT;
+    matched_recycler TEXT;
+    clean_phone TEXT;
+BEGIN
+    clean_phone := REPLACE(REPLACE(COALESCE(NEW.phone, ''), ' ', ''), '+', '');
+
+    -- 1. Read metadata if passed in client options
+    user_role := COALESCE(NEW.raw_user_meta_data->>'role', NULL);
+    user_name := COALESCE(NEW.raw_user_meta_data->>'name', NULL);
+    user_lang := COALESCE(NEW.raw_user_meta_data->>'preferred_language', 'en');
+
+    -- 2. Link predefined demo personas by test phone number (digits only match)
+    IF clean_phone = '919849012345' THEN
+        user_name := COALESCE(user_name, 'Ramesh');
+        user_role := COALESCE(user_role, 'collector');
+        matched_collector := 'usr_ramesh_01';
+    ELSIF clean_phone = '914027128899' THEN
+        user_name := COALESCE(user_name, 'GreenCycle Recycler');
+        user_role := COALESCE(user_role, 'recycler');
+        matched_recycler := 'rec_greencycle';
+    ELSIF clean_phone = '919999900000' THEN
+        user_name := COALESCE(user_name, 'CPCB Central Inspector');
+        user_role := COALESCE(user_role, 'admin');
+    ELSE
+        user_role := COALESCE(user_role, 'collector');
+        user_name := COALESCE(user_name, 'Collector ' || RIGHT(clean_phone, 4));
+    END IF;
+
+    -- 3. Upsert into public.profiles
+    INSERT INTO public.profiles (
+        id,
+        phone,
+        email,
+        name,
+        role,
+        preferred_language,
+        collector_id,
+        recycler_id
+    )
+    VALUES (
+        NEW.id,
+        NEW.phone,
+        NEW.email,
+        user_name,
+        user_role,
+        user_lang,
+        matched_collector,
+        matched_recycler
+    )
+    ON CONFLICT (id) DO UPDATE SET
+        phone = COALESCE(EXCLUDED.phone, public.profiles.phone),
+        name = CASE WHEN public.profiles.name = '' THEN EXCLUDED.name ELSE public.profiles.name END,
+        collector_id = COALESCE(public.profiles.collector_id, EXCLUDED.collector_id),
+        recycler_id = COALESCE(public.profiles.recycler_id, EXCLUDED.recycler_id),
+        updated_at = now();
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Trigger execution on auth.users insert
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+CREATE TRIGGER on_auth_user_created
+    AFTER INSERT ON auth.users
+    FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+
+-- ==============================================================================
+-- 5. Hardened Row Level Security (RLS) Across ALL Tables
+-- ==============================================================================
+
+-- Helper functions to fetch role and linked IDs without recursive RLS checks
+CREATE OR REPLACE FUNCTION public.get_auth_collector_id()
+RETURNS TEXT STABLE SECURITY DEFINER AS $$
+  SELECT collector_id FROM public.profiles WHERE id = auth.uid();
+$$ LANGUAGE sql;
+
+CREATE OR REPLACE FUNCTION public.get_auth_recycler_id()
+RETURNS TEXT STABLE SECURITY DEFINER AS $$
+  SELECT recycler_id FROM public.profiles WHERE id = auth.uid();
+$$ LANGUAGE sql;
+
+-- ------------------------------------------------------------------------------
+-- A. LOTS TABLE RLS
+-- ------------------------------------------------------------------------------
+ALTER TABLE public.lots ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Public can view lots" ON lots;
+DROP POLICY IF EXISTS "Public can insert lots" ON lots;
+DROP POLICY IF EXISTS "Public can update lots" ON lots;
+DROP POLICY IF EXISTS "Recyclers can update lot status" ON lots;
+DROP POLICY IF EXISTS "Collectors can create lots" ON lots;
+DROP POLICY IF EXISTS "Role-based lot visibility" ON lots;
+DROP POLICY IF EXISTS "Recyclers and admins can update lots" ON lots;
+DROP POLICY IF EXISTS "Anon can view lots for demo" ON lots;
+
+-- SELECT: Collectors see their lots, Recyclers see assigned or awaiting lots, Admins see all
+CREATE POLICY "Role-based lot visibility"
+  ON public.lots FOR SELECT
+  TO authenticated
+  USING (
+    public.get_auth_role() = 'admin'
+    OR (public.get_auth_role() = 'collector' AND (collector_id = public.get_auth_collector_id() OR collector_id IS NULL))
+    OR (public.get_auth_role() = 'recycler' AND (recycler_id = public.get_auth_recycler_id() OR status = 'awaiting_handover'))
+  );
+
+-- Public anon read for demo fallback
+CREATE POLICY "Anon can view lots for demo"
+  ON public.lots FOR SELECT
+  TO anon
+  USING (true);
+
+-- INSERT: Only Collectors & Admins can create new lots
+CREATE POLICY "Collectors can create lots"
+  ON public.lots FOR INSERT
+  TO authenticated
+  WITH CHECK (
+    public.get_auth_role() IN ('collector', 'admin')
+  );
+
+-- UPDATE: Recyclers & Admins can accept/verify/complete; Collectors can only update their own unaccepted lots
+CREATE POLICY "Recyclers and admins can update lots"
+  ON public.lots FOR UPDATE
+  TO authenticated
+  USING (
+    public.get_auth_role() IN ('recycler', 'admin')
+    OR (
+      public.get_auth_role() = 'collector'
+      AND collector_id = public.get_auth_collector_id()
+      AND status = 'awaiting_handover'
+    )
+  )
+  WITH CHECK (
+    public.get_auth_role() IN ('recycler', 'admin')
+    OR (
+      public.get_auth_role() = 'collector'
+      AND collector_id = public.get_auth_collector_id()
+      AND status = 'awaiting_handover'
+    )
+  );
+
+-- ------------------------------------------------------------------------------
+-- B. TRANSACTIONS TABLE RLS
+-- ------------------------------------------------------------------------------
+ALTER TABLE public.transactions ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Public can view transactions" ON transactions;
+DROP POLICY IF EXISTS "Public can insert transactions" ON transactions;
+DROP POLICY IF EXISTS "Public can update transactions" ON transactions;
+DROP POLICY IF EXISTS "Authenticated users can view transactions" ON transactions;
+DROP POLICY IF EXISTS "Recyclers and admins can create transactions" ON transactions;
+DROP POLICY IF EXISTS "Only admins can update transactions" ON transactions;
+DROP POLICY IF EXISTS "Anon can view transactions for demo" ON transactions;
+
+-- SELECT: Authenticated users can view transaction history
+CREATE POLICY "Authenticated users can view transactions"
+  ON public.transactions FOR SELECT
+  TO authenticated
+  USING (true);
+
+CREATE POLICY "Anon can view transactions for demo"
+  ON public.transactions FOR SELECT
+  TO anon
+  USING (true);
+
+-- INSERT: Only Recyclers and Admins can create completed payout transactions
+CREATE POLICY "Recyclers and admins can create transactions"
+  ON public.transactions FOR INSERT
+  TO authenticated
+  WITH CHECK (
+    public.get_auth_role() IN ('recycler', 'admin')
+  );
+
+-- UPDATE: Only Admins can modify transaction records
+CREATE POLICY "Only admins can update transactions"
+  ON public.transactions FOR UPDATE
+  TO authenticated
+  USING (public.get_auth_role() = 'admin')
+  WITH CHECK (public.get_auth_role() = 'admin');
+
+-- ------------------------------------------------------------------------------
+-- C. COLLECTORS & RECYCLERS DIRECTORY RLS
+-- ------------------------------------------------------------------------------
+ALTER TABLE public.collectors ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.recyclers ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Public can view collectors" ON collectors;
+DROP POLICY IF EXISTS "Public can insert collectors" ON collectors;
+DROP POLICY IF EXISTS "Public can update collectors" ON collectors;
+DROP POLICY IF EXISTS "Anyone can view collectors" ON collectors;
+DROP POLICY IF EXISTS "Collectors can update own info" ON collectors;
+
+DROP POLICY IF EXISTS "Public can view recyclers" ON recyclers;
+DROP POLICY IF EXISTS "Public can insert recyclers" ON recyclers;
+DROP POLICY IF EXISTS "Public can update recyclers" ON recyclers;
+DROP POLICY IF EXISTS "Anyone can view recyclers" ON recyclers;
+DROP POLICY IF EXISTS "Recyclers can update own facility info" ON recyclers;
+DROP POLICY IF EXISTS "Admins can insert recyclers" ON recyclers;
+
+-- Directory lookups: Anyone can view registered partners
+CREATE POLICY "Anyone can view collectors"
+  ON public.collectors FOR SELECT
+  USING (true);
+
+CREATE POLICY "Anyone can view recyclers"
+  ON public.recyclers FOR SELECT
+  USING (true);
+
+-- Collectors can update only their own profile
+CREATE POLICY "Collectors can update own info"
+  ON public.collectors FOR UPDATE
+  TO authenticated
+  USING (
+    id = public.get_auth_collector_id()
+    OR public.get_auth_role() = 'admin'
+  );
+
+-- Recyclers can update only their own facility rates
+CREATE POLICY "Recyclers can update own facility info"
+  ON public.recyclers FOR UPDATE
+  TO authenticated
+  USING (
+    id = public.get_auth_recycler_id()
+    OR public.get_auth_role() = 'admin'
+  );
+
+-- Only Admins can register new formal recycling facilities
+CREATE POLICY "Admins can insert recyclers"
+  ON public.recyclers FOR INSERT
+  TO authenticated
+  WITH CHECK (public.get_auth_role() = 'admin');
+

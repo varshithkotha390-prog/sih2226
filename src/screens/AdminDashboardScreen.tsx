@@ -25,25 +25,53 @@ import { Badge } from '../components/Badge';
 import { ThemeToggle } from '../components/ThemeToggle';
 import { useLanguage } from '../i18n/LanguageContext';
 import { formatINR } from '../utils/formatters';
+import { Language } from '../types';
 
 interface MetricFilter {
   id: 'all' | 'year' | 'quarter' | 'month';
-  labelEn: string;
-  labelHi: string;
 }
 
 const FILTERS: MetricFilter[] = [
-  { id: 'all', labelEn: 'All-Time', labelHi: 'कुल समय' },
-  { id: 'year', labelEn: 'FY 2025-26', labelHi: 'वित्त वर्ष 2025-26' },
-  { id: 'quarter', labelEn: 'This Quarter (Q4)', labelHi: 'यह तिमाही (Q4)' },
-  { id: 'month', labelEn: 'This Month (March)', labelHi: 'इस महीने (मार्च)' }
+  { id: 'all' },
+  { id: 'year' },
+  { id: 'quarter' },
+  { id: 'month' }
 ];
+
+const getFilterLabel = (id: 'all' | 'year' | 'quarter' | 'month', lang: Language): string => {
+  switch (id) {
+    case 'all':
+      return lang === 'hi' ? 'कुल समय' : lang === 'te' ? 'మొత్తం సమయం' : lang === 'ta' ? 'அனைத்து நேரம்' : lang === 'kn' ? 'ಎಲ್ಲಾ ಸಮಯ' : lang === 'ml' ? 'എല്ലാ സമയവും' : 'All-Time';
+    case 'year':
+      return lang === 'hi' ? 'वित्त वर्ष 2025-26' : lang === 'te' ? 'ఆర్థిక సంవత్సరం 25-26' : lang === 'ta' ? 'நிதியாண்டு 25-26' : lang === 'kn' ? 'ಆರ್ಥಿಕ ವರ್ಷ 25-26' : lang === 'ml' ? 'സാമ്പത്തിക വർഷം 25-26' : 'FY 2025-26';
+    case 'quarter':
+      return lang === 'hi' ? 'यह तिमाही (Q4)' : lang === 'te' ? 'ఈ త్రైమాసికం (Q4)' : lang === 'ta' ? 'இந்த காலாண்டு (Q4)' : lang === 'kn' ? 'ಈ ತ್ರೈಮಾಸಿಕ (Q4)' : lang === 'ml' ? 'ഈ പാദം (Q4)' : 'This Quarter (Q4)';
+    case 'month':
+      return lang === 'hi' ? 'इस महीने (मार्च)' : lang === 'te' ? 'ఈ నెల (మార్చి)' : lang === 'ta' ? 'இந்த மாதம் (மார்ச்)' : lang === 'kn' ? 'ಈ ತಿಂಗಳು (ಮಾರ್ಚ್)' : lang === 'ml' ? 'ഈ മാസം (മാർച്ച്)' : 'This Month (March)';
+  }
+};
 
 export const AdminDashboardScreen: React.FC = () => {
   const navigate = useNavigate();
   const { language } = useLanguage();
   const [activeFilter, setActiveFilter] = useState<'all' | 'year' | 'quarter' | 'month'>('all');
   const [downloadToast, setDownloadToast] = useState(false);
+
+  const adminTitle =
+    language === 'hi' ? 'व्यवस्थापक डैशबोर्ड' :
+    language === 'te' ? 'అడ్మిన్ డాష్‌బోర్డ్' :
+    language === 'ta' ? 'நிர்வாக டாஷ்போர்டு' :
+    language === 'kn' ? 'ನಿರ್ವಾಹಕ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್' :
+    language === 'ml' ? 'അഡ്മിൻ ഡാഷ്‌ബോർഡ്' :
+    'Admin Dashboard';
+
+  const centralAdminTitle =
+    language === 'hi' ? 'केंद्रीय व्यवस्थापक डैशबोर्ड' :
+    language === 'te' ? 'కేంద్ర అడ్మిన్ డాష్‌బోర్డ్' :
+    language === 'ta' ? 'மத்திய நிர்வாக டாஷ்போர்டு' :
+    language === 'kn' ? 'ಕೇಂದ್ರ ನಿರ್ವಾಹಕ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್' :
+    language === 'ml' ? 'സെൻട്രൽ അഡ്മിൻ ഡാഷ്‌ബോർഡ്' :
+    'Central Admin Dashboard';
 
   // Scaled realistic mock metrics for Admin Central Dashboard
   const metricsData = {
@@ -113,7 +141,7 @@ export const AdminDashboardScreen: React.FC = () => {
       {/* Mobile Header */}
       <div className="lg:hidden">
         <Header
-          title={language === 'hi' ? 'व्यवस्थापक डैशबोर्ड / Admin' : 'Admin Dashboard / व्यवस्थापक'}
+          title={adminTitle}
           showBack
           onBack={() => navigate('/home')}
         />
@@ -127,7 +155,7 @@ export const AdminDashboardScreen: React.FC = () => {
           </div>
           <div>
             <h1 className="text-base font-black text-[#121820]">
-              {language === 'hi' ? 'केंद्रीय व्यवस्थापक डैशबोर्ड' : 'Central Admin Dashboard'}
+              {centralAdminTitle}
             </h1>
             <p className="text-[11px] font-semibold text-slate-500">
               CPCB National E-Waste Handover & Formalization Registry
@@ -225,7 +253,7 @@ export const AdminDashboardScreen: React.FC = () => {
                     : 'bg-white text-slate-600 border border-slate-200/90 hover:bg-slate-50'
                 }`}
               >
-                {language === 'hi' ? f.labelHi : f.labelEn}
+                {getFilterLabel(f.id, language)}
               </button>
             ))}
           </div>

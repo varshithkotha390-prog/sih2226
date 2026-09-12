@@ -12,6 +12,7 @@ import { useLanguage } from '../i18n/LanguageContext';
 import { useSellFlow } from '../context/SellFlowContext';
 import { predictMaterial } from '../services/recyclingService';
 import { AIDetectionResult } from '../types';
+import { getMaterialName, getMaterialCategory } from '../services/mockData';
 
 export const DetectScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -148,14 +149,46 @@ export const DetectScreen: React.FC = () => {
           </div>
         ) : hasError ? (
           <ErrorState
-            title={language === 'hi' ? 'स्कैन विफल रहा' : 'Scan Analysis Failed'}
+            title={
+              language === 'hi'
+                ? 'स्कैन विफल रहा'
+                : language === 'te'
+                ? 'స్కాన్ విశ్లేషణ విఫలమైంది'
+                : language === 'ta'
+                ? 'ஸ்கேன் பகுப்பாய்வு தோல்வியடைந்தது'
+                : language === 'kn'
+                ? 'ಸ್ಕ್ಯಾನ್ ವಿಶ್ಲೇಷಣೆ ವಿಫಲವಾಗಿದೆ'
+                : language === 'ml'
+                ? 'സ്കാൻ വിശകലനം പരാജയപ്പെട്ടു'
+                : 'Scan Analysis Failed'
+            }
             message={
               language === 'hi'
                 ? 'छवि को पहचाना नहीं जा सका। कृपया पुनः प्रयास करें।'
+                : language === 'te'
+                ? 'చిత్రం స్పష్టంగా గుర్తించబడలేదు. దయచేసి మళ్లీ ప్రయత్నించండి.'
+                : language === 'ta'
+                ? 'படத்தை தெளிவாக கண்டறிய முடியவில்லை. தயவுசெய்து மீண்டும் முயற்சிக்கவும்.'
+                : language === 'kn'
+                ? 'ಚಿತ್ರವನ್ನು ಸ್ಪಷ್ಟವಾಗಿ ಪತ್ತೆಹಚ್ಚಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.'
+                : language === 'ml'
+                ? 'ചിത്രം വ്യക്തമായി കണ്ടെത്താനായില്ല. ദയവായി വീണ്ടും ശ്രമിക്കുക.'
                 : 'Could not detect material clearly. Please retake the photo or try again.'
             }
             onRetry={runScan}
-            retryLabel={language === 'hi' ? 'पुनः प्रयास करें' : 'Scan Again'}
+            retryLabel={
+              language === 'hi'
+                ? 'पुनः प्रयास करें'
+                : language === 'te'
+                ? 'మళ్లీ స్కాన్ చేయండి'
+                : language === 'ta'
+                ? 'மீண்டும் ஸ்கேன் செய்'
+                : language === 'kn'
+                ? 'ಮತ್ತೆ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ'
+                : language === 'ml'
+                ? 'വീണ്ടും സ്കാൻ ചെയ്യുക'
+                : 'Scan Again'
+            }
           />
         ) : (
           result && (
@@ -169,7 +202,7 @@ export const DetectScreen: React.FC = () => {
                     </span>
                     <h2 className="text-2xl sm:text-3xl font-black text-slate-950 mt-0.5 flex items-center gap-2">
                       <Cpu className="w-7 h-7 sm:w-8 sm:h-8 text-[#0F3D2E] stroke-[2.2]" />
-                      <span>{language === 'hi' ? result.materialNameHi : result.materialName}</span>
+                      <span>{getMaterialName(result.materialId || result.materialName, language)}</span>
                     </h2>
                   </div>
 
@@ -186,7 +219,7 @@ export const DetectScreen: React.FC = () => {
                       {t('categoryLabel')}
                     </span>
                     <span className="text-sm sm:text-base font-extrabold text-slate-900">
-                      {language === 'hi' ? result.categoryHi : result.category}
+                      {getMaterialCategory(result.category, language)}
                     </span>
                   </div>
 

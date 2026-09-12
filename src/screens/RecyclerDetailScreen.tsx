@@ -22,6 +22,7 @@ import { useSellFlow } from '../context/SellFlowContext';
 import { getRecycler, createLot } from '../services/recyclingService';
 import { formatINR } from '../utils/formatters';
 import { Recycler } from '../types';
+import { getMaterialName } from '../services/mockData';
 
 export const RecyclerDetailScreen: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -53,8 +54,22 @@ export const RecyclerDetailScreen: React.FC = () => {
         <Header title={t('recyclerDetailTitle')} showBack onBack={() => navigate('/recyclers')} />
         <div className="max-w-xl mx-auto px-4 sm:px-6 py-10">
           <LoadingState
-            message={language === 'hi' ? 'पुनर्चक्रणकर्ता का विवरण लोड हो रहा है...' : 'Loading recycler credentials...'}
-            submessage={language === 'hi' ? 'प्रमाणपत्रों और दरों की पुष्टि की जा रही है' : 'Verifying CPCB licenses and offer rates'}
+            message={
+              language === 'hi' ? 'पुनर्चक्रणकर्ता का विवरण लोड हो रहा है...' :
+              language === 'te' ? 'రీసైక్లర్ వివరాలు లోడ్ అవుతున్నాయి...' :
+              language === 'ta' ? 'மறுசுழற்சியாளர் சான்றுகள் ஏற்றப்படுகின்றன...' :
+              language === 'kn' ? 'ಮರುಬಳಕೆದಾರರ ವಿವರಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ...' :
+              language === 'ml' ? 'റീസൈക്ലർ വിശദാംശങ്ങൾ ലോഡ് ചെയ്യുന്നു...' :
+              'Loading recycler credentials...'
+            }
+            submessage={
+              language === 'hi' ? 'प्रमाणपत्रों और दरों की पुष्टि की जा रही है' :
+              language === 'te' ? 'CPCB లైసెన్సులు మరియు ధరల ధృవీకరణ' :
+              language === 'ta' ? 'சிபிசிபி உரிமங்கள் மற்றும் விகிதங்களை சரிபார்க்கிறது' :
+              language === 'kn' ? 'CPCB ಪರವಾನಗಿಗಳು ಮತ್ತು ದರಗಳನ್ನು ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ' :
+              language === 'ml' ? 'CPCB ലൈസൻസുകളും നിരക്കുകളും പരിശോധിക്കുന്നു' :
+              'Verifying CPCB licenses and offer rates'
+            }
           />
         </div>
       </div>
@@ -81,8 +96,7 @@ export const RecyclerDetailScreen: React.FC = () => {
     navigate(`/lot/${newLot.id}`);
   };
 
-  const acceptedMaterialsList =
-    language === 'hi' ? recycler.acceptedMaterialsHi : recycler.acceptedMaterials;
+  const acceptedMaterialsList = recycler.acceptedMaterials.map((mat) => getMaterialName(mat, language));
 
   return (
     <div className="min-h-screen bg-[#F6F8F6] pb-28">

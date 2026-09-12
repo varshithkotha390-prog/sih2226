@@ -13,7 +13,7 @@ export const ProgressIndicator: React.FC<ProgressIndicatorProps> = ({
   currentStep,
   className = ''
 }) => {
-  const { language } = useLanguage();
+  const { t } = useLanguage();
 
   // Resolve stage from currentStage or fallback from legacy step
   const activeStage: 1 | 2 | 3 | 4 =
@@ -27,10 +27,10 @@ export const ProgressIndicator: React.FC<ProgressIndicatorProps> = ({
       : 4);
 
   const stages = [
-    { number: 1, titleEn: 'Identify', titleHi: 'पहचानें' },
-    { number: 2, titleEn: 'Estimate', titleHi: 'अनुमान' },
-    { number: 3, titleEn: 'Choose Recycler', titleHi: 'रीसाइक्लर' },
-    { number: 4, titleEn: 'Handover', titleHi: 'हस्तांतरण' }
+    { number: 1, key: 'stageIdentify' as const },
+    { number: 2, key: 'stageEstimate' as const },
+    { number: 3, key: 'stageChooseRecycler' as const },
+    { number: 4, key: 'stageHandover' as const }
   ];
 
   return (
@@ -50,7 +50,7 @@ export const ProgressIndicator: React.FC<ProgressIndicatorProps> = ({
         {stages.map((stage) => {
           const isCompleted = stage.number < activeStage;
           const isCurrent = stage.number === activeStage;
-          const label = language === 'hi' ? stage.titleHi : stage.titleEn;
+          const label = t(stage.key);
 
           return (
             <div key={stage.number} className="flex flex-col items-center relative z-10">

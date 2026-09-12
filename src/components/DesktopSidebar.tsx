@@ -1,23 +1,65 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { RefreshCw, ShieldCheck } from 'lucide-react';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { LogOut } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
-import { mockUserProfile } from '../services/mockData';
+import { SUPPORTED_LANGUAGES } from '../i18n/translations';
+import { useAuth } from '../context/AuthContext';
 import { ThemeToggle } from './ThemeToggle';
 
 export const DesktopSidebar: React.FC = () => {
-  const { t, language, toggleLanguage } = useLanguage();
+  const { language, t } = useLanguage();
+  const { isAuthenticated, role, profile, signOut, updateLanguage } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const navLinks = [
-    { to: '/home', icon: '🏠', labelEn: 'Home / मुख्य पृष्ठ', labelHi: 'मुख्य पृष्ठ / Home' },
-    { to: '/sell', icon: '♻️', labelEn: 'Sell / कचरा बेचें', labelHi: 'कचरा बेचें / Sell' },
-    { to: '/earnings', icon: '💰', labelEn: 'Earnings / कमाई', labelHi: 'कमाई / Earnings' },
-    { to: '/safety', icon: '🛡️', labelEn: 'Safety / सुरक्षा', labelHi: 'सुरक्षा / Safety' },
-    { to: '/transactions', icon: '📋', labelEn: 'History / लेन-देन', labelHi: 'लेन-देन / History' },
-    { to: '/recycler-dashboard', icon: '🏭', labelEn: 'Recycler / रीसाइक्लर', labelHi: 'रीसाइक्लर / Recycler' },
-    { to: '/admin-dashboard', icon: '📊', labelEn: 'Admin / व्यवस्थापक', labelHi: 'व्यवस्थापक / Admin' }
+  // Hide sidebar on login screen or if unauthenticated
+  if (location.pathname === '/login' || !isAuthenticated) {
+    return null;
+  }
+
+  const allNavLinks = [
+    { to: '/home', icon: '🏠', label: t('home'), roles: ['collector', 'admin'] },
+    { to: '/sell', icon: '♻️', label: t('sell'), roles: ['collector', 'admin'] },
+    { to: '/earnings', icon: '💰', label: t('earnings'), roles: ['collector', 'admin'] },
+    { to: '/safety', icon: '🛡️', label: t('safety'), roles: ['collector', 'recycler', 'admin'] },
+    { to: '/transactions', icon: '📋', label: t('history'), roles: ['collector', 'recycler', 'admin'] },
+    {
+      to: '/recycler-dashboard',
+      icon: '🏭',
+      label:
+        language === 'hi'
+          ? 'रीसाइक्लर'
+          : language === 'te'
+          ? 'రీసైక్లర్'
+          : language === 'ta'
+          ? 'மறுசுழற்சியாளர்'
+          : language === 'kn'
+          ? 'ಮರುಬಳಕೆದಾರ'
+          : language === 'ml'
+          ? 'റീസൈക്ലർ'
+          : 'Recycler Hub',
+      roles: ['recycler', 'admin']
+    },
+    {
+      to: '/admin-dashboard',
+      icon: '📊',
+      label:
+        language === 'hi'
+          ? 'व्यवस्थापक'
+          : language === 'te'
+          ? 'అడ్మిన్'
+          : language === 'ta'
+          ? 'நிர்வாகி'
+          : language === 'kn'
+          ? 'ನಿರ್ವಾಹಕ'
+          : language === 'ml'
+          ? 'അഡ്മിൻ'
+          : 'Admin Portal',
+      roles: ['admin']
+    }
   ];
+
+  const visibleNavLinks = allNavLinks.filter((link) => link.roles.includes(role));
 
   return (
     <aside className="hidden lg:flex w-64 bg-white border-r border-slate-200 flex-col h-screen sticky top-0 z-40 select-none">
@@ -38,7 +80,7 @@ export const DesktopSidebar: React.FC = () => {
 
       {/* Navigation */}
       <nav className="flex-1 px-4 py-2 space-y-2 overflow-y-auto">
-        {navLinks.map((link) => (
+        {visibleNavLinks.map((link) => (
           <NavLink
             key={link.to}
             to={link.to}
@@ -51,53 +93,78 @@ export const DesktopSidebar: React.FC = () => {
             }
           >
             <span className="text-base">{link.icon}</span>
-            <span className="truncate">{language === 'hi' ? link.labelHi : link.labelEn}</span>
+            <span className="truncate">{link.label}</span>
           </NavLink>
         ))}
       </nav>
 
       {/* Collector Profile, Laptop Display Mode & Language Switcher footer */}
-      <div className="p-4 sm:p-5 border-t border-slate-100 bg-slate-50 space-y-3.5">
+      <div className="p-4 sm:p-5 border-t border-slate-100 bg-slate-50 space-y-3">
         <div
           onClick={() => navigate('/profile')}
           className="flex items-center gap-3 cursor-pointer hover:opacity-90 transition-opacity"
         >
           <div className="w-10 h-10 rounded-full bg-slate-300 border-2 border-white overflow-hidden shadow-sm flex-shrink-0">
             <div className="w-full h-full bg-emerald-950/10 flex items-center justify-center text-[#0F3D2E] font-black text-sm font-mono">
-              R
+              {profile?.name ? profile.name.charAt(0).toUpperCase() : 'R'}
             </div>
           </div>
-          <div className="min-w-0">
-            <p className="text-xs font-bold text-slate-800 truncate">Namaste, Ramesh 👋</p>
-            <p className="text-[11px] text-slate-500 truncate">Hyderabad, TS</p>
+          <div className="min-w-0 flex-1">
+            <p className="text-xs font-bold text-slate-800 truncate">
+              {profile?.name ? `Namaste, ${profile.name}` : 'Namaste, Ramesh 👋'}
+            </p>
+            <p className="text-[11px] text-slate-500 truncate">
+              {profile?.badge || (role === 'admin' ? 'CPCB Admin' : role === 'recycler' ? 'Authorized Recycler' : 'CPCB Registered')}
+            </p>
           </div>
+          <button
+            type="button"
+            title="Sign Out"
+            onClick={async (e) => {
+              e.stopPropagation();
+              await signOut();
+              navigate('/login', { replace: true });
+            }}
+            className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
+          >
+            <LogOut className="w-4 h-4" />
+          </button>
         </div>
 
         {/* Laptop Display Mode: Light | Normal | Dark */}
         <ThemeToggle variant="expanded" />
 
-        {/* Clean Minimalism Language Selector */}
-        <div className="flex gap-2 pt-2 border-t border-slate-200/60">
-          <button
-            onClick={language === 'en' ? undefined : toggleLanguage}
-            className={`flex-1 text-[10px] font-bold px-2 py-1 rounded transition-all cursor-pointer text-center ${
-              language === 'en'
-                ? 'bg-white border border-slate-200 text-[#0F3D2E] shadow-xs'
-                : 'bg-slate-100 text-slate-400 hover:text-slate-600'
-            }`}
-          >
-            English
-          </button>
-          <button
-            onClick={language === 'hi' ? undefined : toggleLanguage}
-            className={`flex-1 text-[10px] font-bold px-2 py-1 rounded transition-all cursor-pointer text-center ${
-              language === 'hi'
-                ? 'bg-white border border-slate-200 text-[#0F3D2E] shadow-xs'
-                : 'bg-slate-100 text-slate-400 hover:text-slate-600'
-            }`}
-          >
-            हिन्दी
-          </button>
+        {/* 6-Language Vernacular Selector */}
+        <div className="pt-2 border-t border-slate-200/60 space-y-1.5">
+          <div className="flex items-center justify-between px-0.5">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Language / भाषा</span>
+            <span className="text-[10px] font-mono font-bold text-emerald-800 bg-emerald-100/80 px-1.5 py-0.5 rounded border border-emerald-200">
+              {SUPPORTED_LANGUAGES.find((l) => l.code === language)?.native}
+            </span>
+          </div>
+          <div className="grid grid-cols-3 gap-1">
+            {SUPPORTED_LANGUAGES.map((langOpt) => {
+              const isSelected = language === langOpt.code;
+              return (
+                <button
+                  key={langOpt.code}
+                  type="button"
+                  onClick={async () => {
+                    if (langOpt.code === language) return;
+                    await updateLanguage(langOpt.code);
+                  }}
+                  className={`py-1.5 px-1 rounded-lg text-center text-[10px] font-bold transition-all cursor-pointer truncate ${
+                    isSelected
+                      ? 'bg-[#0F3D2E] text-white shadow-xs font-black'
+                      : 'bg-white border border-slate-200/80 text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                  }`}
+                  title={`${langOpt.native} (${langOpt.label})`}
+                >
+                  {langOpt.native}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </aside>

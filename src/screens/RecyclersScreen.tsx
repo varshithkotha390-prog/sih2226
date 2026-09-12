@@ -74,20 +74,56 @@ export const RecyclersScreen: React.FC = () => {
         {isLoading ? (
           <div className="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-xs">
             <LoadingState
-              message={language === 'hi' ? 'पुनर्चक्रणकर्ताओं की खोज...' : 'Finding best authorized recyclers...'}
-              submessage={language === 'hi' ? 'उच्चतम दरों का मिलान किया जा रहा है' : 'Matching highest rates and nearest certified facilities'}
+              message={
+                language === 'hi' ? 'पुनर्चक्रणकर्ताओं की खोज...' :
+                language === 'te' ? 'ఉత్తమ రీసైక్లర్ల కోసం వెతుకుతోంది...' :
+                language === 'ta' ? 'சிறந்த மறுசுழற்சியாளர்களைத் தேடுகிறது...' :
+                language === 'kn' ? 'ಉತ್ತಮ ಮರುಬಳಕೆದಾರರನ್ನು ಹುಡುಕಲಾಗುತ್ತಿದೆ...' :
+                language === 'ml' ? 'മികച്ച റീസൈക്ലർമാരെ കണ്ടെത്തുന്നു...' :
+                'Finding best authorized recyclers...'
+              }
+              submessage={
+                language === 'hi' ? 'उच्चतम दरों का मिलान किया जा रहा है' :
+                language === 'te' ? 'అత్యధిక ధరలు మరియు సమీప కేంద్రాలతో సరిపోలుస్తోంది' :
+                language === 'ta' ? 'அதிகபட்ச விகிதங்கள் மற்றும் சான்றளிக்கப்பட்ட மையங்களை பொருத்துகிறது' :
+                language === 'kn' ? 'ಹೆಚ್ಚಿನ ದರಗಳು ಮತ್ತು ಪ್ರಮಾಣೀಕೃತ ಸೌಲಭ್ಯಗಳನ್ನು ಹೊಂದಿಸಲಾಗುತ್ತಿದೆ' :
+                language === 'ml' ? 'ഉയർന്ന നിരക്കുകളും സർട്ടിഫൈഡ് സൗകര്യങ്ങളും പൊരുത്തപ്പെടുത്തുന്നു' :
+                'Matching highest rates and nearest certified facilities'
+              }
             />
           </div>
         ) : hasError || recyclers.length === 0 ? (
           <ErrorState
-            title={language === 'hi' ? 'कोई पुनर्चक्रणकर्ता नहीं मिला' : 'No Recyclers Found'}
+            title={
+              language === 'hi' ? 'कोई पुनर्चक्रणकर्ता नहीं मिला' :
+              language === 'te' ? 'రీసైక్లర్లు కనుగొనబడలేదు' :
+              language === 'ta' ? 'மறுசுழற்சியாளர்கள் கிடைக்கவில்லை' :
+              language === 'kn' ? 'ಯಾವುದೇ ಮರುಬಳಕೆದಾರರು ಕಂಡುಬಂದಿಲ್ಲ' :
+              language === 'ml' ? 'റീസൈക്ലർമാരെ കണ്ടെത്തിയില്ല' :
+              'No Recyclers Found'
+            }
             message={
               language === 'hi'
                 ? 'इस क्षेत्र में कोई उपलब्ध पुनर्चक्रणकर्ता नहीं मिला। कृपया पुनः प्रयास करें।'
+                : language === 'te'
+                ? 'ఈ ప్రాంతంలో అధీకృత రీసైక్లర్లు అందుబాటులో లేరు. దయచేసి మళ్లీ ప్రయత్నించండి.'
+                : language === 'ta'
+                ? 'இந்த பகுதியில் அங்கீகரிக்கப்பட்ட மறுசுழற்சியாளர்கள் இல்லை. மீண்டும் முயற்சிக்கவும்.'
+                : language === 'kn'
+                ? 'ಈ ಪ್ರದೇಶದಲ್ಲಿ ಯಾವುದೇ ಅಧಿಕೃತ ಮರುಬಳಕೆದಾರರು ಲಭ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.'
+                : language === 'ml'
+                ? 'ഈ പ്രദേശത്ത് അംഗീകൃത റീസൈക്ലർമാർ ലഭ്യമല്ല. ദയവായി വീണ്ടും ശ്രമിക്കുക.'
                 : 'Unable to load recycler offers at this time. Please try again.'
             }
             onRetry={loadRecyclers}
-            retryLabel={language === 'hi' ? 'पुनः प्रयास करें' : 'Retry'}
+            retryLabel={
+              language === 'hi' ? 'पुनः प्रयास करें' :
+              language === 'te' ? 'మళ్లీ ప్రయత్నించండి' :
+              language === 'ta' ? 'மீண்டும் முயற்சி செய்' :
+              language === 'kn' ? 'ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ' :
+              language === 'ml' ? 'വീണ്ടും ശ്രമിക്കുക' :
+              'Retry'
+            }
           />
         ) : (
           <div className="space-y-3.5">

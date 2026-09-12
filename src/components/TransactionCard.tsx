@@ -6,6 +6,7 @@ import { StatusBadge } from './StatusBadge';
 import { Transaction } from '../types';
 import { formatINR } from '../utils/formatters';
 import { useLanguage } from '../i18n/LanguageContext';
+import { getMaterialName } from '../services/mockData';
 
 export interface TransactionCardProps {
   transaction: Transaction;
@@ -15,7 +16,7 @@ export const TransactionCard: React.FC<TransactionCardProps> = ({ transaction })
   const navigate = useNavigate();
   const { language } = useLanguage();
 
-  const displayName = language === 'hi' ? transaction.materialHi : transaction.material;
+  const displayName = getMaterialName(transaction.material, language);
 
   const handleCardClick = () => {
     navigate(`/lot/${transaction.lotId}`);
